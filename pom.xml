@@ -27,7 +27,7 @@
 		<module>notification</module>
 		<module>routes</module>
 		<module>users</module>
-		<module>comunication</module>
+		<module>interactions</module>
 		<module>vehicles</module>
 		<module>places</module>
 	</modules>
