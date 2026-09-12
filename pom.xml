@@ -23,6 +23,7 @@
 	<modules>
 		<module>application</module>
 		<module>security</module>
+		<module>files</module>
 	</modules>
 	<scm>
 		<connection/>
