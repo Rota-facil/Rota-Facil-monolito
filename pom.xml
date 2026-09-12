@@ -25,6 +25,8 @@
 		<module>security</module>
 		<module>files</module>
 		<module>notification</module>
+		<module>routes</module>
+		<module>users</module>
 	</modules>
 	<scm>
 		<connection/>
