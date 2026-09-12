@@ -27,6 +27,7 @@
 		<module>notification</module>
 		<module>routes</module>
 		<module>users</module>
+		<module>comunication</module>
 	</modules>
 	<scm>
 		<connection/>
