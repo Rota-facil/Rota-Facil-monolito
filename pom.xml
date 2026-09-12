@@ -29,6 +29,7 @@
 		<module>users</module>
 		<module>comunication</module>
 		<module>vehicles</module>
+		<module>places</module>
 	</modules>
 	<scm>
 		<connection/>
