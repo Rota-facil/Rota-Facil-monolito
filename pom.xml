@@ -28,6 +28,7 @@
 		<module>routes</module>
 		<module>users</module>
 		<module>comunication</module>
+		<module>vehicles</module>
 	</modules>
 	<scm>
 		<connection/>
