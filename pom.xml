@@ -24,6 +24,7 @@
 		<module>application</module>
 		<module>security</module>
 		<module>files</module>
+		<module>notification</module>
 	</modules>
 	<scm>
 		<connection/>
