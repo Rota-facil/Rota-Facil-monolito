@@ -17,55 +17,53 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.rota.facil</groupId>
-                <artifactId>files</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+    <dependencies>
+        <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>files</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-            <dependency>
-                <groupId>com.rota.facil</groupId>
-                <artifactId>interactions</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+        <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>interactions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-            <dependency>
-                <groupId>com.rota.facil</groupId>
-                <artifactId>journey</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+        <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>journey</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-            <dependency>
-                <groupId>com.rota.facil</groupId>
-                <artifactId>notification</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+        <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>notification</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-            <dependency>
-                <groupId>com.rota.facil</groupId>
-                <artifactId>places</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+        <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>places</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-            <dependency>
-                <groupId>com.rota.facil</groupId>
-                <artifactId>security</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+        <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>security</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-            <dependency>
-                <groupId>com.rota.facil</groupId>
-                <artifactId>users</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+        <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>users</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-            <dependency>
-                <groupId>com.rota.facil</groupId>
-                <artifactId>vehicles</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>vehicles</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>
