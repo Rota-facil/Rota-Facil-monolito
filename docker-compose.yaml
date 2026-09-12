@@ -1,0 +1,16 @@
+services:
+  rota-facil-database:
+    image: postgis/postgis:16-3.4
+    container_name: rota-facil-database
+    environment:
+      POSTGRES_DB: ${ROTA_FACIL_DATASOURCE_NAME}
+      POSTGRES_USER: ${ROTA_FACIL_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${ROTA_FACIL_DATASOURCE_PASSWORD}
+    ports:
+      - 5432:5432
+
+    volumes:
+      - rota-facil-db-data:/var/lib/postgresql/data
+
+volumes:
+  rota-facil-db-data:
