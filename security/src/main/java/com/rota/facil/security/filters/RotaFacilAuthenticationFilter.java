@@ -28,7 +28,7 @@ public class RotaFacilAuthenticationFilter extends OncePerRequestFilter {
         String authorization = request.getHeader("Authorization");
         String token = null;
 
-        if (authorization.startsWith("Bearer")) {
+        if (authorization != null && authorization.startsWith("Bearer")) {
             token = authorization.substring(7);
         }
 

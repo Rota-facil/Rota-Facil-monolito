@@ -28,8 +28,9 @@ public class SecurityConfiguration {
         return http.csrf(CsrfConfigurer::disable)
                 .addFilterBefore(rotaFacilAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
-                          .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/webjars/**", "/*/v3/api-docs").permitAll()
+                            .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/webjars/**", "/*/v3/api-docs").permitAll()
                             .requestMatchers("/*/v3/api-docs/**", "/*/swagger-ui/**", "/*/swagger-ui.html").permitAll()
+                            .requestMatchers("/swagger-ui.html").permitAll()
                             .requestMatchers(HttpMethod.OPTIONS).permitAll()
                             .requestMatchers("/actuator/**").permitAll()
                             .requestMatchers("/auth/health-check").permitAll()

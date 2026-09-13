@@ -1,5 +1,8 @@
 package com.rota.facil.security.service;
 
+import com.rota.facil.security.entities.UserTokenEntity;
+import com.rota.facil.security.http.dto.response.token.TokenResponse;
+import com.rota.facil.security.repositories.UserTokenRepository;
 import com.rota.facil.users.entities.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,7 +19,23 @@ import java.util.function.Function;
 public class JWTService {
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
+    private final UserTokenRepository userTokenRepository;
 
+    public UserTokenEntity generateTokenForNewUser(UserEntity userEntity) {
+        UserTokenEntity userToken = this.userTokenRepository.findByUserId(userEntity.getId())
+                .map(tokenFound -> {
+                    tokenFound.setAccessToken(this.generateAccessToken(userEntity));
+                    return tokenFound;
+                })
+                .orElseGet(() -> UserTokenEntity.builder()
+                        .accessToken(this.generateAccessToken(userEntity))
+                        .refreshToken(this.generateRefreshToken(userEntity))
+                        .user(userEntity)
+                        .build()
+                );
+
+        return this.userTokenRepository.save(userToken);
+    }
 
     public String generateAccessToken(UserEntity saved) {
         return this.generateToken(saved, 1000L);

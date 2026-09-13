@@ -2,14 +2,12 @@ package com.rota.facil.security.entities;
 
 import com.rota.facil.users.entities.UserEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Entity
+@Builder
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +15,7 @@ import java.util.UUID;
 public class UserTokenEntity {
     @Id
     @Column(name = "user_token_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "access_token")

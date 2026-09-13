@@ -17,10 +17,13 @@ import java.util.UUID;
 public class UserEntity {
     @Id
     @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(name = "prefecture_id")
     private UUID prefectureId;
+
+    private String password;
 
     private String name;
 
