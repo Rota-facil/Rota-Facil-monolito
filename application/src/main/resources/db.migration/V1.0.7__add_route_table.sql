@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS routes_tb (
+    route_id UUID PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    shift VARCHAR(20) NOT NULL,
+    going TIME NOT NULL,
+    return TIME NOT NULL,
+    going_finish TIME NOT NULL,
+    return_finish TIME NOT NULL,
+    prefecture_id UUID NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
