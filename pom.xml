@@ -30,7 +30,8 @@
 		<module>interactions</module>
 		<module>vehicles</module>
 		<module>places</module>
-	</modules>
+        <module>prefectures</module>
+    </modules>
 	<scm>
 		<connection/>
 		<developerConnection/>
