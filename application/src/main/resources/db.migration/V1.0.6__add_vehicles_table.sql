@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS vehicles_tb (
     plate VARCHAR(10) NOT NULL,
     active BOOLEAN NOT NULL DEFAULT TRUE,
     status VARCHAR(30) NOT NULL DEFAULT 'OUT_OF_OPERATION',
+    vehicle_type VARCHAR(30) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT vehicle_users FOREIGN KEY (driver_id) REFERENCES users_tb(user_id)
