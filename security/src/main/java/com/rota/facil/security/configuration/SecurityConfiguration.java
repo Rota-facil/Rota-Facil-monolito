@@ -40,7 +40,7 @@ public class SecurityConfiguration {
                             .requestMatchers("/audit/health-check").permitAll()
                             .requestMatchers("/locations/health-check").permitAll()
 
-                            .requestMatchers("/auth/user/login").permitAll()
+                            .requestMatchers("/auth/login").permitAll()
                             .requestMatchers("/auth/register/**").permitAll()
                             .requestMatchers("/auth/google/complete-registration").permitAll()
                             .requestMatchers("/auth/login/oauth2/**").permitAll()

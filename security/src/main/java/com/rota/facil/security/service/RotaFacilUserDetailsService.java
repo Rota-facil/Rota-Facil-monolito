@@ -4,6 +4,8 @@ import com.rota.facil.security.entities.UserTokenEntity;
 import com.rota.facil.security.repositories.UserTokenRepository;
 import com.rota.facil.security.user.details.AuthenticatedUser;
 import com.rota.facil.security.exceptions.UserNotFoundExceptions;
+import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,13 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RotaFacilUserDetailsService implements UserDetailsService {
-    private final UserTokenRepository userTokenRepository;
+    private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String accessToken) throws UsernameNotFoundException {
         return new AuthenticatedUser(
-                userTokenRepository.findByAccessToken(accessToken)
-                        .map(UserTokenEntity::getUser)
+                userRepository.findByEmail(accessToken)
                         .orElseThrow(UserNotFoundExceptions::new)
         );
     }

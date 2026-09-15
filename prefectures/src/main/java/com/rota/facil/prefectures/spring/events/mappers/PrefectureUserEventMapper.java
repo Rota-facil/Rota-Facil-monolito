@@ -5,6 +5,6 @@ import com.rota.facil.prefectures.spring.events.dto.send.CreateDefaultAdminUserE
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface UserEventMapper {
+public interface PrefectureUserEventMapper {
     CreateDefaultAdminUserEventSend map(PrefectureUserRequest request);
 }

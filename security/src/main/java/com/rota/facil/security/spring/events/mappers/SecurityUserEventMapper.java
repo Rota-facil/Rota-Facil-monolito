@@ -5,6 +5,6 @@ import com.rota.facil.users.entities.UserEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface UserEventMapper {
+public interface SecurityUserEventMapper {
     UserEntity map(CreateDefaultAdminUserEventReceive event);
 }

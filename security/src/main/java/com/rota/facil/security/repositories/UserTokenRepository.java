@@ -1,6 +1,7 @@
 package com.rota.facil.security.repositories;
 
 import com.rota.facil.security.entities.UserTokenEntity;
+import com.rota.facil.users.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +12,11 @@ import java.util.UUID;
 
 @Repository
 public interface UserTokenRepository extends JpaRepository<UserTokenEntity, UUID> {
-    Optional<UserTokenEntity> findByAccessToken(String accessToken);
+    @Query("""
+        SELECT ut FROM UserTokenEntity ut
+        WHERE ut.accessToken = :accessToken
+    """)
+    Optional<UserTokenEntity> findByAccessToken(@Param(value = "accessToken") String accessToken);
 
     @Query("""
         SELECT ut FROM UserTokenEntity ut
