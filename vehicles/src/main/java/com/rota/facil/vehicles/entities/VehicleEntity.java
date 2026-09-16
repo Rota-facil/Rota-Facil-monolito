@@ -11,18 +11,19 @@ import java.util.UUID;
 
 @Entity
 @Builder
-@Table(name = "vehicle_tb")
+@Table(name = "vehicles_tb")
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class VehicleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "vehicle_id")
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @JoinColumn(name = "driver_id")
+    private UserEntity driver;
 
     @Column(name = "prefecture_id")
     private UUID prefectureId;
@@ -39,7 +40,8 @@ public class VehicleEntity {
     private VehicleStatus status = VehicleStatus.OUT_OF_OPERATION;
 
     @Column(name = "vehicle_type")
-    private VehicleType vechileType;
+    @Enumerated(EnumType.STRING)
+    private VehicleType vehicleType;
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();

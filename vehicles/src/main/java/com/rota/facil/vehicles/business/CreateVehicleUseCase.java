@@ -17,7 +17,7 @@ public class CreateVehicleUseCase {
 
     public CreateVehicleResponse execute(CreateVehicleRequest request, UserEntity currentUser) {
         VehicleEntity preSaved = this.vehicleMapper.map(request);
-        preSaved.setVechileType(request.vehicleType());
+        preSaved.setVehicleType(request.vehicleType());
         preSaved.setPrefectureId(currentUser.getPrefectureId());
 
         return this.vehicleMapper.map(this.vehicleRepository.save(preSaved));
