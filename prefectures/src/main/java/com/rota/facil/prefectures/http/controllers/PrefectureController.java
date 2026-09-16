@@ -6,6 +6,7 @@ import com.rota.facil.prefectures.http.dto.response.prefecture.CreatePrefectureR
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PrefectureController {
     private final CreatePrefectureUseCase createPrefectureUseCase;
 
+    @PostMapping
     public ResponseEntity<CreatePrefectureResponse> createPrefecture(@RequestBody CreatePrefectureRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(createPrefectureUseCase.execute(request));
     }
