@@ -1,8 +1,8 @@
 package com.rota.facil.prefectures.business.helpers;
 
-import com.rota.facil.prefectures.entitites.PrefectureEntity;
+import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.prefectures.exceptions.PrefectureNotFoundExceptions;
-import com.rota.facil.prefectures.repositories.PrefectureRepository;
+import com.rota.facil.prefectures.persistence.repositories.PrefectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

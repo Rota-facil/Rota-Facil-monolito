@@ -1,10 +1,10 @@
 package com.rota.facil.prefectures.business.prefectures;
 
-import com.rota.facil.prefectures.entitites.PrefectureEntity;
+import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.prefectures.http.dto.request.prefecture.CreatePrefectureRequest;
 import com.rota.facil.prefectures.http.dto.response.prefecture.CreatePrefectureResponse;
 import com.rota.facil.prefectures.http.mappers.PrefectureMapper;
-import com.rota.facil.prefectures.repositories.PrefectureRepository;
+import com.rota.facil.prefectures.persistence.repositories.PrefectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.rota.facil.prefectures.entitites;
+package com.rota.facil.prefectures.persistence.entitites;
 
 import com.rota.facil.prefectures.domain.Region;
 import jakarta.persistence.*;

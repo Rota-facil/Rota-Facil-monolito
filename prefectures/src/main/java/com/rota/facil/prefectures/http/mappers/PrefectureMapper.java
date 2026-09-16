@@ -1,6 +1,6 @@
 package com.rota.facil.prefectures.http.mappers;
 
-import com.rota.facil.prefectures.entitites.PrefectureEntity;
+import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.prefectures.http.dto.request.prefecture.CreatePrefectureRequest;
 import com.rota.facil.prefectures.http.dto.response.prefecture.CreatePrefectureResponse;
 import org.mapstruct.Mapper;
