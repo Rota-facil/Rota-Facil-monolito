@@ -3,7 +3,7 @@ package com.rota.facil.places.http.controllers;
 import com.rota.facil.places.business.institutions.CreateInstitutionUseCase;
 import com.rota.facil.places.http.dto.request.institutions.CreateInstitutionRequest;
 import com.rota.facil.places.http.dto.response.institutions.CreateInstitutionResponse;
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

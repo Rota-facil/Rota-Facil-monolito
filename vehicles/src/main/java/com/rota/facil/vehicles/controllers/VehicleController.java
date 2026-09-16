@@ -1,6 +1,6 @@
 package com.rota.facil.vehicles.controllers;
 
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.CreateVehicleUseCase;
 import com.rota.facil.vehicles.http.dto.request.vehicles.CreateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.response.vehicles.CreateVehicleResponse;

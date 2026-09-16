@@ -2,7 +2,7 @@ package com.rota.facil.security.service;
 
 import com.rota.facil.security.persistence.entities.UserTokenEntity;
 import com.rota.facil.security.persistence.repositories.UserTokenRepository;
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;

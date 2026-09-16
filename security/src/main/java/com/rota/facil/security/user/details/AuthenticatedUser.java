@@ -1,6 +1,6 @@
 package com.rota.facil.security.user.details;
 
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;

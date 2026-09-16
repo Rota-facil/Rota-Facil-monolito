@@ -1,6 +1,6 @@
-package com.rota.facil.users.repositories;
+package com.rota.facil.users.persistence.repositories;
 
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

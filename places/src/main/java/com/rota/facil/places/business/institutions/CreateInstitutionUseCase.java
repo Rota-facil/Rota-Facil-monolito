@@ -5,7 +5,7 @@ import com.rota.facil.places.http.dto.response.institutions.CreateInstitutionRes
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import com.rota.facil.places.persistence.mappers.InstitutionMapper;
 import com.rota.facil.places.persistence.repositories.InstitutionRepository;
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

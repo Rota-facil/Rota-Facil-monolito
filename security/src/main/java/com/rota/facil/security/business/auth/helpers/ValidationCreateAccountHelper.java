@@ -2,7 +2,7 @@ package com.rota.facil.security.business.auth.helpers;
 
 import com.rota.facil.security.exceptions.CpfAlreadyExistsExceptions;
 import com.rota.facil.security.exceptions.EmailAlreadyExistsExceptions;
-import com.rota.facil.users.repositories.UserRepository;
+import com.rota.facil.users.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

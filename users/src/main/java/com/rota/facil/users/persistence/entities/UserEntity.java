@@ -1,4 +1,4 @@
-package com.rota.facil.users.entities;
+package com.rota.facil.users.persistence.entities;
 
 import com.rota.facil.users.domain.DriverStatus;
 import com.rota.facil.users.domain.Role;

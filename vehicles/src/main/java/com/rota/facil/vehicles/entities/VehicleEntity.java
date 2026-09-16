@@ -1,6 +1,6 @@
 package com.rota.facil.vehicles.entities;
 
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.domain.VehicleStatus;
 import com.rota.facil.vehicles.domain.VehicleType;
 import jakarta.persistence.*;

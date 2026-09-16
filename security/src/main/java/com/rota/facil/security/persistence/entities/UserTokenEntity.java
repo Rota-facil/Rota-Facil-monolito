@@ -1,6 +1,6 @@
 package com.rota.facil.security.persistence.entities;
 
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

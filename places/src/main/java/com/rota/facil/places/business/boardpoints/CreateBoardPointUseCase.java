@@ -5,7 +5,7 @@ import com.rota.facil.places.http.dto.response.boardpoints.CreateBoardPointRespo
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.mappers.BoardPointMapper;
 import com.rota.facil.places.persistence.repositories.BoardPointRepository;
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -2,7 +2,7 @@ package com.rota.facil.security.service;
 
 import com.rota.facil.security.user.details.AuthenticatedUser;
 import com.rota.facil.security.exceptions.UserNotFoundExceptions;
-import com.rota.facil.users.repositories.UserRepository;
+import com.rota.facil.users.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

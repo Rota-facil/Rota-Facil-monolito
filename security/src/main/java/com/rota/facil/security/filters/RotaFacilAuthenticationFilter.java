@@ -3,7 +3,7 @@ package com.rota.facil.security.filters;
 import com.rota.facil.security.service.JWTService;
 import com.rota.facil.security.service.RotaFacilUserDetailsService;
 import com.rota.facil.security.user.details.AuthenticatedUser;
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
