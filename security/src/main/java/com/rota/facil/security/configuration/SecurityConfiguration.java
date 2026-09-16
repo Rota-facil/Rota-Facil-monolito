@@ -36,7 +36,7 @@ public class SecurityConfiguration {
                             .requestMatchers("/auth/health-check").permitAll()
                             .requestMatchers("/transports/health-check").permitAll()
                             .requestMatchers("/files/health-check").permitAll()
-                            .requestMatchers("/places/health-check").permitAll()
+//                            .requestMatchers("/places/health-check").permitAll()
                             .requestMatchers("/audit/health-check").permitAll()
                             .requestMatchers("/locations/health-check").permitAll()
 
@@ -47,10 +47,12 @@ public class SecurityConfiguration {
                             .requestMatchers("/auth/oauth2/**").permitAll()
                             .requestMatchers("/auth/auth/google/success").permitAll()
 
-                            .requestMatchers(HttpMethod.GET, "/places/**").authenticated()
+                            .requestMatchers(HttpMethod.GET, "/board-points/**").authenticated()
+                            .requestMatchers(HttpMethod.GET, "/institutions/**").authenticated()
                             .requestMatchers(HttpMethod.GET, "/auth/prefectures/**").permitAll()
 
-                            .requestMatchers("/places/**").hasAnyRole("ADMIN", "SUPERUSER")
+                            .requestMatchers("/board-points/**").hasAnyRole("ADMIN", "SUPERUSER")
+                            .requestMatchers("/institutions/**").hasAnyRole("ADMIN", "SUPERUSER")
                             .requestMatchers("/audit/**").hasAnyRole("ADMIN", "SUPERUSER")
                             .requestMatchers("/transports/metrics/**").hasAnyRole("ADMIN", "SUPERUSER")
                             .requestMatchers("/transports/reports/**").hasAnyRole("ADMIN", "SUPERUSER")
