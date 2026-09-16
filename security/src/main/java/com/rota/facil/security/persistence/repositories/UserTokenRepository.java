@@ -1,7 +1,6 @@
-package com.rota.facil.security.repositories;
+package com.rota.facil.security.persistence.repositories;
 
-import com.rota.facil.security.entities.UserTokenEntity;
-import com.rota.facil.users.entities.UserEntity;
+import com.rota.facil.security.persistence.entities.UserTokenEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

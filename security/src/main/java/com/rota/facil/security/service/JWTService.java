@@ -1,8 +1,7 @@
 package com.rota.facil.security.service;
 
-import com.rota.facil.security.entities.UserTokenEntity;
-import com.rota.facil.security.http.dto.response.token.TokenResponse;
-import com.rota.facil.security.repositories.UserTokenRepository;
+import com.rota.facil.security.persistence.entities.UserTokenEntity;
+import com.rota.facil.security.persistence.repositories.UserTokenRepository;
 import com.rota.facil.users.entities.UserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

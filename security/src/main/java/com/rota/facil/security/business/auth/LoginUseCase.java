@@ -1,6 +1,6 @@
 package com.rota.facil.security.business.auth;
 
-import com.rota.facil.security.entities.UserTokenEntity;
+import com.rota.facil.security.persistence.entities.UserTokenEntity;
 import com.rota.facil.security.http.dto.request.user.AuthLoginRequest;
 import com.rota.facil.security.http.dto.response.token.TokenResponse;
 import com.rota.facil.security.service.JWTService;

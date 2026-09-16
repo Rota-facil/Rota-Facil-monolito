@@ -1,4 +1,4 @@
-package com.rota.facil.security.entities;
+package com.rota.facil.security.persistence.entities;
 
 import com.rota.facil.users.entities.UserEntity;
 import jakarta.persistence.*;
