@@ -27,13 +27,15 @@ public class RotaFacilAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorization = request.getHeader("Authorization");
         String token = null;
+        String email = null;
 
         if (authorization != null && authorization.startsWith("Bearer")) {
             token = authorization.substring(7);
+            email = jwtService.extractEmail(token);
         }
 
-        if (token != null  && SecurityContextHolder.getContext().getAuthentication() == null) {
-            AuthenticatedUser authenticatedUser = (AuthenticatedUser) rotaFacilUserDetailsService.loadUserByUsername(token);
+        if (token != null && email != null  && SecurityContextHolder.getContext().getAuthentication() == null) {
+            AuthenticatedUser authenticatedUser = (AuthenticatedUser) rotaFacilUserDetailsService.loadUserByUsername(email);
             UserEntity userEntity = authenticatedUser.getUser();
 
             if (jwtService.validateToken(token)) {

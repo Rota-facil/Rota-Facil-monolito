@@ -1,5 +1,6 @@
 package com.rota.facil.security.service;
 
+import com.rota.facil.security.business.auth.helpers.FindUserTokenByAccessTokenHelper;
 import com.rota.facil.security.persistence.entities.UserTokenEntity;
 import com.rota.facil.security.persistence.repositories.UserTokenRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
@@ -19,6 +20,7 @@ public class JWTService {
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
     private final UserTokenRepository userTokenRepository;
+    private final FindUserTokenByAccessTokenHelper findUserTokenByAccessTokenHelper;
 
     public UserTokenEntity generateTokenForNewUser(UserEntity userEntity) {
         UserTokenEntity userToken = this.userTokenRepository.findByUserId(userEntity.getId())
@@ -37,11 +39,11 @@ public class JWTService {
     }
 
     public String generateAccessToken(UserEntity saved) {
-        return this.generateToken(saved, 1000L);
+        return this.generateToken(saved, 100000L);
     }
 
     public String generateRefreshToken(UserEntity saved) {
-        return this.generateToken(saved, 10000L);
+        return this.generateToken(saved, 1000000L);
     }
 
     private String generateToken(UserEntity saved, Long expirationTime) {
@@ -57,11 +59,16 @@ public class JWTService {
     }
 
     public boolean validateToken(String token) {
+        UserTokenEntity tokenFound = this.findUserTokenByAccessTokenHelper.execute(token);
         return new Date(System.currentTimeMillis()).before(extractDate(token));
     }
 
     public Date extractDate(String token) {
         return this.extractClaims(token, Claims::getExpiration);
+    }
+
+    public String extractEmail(String token) {
+        return this.extractClaims(token, Claims::getSubject);
     }
 
     private <T> T extractClaims(String token, Function<Claims, T> claimsTFunction) {
