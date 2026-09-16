@@ -19,6 +19,9 @@ public class BoardPointEntity {
     @Column(name = "board_point_id")
     private UUID id;
 
+    @Column(name = "prefecture_id")
+    private UUID prefectureId;
+
     private String name;
 
     private Double latitude;

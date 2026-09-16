@@ -18,6 +18,9 @@ public class InstitutionEntity {
     @Column(name = "institution_id")
     private UUID id;
 
+    @Column(name = "prefecture_id")
+    private UUID prefectureId;
+
     private String name;
 
     private Double latitude;
