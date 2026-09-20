@@ -7,6 +7,7 @@ import com.rota.facil.places.persistence.mappers.BoardPointMapper;
 import com.rota.facil.places.persistence.repositories.BoardPointRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service

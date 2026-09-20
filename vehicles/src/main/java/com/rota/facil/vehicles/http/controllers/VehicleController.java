@@ -1,4 +1,4 @@
-package com.rota.facil.vehicles.controllers;
+package com.rota.facil.vehicles.http.controllers;
 
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.CreateVehicleUseCase;
