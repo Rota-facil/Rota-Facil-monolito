@@ -33,6 +33,9 @@ public class InstitutionEntity {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Builder.Default
+    private Boolean active = true;
+
     public void update(InstitutionEntity infoToUpdate) {
         if (infoToUpdate.getName() != null) this.name = infoToUpdate.getName();
         if (infoToUpdate.getLatitude() != null) this.latitude = infoToUpdate.getLatitude();

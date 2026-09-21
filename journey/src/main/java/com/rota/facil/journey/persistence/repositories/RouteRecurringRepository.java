@@ -27,6 +27,8 @@ public interface RouteRecurringRepository extends JpaRepository<RouteRecurringEn
         SELECT rr FROM RouteRecurringEntity rr
         INNER JOIN rr.route r
         WHERE :fromValueDay IN r.daysOfWeek
+        AND r.active = true
+        AND rr.vehicle.active = true
     """)
     List<RouteRecurringEntity> findAllRecurringToday(@Param("fromValueDay") DaysOfWeek fromValueDay);
 

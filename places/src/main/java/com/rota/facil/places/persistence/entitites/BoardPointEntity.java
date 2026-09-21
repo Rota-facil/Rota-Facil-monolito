@@ -33,6 +33,9 @@ public class BoardPointEntity {
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Builder.Default
+    private Boolean active = true;
+
     public void update(BoardPointEntity infoToUpdate) {
         if (infoToUpdate.getName() != null) this.name = infoToUpdate.getName();
         if (infoToUpdate.getLatitude() != null) this.latitude = infoToUpdate.getLatitude();

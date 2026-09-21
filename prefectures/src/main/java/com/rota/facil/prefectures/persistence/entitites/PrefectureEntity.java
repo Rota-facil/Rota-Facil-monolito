@@ -25,8 +25,15 @@ public class PrefectureEntity {
     @Enumerated(EnumType.STRING)
     private Region region;
 
+    @Builder.Default
+    private Boolean active = true;
+
     public void update(UpdatePrefectureData data) {
         if (data.name() != null) this.name = data.name();
         if (data.region() != null) this.region = data.region();
+    }
+
+    public void deactivate() {
+        this.active = false;
     }
 }

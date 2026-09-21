@@ -14,7 +14,7 @@ public class FetchPrefectureByIdHelper {
     private final PrefectureRepository prefectureRepository;
 
     public PrefectureEntity execute(UUID prefectureId) {
-        return prefectureRepository.findById(prefectureId)
+        return prefectureRepository.findByIdAndActiveTrue(prefectureId)
                 .orElseThrow(PrefectureNotFoundExceptions::new);
     }
 }

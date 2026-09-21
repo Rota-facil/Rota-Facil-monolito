@@ -23,6 +23,12 @@
     <dependencies>
         <dependency>
             <groupId>com.rota.facil</groupId>
+            <artifactId>prefectures</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.rota.facil</groupId>
             <artifactId>places</artifactId>
             <version>${project.version}</version>
         </dependency>

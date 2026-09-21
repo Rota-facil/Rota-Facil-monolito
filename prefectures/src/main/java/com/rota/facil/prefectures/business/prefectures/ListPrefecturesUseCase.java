@@ -15,7 +15,7 @@ public class ListPrefecturesUseCase {
     private final PrefectureMapper prefectureMapper;
 
     public List<PrefectureResponse> execute() {
-        return prefectureRepository.findAll()
+        return prefectureRepository.findAllByActiveTrue()
                 .stream()
                 .map(prefectureMapper::mapToResponse)
                 .toList();

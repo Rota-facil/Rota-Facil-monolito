@@ -1,6 +1,7 @@
 package com.rota.facil.prefectures.http.controllers;
 
 import com.rota.facil.prefectures.business.prefectures.CreatePrefectureUseCase;
+import com.rota.facil.prefectures.business.prefectures.DeletePrefectureUseCase;
 import com.rota.facil.prefectures.business.prefectures.FetchPrefectureUseCase;
 import com.rota.facil.prefectures.business.prefectures.ListPrefecturesUseCase;
 import com.rota.facil.prefectures.business.prefectures.UpdatePrefectureUseCase;
@@ -21,6 +22,7 @@ import java.util.UUID;
 @RequestMapping("/prefectures")
 public class PrefectureController {
     private final CreatePrefectureUseCase createPrefectureUseCase;
+    private final DeletePrefectureUseCase deletePrefectureUseCase;
     private final FetchPrefectureUseCase fetchPrefectureUseCase;
     private final ListPrefecturesUseCase listPrefecturesUseCase;
     private final UpdatePrefectureUseCase updatePrefectureUseCase;
@@ -46,5 +48,11 @@ public class PrefectureController {
             @RequestBody UpdatePrefectureRequest request
     ) {
         return ResponseEntity.ok(updatePrefectureUseCase.execute(prefectureId, request));
+    }
+
+    @DeleteMapping("/{prefectureId}")
+    public ResponseEntity<Void> deletePrefecture(@PathVariable UUID prefectureId) {
+        deletePrefectureUseCase.execute(prefectureId);
+        return ResponseEntity.ok().build();
     }
 }

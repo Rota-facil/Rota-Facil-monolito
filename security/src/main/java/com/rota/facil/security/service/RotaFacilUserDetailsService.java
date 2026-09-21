@@ -17,7 +17,7 @@ public class RotaFacilUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String accessToken) throws UsernameNotFoundException {
         return new AuthenticatedUser(
-                userRepository.findByEmail(accessToken)
+                userRepository.findByEmailAndActiveTrue(accessToken)
                         .orElseThrow(UserNotFoundExceptions::new)
         );
     }

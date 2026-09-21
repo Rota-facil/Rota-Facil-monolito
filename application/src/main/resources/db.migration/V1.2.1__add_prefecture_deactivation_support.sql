@@ -1,0 +1,11 @@
+ALTER TABLE prefectures_tb
+    ADD COLUMN active BOOLEAN NOT NULL DEFAULT TRUE;
+
+ALTER TABLE users_tb
+    ALTER COLUMN prefecture_id DROP NOT NULL;
+
+ALTER TABLE institutions_tb
+    ADD COLUMN active BOOLEAN NOT NULL DEFAULT TRUE;
+
+ALTER TABLE board_points_tb
+    ADD COLUMN active BOOLEAN NOT NULL DEFAULT TRUE;
