@@ -2,6 +2,7 @@ package com.rota.facil.vehicles.http.controllers;
 
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.CreateVehicleUseCase;
+import com.rota.facil.vehicles.business.DeleteVehicleUseCase;
 import com.rota.facil.vehicles.business.FetchVehicleUseCase;
 import com.rota.facil.vehicles.business.ListVehiclesUseCase;
 import com.rota.facil.vehicles.business.UpdateVehicleUseCase;
@@ -26,6 +27,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VehicleController {
     private final CreateVehicleUseCase createVehicleUseCase;
+    private final DeleteVehicleUseCase deleteVehicleUseCase;
     private final FetchVehicleUseCase fetchVehicleUseCase;
     private final ListVehiclesUseCase listVehiclesUseCase;
     private final UpdateVehicleUseCase updateVehicleUseCase;
@@ -51,6 +53,15 @@ public class VehicleController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(this.listVehiclesUseCase.execute(currentUser));
+    }
+
+    @DeleteMapping("/{vehicleId}")
+    public ResponseEntity<Void> deleteVehicle(
+            @PathVariable UUID vehicleId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        this.deleteVehicleUseCase.execute(vehicleId, currentUser);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{vehicleId}")

@@ -28,7 +28,7 @@ public class FindDriverForVehicleUpdateHelper {
 
         if (DriverStatus.ON_ROUTE.equals(driver.getStatus())) throw new DriverIsOnRouteException();
 
-        vehicleRepository.findByDriverId(driverId)
+        vehicleRepository.findByDriverIdAndActiveTrue(driverId)
                 .filter(currentVehicle -> !currentVehicle.getId().equals(vehicle.getId()))
                 .ifPresent(currentVehicle -> { throw new DriverAlreadyHasVehicleException(); });
 

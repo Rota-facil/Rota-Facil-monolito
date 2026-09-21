@@ -62,5 +62,14 @@ public class VehicleEntity {
 
         this.driver = driver;
     }
+
+    public void deactivate() {
+        if (VehicleStatus.OPERATION.equals(this.status)) {
+            throw new VehicleInOperationException("Não é possível excluir um veículo enquanto ele está em operação");
+        }
+
+        this.driver = null;
+        this.active = false;
+    }
 }
 

@@ -5,15 +5,16 @@ import com.rota.facil.vehicles.http.exceptions.VehicleNotFoundException;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class FindVehicleByIdHelper {
+public class FindAnyVehicleByIdHelper {
     private final VehicleRepository vehicleRepository;
 
     public VehicleEntity execute(UUID vehicleId, UUID prefectureId) {
-        return vehicleRepository.findByIdAndPrefectureIdAndActiveTrue(vehicleId, prefectureId)
+        return vehicleRepository.findByIdAndPrefectureId(vehicleId, prefectureId)
                 .orElseThrow(() -> new VehicleNotFoundException("Veículo não foi encontrado"));
     }
 }

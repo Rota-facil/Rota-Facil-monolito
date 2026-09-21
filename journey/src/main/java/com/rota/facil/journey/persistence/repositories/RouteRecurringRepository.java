@@ -29,4 +29,6 @@ public interface RouteRecurringRepository extends JpaRepository<RouteRecurringEn
         WHERE :fromValueDay IN r.daysOfWeek
     """)
     List<RouteRecurringEntity> findAllRecurringToday(@Param("fromValueDay") DaysOfWeek fromValueDay);
+
+    void deleteAllByVehicleId(UUID vehicleId);
 }
