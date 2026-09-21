@@ -1,0 +1,24 @@
+package com.rota.facil.vehicles.business;
+
+import com.rota.facil.users.persistence.entities.UserEntity;
+import com.rota.facil.vehicles.http.dto.response.vehicles.ListVehicleResponse;
+import com.rota.facil.vehicles.persistence.mappers.VehicleMapper;
+import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ListVehiclesUseCase {
+    private final VehicleRepository vehicleRepository;
+    private final VehicleMapper vehicleMapper;
+
+    public List<ListVehicleResponse> execute(UserEntity currentUser) {
+        return vehicleRepository.findAllByPrefectureId(currentUser.getPrefectureId())
+                .stream()
+                .map(vehicleMapper::mapToListResponse)
+                .toList();
+    }
+}
