@@ -16,6 +16,14 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     Optional<UserEntity> findByIdAndPrefectureId(UUID id, UUID prefectureId);
 
     @Query("""
+        SELECT u FROM UserEntity u
+        WHERE u.id = :userId
+        AND u.prefectureId = :prefectureId
+        AND u.active IS TRUE
+    """)
+    Optional<UserEntity> findByIdAndPrefectureIdActive(@Param(value = "userId") UUID userId, @Param(value = "prefectureId") UUID prefectureId)
+
+    @Query("""
         SELECT COUNT(u) FROM UserEntity u
         WHERE u.cpf = :cpf
     """)
