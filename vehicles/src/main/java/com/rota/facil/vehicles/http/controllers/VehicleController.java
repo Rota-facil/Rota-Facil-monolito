@@ -34,7 +34,7 @@ public class VehicleController {
 
     @PostMapping
     public ResponseEntity<CreateVehicleResponse> createVehicle(
-            @RequestBody CreateVehicleRequest request,
+            @Valid @RequestBody CreateVehicleRequest request,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.createVehicleUseCase.execute(request, currentUser));

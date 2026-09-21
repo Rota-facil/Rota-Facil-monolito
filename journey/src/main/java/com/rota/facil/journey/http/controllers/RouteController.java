@@ -4,6 +4,7 @@ import com.rota.facil.journey.business.routes.CreateRouteUseCase;
 import com.rota.facil.journey.http.dto.request.routes.CreateRouteRequest;
 import com.rota.facil.journey.http.dto.response.routes.CreateRouteResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class RouteController {
 
     @PostMapping
     public ResponseEntity<CreateRouteResponse> createRoute(
-            @RequestBody CreateRouteRequest request,
+            @Valid @RequestBody CreateRouteRequest request,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(createRouteUseCase.execute(currentUser, request));

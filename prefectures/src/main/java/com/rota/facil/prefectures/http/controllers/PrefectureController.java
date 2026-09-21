@@ -9,6 +9,7 @@ import com.rota.facil.prefectures.http.dto.request.prefecture.CreatePrefectureRe
 import com.rota.facil.prefectures.http.dto.request.prefecture.UpdatePrefectureRequest;
 import com.rota.facil.prefectures.http.dto.response.prefecture.CreatePrefectureResponse;
 import com.rota.facil.prefectures.http.dto.response.prefecture.PrefectureResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class PrefectureController {
     private final UpdatePrefectureUseCase updatePrefectureUseCase;
 
     @PostMapping
-    public ResponseEntity<CreatePrefectureResponse> createPrefecture(@RequestBody CreatePrefectureRequest request) {
+    public ResponseEntity<CreatePrefectureResponse> createPrefecture(@Valid @RequestBody CreatePrefectureRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(createPrefectureUseCase.execute(request));
     }
 
@@ -45,7 +46,7 @@ public class PrefectureController {
     @PutMapping("/{prefectureId}")
     public ResponseEntity<PrefectureResponse> updatePrefecture(
             @PathVariable UUID prefectureId,
-            @RequestBody UpdatePrefectureRequest request
+            @Valid @RequestBody UpdatePrefectureRequest request
     ) {
         return ResponseEntity.ok(updatePrefectureUseCase.execute(prefectureId, request));
     }

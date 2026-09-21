@@ -35,7 +35,7 @@ public class BoardPointController {
 
     @PostMapping
     public ResponseEntity<CreateBoardPointResponse> createBoardPoints(
-            @RequestBody CreateBoardPointRequest request,
+            @Valid @RequestBody CreateBoardPointRequest request,
             @AuthenticationPrincipal UserEntity currentUser
             ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.createBoardPointUseCase.execute(request, currentUser));

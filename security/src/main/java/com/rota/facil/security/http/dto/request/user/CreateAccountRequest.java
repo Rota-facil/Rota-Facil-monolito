@@ -1,11 +1,12 @@
 package com.rota.facil.security.http.dto.request.user;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
 public record CreateAccountRequest(
-        @NotBlank(message = "Id da Prefeitura é obrigatório")
+        @NotNull(message = "Id da Prefeitura é obrigatório")
         UUID prefectureId,
 
         @NotBlank(message = "Nome é obrigatório")

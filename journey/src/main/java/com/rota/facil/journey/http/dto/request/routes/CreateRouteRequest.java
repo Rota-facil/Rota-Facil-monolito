@@ -2,6 +2,7 @@ package com.rota.facil.journey.http.dto.request.routes;
 
 import com.rota.facil.journey.domain.DaysOfWeek;
 import com.rota.facil.journey.domain.Shift;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalTime;
@@ -38,6 +39,6 @@ public record CreateRouteRequest(
         List<UUID> vehicles,
 
         @NotNull(message = "pontos de embarque são obrigatórios")
-        List<CreateBoardPointRouteRequestDTO> boardPoints
+        List<@Valid CreateBoardPointRouteRequestDTO> boardPoints
 ) {
 }

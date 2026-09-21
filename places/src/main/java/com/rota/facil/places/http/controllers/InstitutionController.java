@@ -35,7 +35,7 @@ public class InstitutionController {
 
     @PostMapping
     public ResponseEntity<CreateInstitutionResponse> createInstitution(
-            @RequestBody CreateInstitutionRequest request,
+            @Valid @RequestBody CreateInstitutionRequest request,
             @AuthenticationPrincipal UserEntity currentUser
             ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.createInstitutionUseCase.execute(request, currentUser));
