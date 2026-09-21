@@ -2,6 +2,7 @@ package com.rota.facil.files.business;
 
 import com.rota.facil.files.business.helpers.ValidateImageHelper;
 import com.rota.facil.files.http.dto.response.FileResponse;
+import com.rota.facil.files.http.mappers.FileResponseMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.files.storage.FileStorage;
@@ -20,6 +21,7 @@ public class UploadVehiclePhotoUseCase {
     private final ValidateImageHelper validateImageHelper;
     private final FileRepository fileRepository;
     private final FileStorage fileStorage;
+    private final FileResponseMapper fileResponseMapper;
 
     @Transactional
     public FileResponse execute(UUID vehicleId, MultipartFile file, UserEntity currentUser) {
@@ -32,8 +34,6 @@ public class UploadVehiclePhotoUseCase {
 
         fileStorage.upload(file, saved.getObjectKey());
 
-        return new FileResponse(saved.getId(), saved.getOriginalFilename(),
-                fileStorage.createTemporaryUrl(saved.getObjectKey()), saved.getFileCategory(),
-                saved.getOwnerType(), saved.getCreatedAt());
+        return fileResponseMapper.map(saved);
     }
 }

@@ -3,6 +3,7 @@ package com.rota.facil.files.business;
 import com.rota.facil.files.business.helpers.ValidateImageHelper;
 import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.repositories.FileRepository;
+import com.rota.facil.files.http.mappers.FileResponseMapper;
 import com.rota.facil.files.storage.FileStorage;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.helpers.FindVehicleByIdHelper;
@@ -26,7 +27,8 @@ class UploadVehiclePhotoUseCaseTest {
     @BeforeEach
     void setUp() {
         useCase = new UploadVehiclePhotoUseCase(
-                findVehicleByIdHelper, new ValidateImageHelper(), fileRepository, fileStorage);
+                findVehicleByIdHelper, new ValidateImageHelper(), fileRepository, fileStorage,
+                new FileResponseMapper(fileStorage));
     }
 
     @Test
