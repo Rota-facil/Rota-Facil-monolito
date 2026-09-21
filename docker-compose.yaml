@@ -12,5 +12,20 @@ services:
     volumes:
       - rota-facil-db-data:/var/lib/postgresql/data
 
+
+  rota-facil-minio:
+    image: minio/minio
+    container_name: rota-facil-minio
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-admin123}
+    volumes:
+      - minio-data:/data
+
 volumes:
   rota-facil-db-data:
+  minio-data:
