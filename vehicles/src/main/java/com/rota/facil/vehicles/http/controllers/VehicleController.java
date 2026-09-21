@@ -2,10 +2,12 @@ package com.rota.facil.vehicles.http.controllers;
 
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.CreateVehicleUseCase;
+import com.rota.facil.vehicles.business.FetchVehicleUseCase;
 import com.rota.facil.vehicles.business.UpdateVehicleUseCase;
 import com.rota.facil.vehicles.http.dto.request.vehicles.CreateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.request.vehicles.UpdateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.response.vehicles.CreateVehicleResponse;
+import com.rota.facil.vehicles.http.dto.response.vehicles.FetchVehicleResponse;
 import com.rota.facil.vehicles.http.dto.response.vehicles.UpdateVehicleResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VehicleController {
     private final CreateVehicleUseCase createVehicleUseCase;
+    private final FetchVehicleUseCase fetchVehicleUseCase;
     private final UpdateVehicleUseCase updateVehicleUseCase;
 
     @PostMapping
@@ -29,6 +32,14 @@ public class VehicleController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.createVehicleUseCase.execute(request, currentUser));
+    }
+
+    @GetMapping("/{vehicleId}")
+    public ResponseEntity<FetchVehicleResponse> fetchVehicle(
+            @PathVariable UUID vehicleId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(this.fetchVehicleUseCase.execute(vehicleId, currentUser));
     }
 
     @PutMapping("/{vehicleId}")
