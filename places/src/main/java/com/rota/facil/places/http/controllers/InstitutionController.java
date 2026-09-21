@@ -2,6 +2,7 @@ package com.rota.facil.places.http.controllers;
 
 import com.rota.facil.places.business.institutions.CreateInstitutionUseCase;
 import com.rota.facil.places.business.institutions.FetchInstitutionUseCase;
+import com.rota.facil.places.business.institutions.ListInstitutionsUseCase;
 import com.rota.facil.places.business.institutions.UpdateInstitutionUseCase;
 import com.rota.facil.places.http.dto.request.institutions.CreateInstitutionRequest;
 import com.rota.facil.places.http.dto.request.institutions.UpdateInstitutionRequest;
@@ -10,6 +11,10 @@ import com.rota.facil.places.http.dto.response.institutions.InstitutionResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,6 +28,7 @@ import java.util.UUID;
 public class InstitutionController {
     private final CreateInstitutionUseCase createInstitutionUseCase;
     private final FetchInstitutionUseCase fetchInstitutionUseCase;
+    private final ListInstitutionsUseCase listInstitutionsUseCase;
     private final UpdateInstitutionUseCase updateInstitutionUseCase;
 
     @PostMapping
@@ -31,6 +37,14 @@ public class InstitutionController {
             @AuthenticationPrincipal UserEntity currentUser
             ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.createInstitutionUseCase.execute(request, currentUser));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<InstitutionResponse>> listInstitutions(
+            @ParameterObject @PageableDefault Pageable pageable,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(listInstitutionsUseCase.execute(pageable, currentUser));
     }
 
     @GetMapping("/{institutionId}")
