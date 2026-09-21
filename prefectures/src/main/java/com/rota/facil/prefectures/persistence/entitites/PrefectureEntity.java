@@ -1,6 +1,7 @@
 package com.rota.facil.prefectures.persistence.entitites;
 
 import com.rota.facil.prefectures.domain.Region;
+import com.rota.facil.prefectures.domain.UpdatePrefectureData;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,8 +25,8 @@ public class PrefectureEntity {
     @Enumerated(EnumType.STRING)
     private Region region;
 
-    public void update(PrefectureEntity infoToUpdate) {
-        if (infoToUpdate.getName() != null) this.name = infoToUpdate.getName();
-        if (infoToUpdate.getRegion() != null) this.region = infoToUpdate.getRegion();
+    public void update(UpdatePrefectureData data) {
+        if (data.name() != null) this.name = data.name();
+        if (data.region() != null) this.region = data.region();
     }
 }

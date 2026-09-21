@@ -1,7 +1,9 @@
 package com.rota.facil.prefectures.http.mappers;
 
+import com.rota.facil.prefectures.domain.UpdatePrefectureData;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.prefectures.http.dto.request.prefecture.CreatePrefectureRequest;
+import com.rota.facil.prefectures.http.dto.request.prefecture.UpdatePrefectureRequest;
 import com.rota.facil.prefectures.http.dto.response.prefecture.CreatePrefectureResponse;
 import com.rota.facil.prefectures.http.dto.response.prefecture.PrefectureResponse;
 import org.mapstruct.Mapper;
@@ -9,6 +11,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface PrefectureMapper {
     PrefectureEntity map(CreatePrefectureRequest request);
+    UpdatePrefectureData map(UpdatePrefectureRequest request);
     CreatePrefectureResponse map(PrefectureEntity entity);
     PrefectureResponse mapToResponse(PrefectureEntity entity);
 }

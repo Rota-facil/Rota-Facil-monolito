@@ -3,6 +3,7 @@ package com.rota.facil.vehicles.business;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.helpers.FindDriverForVehicleUpdateHelper;
 import com.rota.facil.vehicles.business.helpers.FindVehicleByIdHelper;
+import com.rota.facil.vehicles.domain.UpdateVehicleData;
 import com.rota.facil.vehicles.entities.VehicleEntity;
 import com.rota.facil.vehicles.http.dto.request.vehicles.UpdateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.response.vehicles.UpdateVehicleResponse;
@@ -26,7 +27,8 @@ public class UpdateVehicleUseCase {
         VehicleEntity vehicle = findVehicleByIdHelper.execute(vehicleId, currentUser.getPrefectureId());
         UserEntity driver = findDriverForVehicleUpdateHelper.execute(request.driverId(), currentUser.getPrefectureId(), vehicle);
 
-        vehicle.update(request.capacity(), request.plate(), request.status(), driver);
+        UpdateVehicleData updateData = vehicleMapper.map(request, driver);
+        vehicle.update(updateData);
 
         return vehicleMapper.mapToUpdateResponse(vehicleRepository.save(vehicle));
     }
