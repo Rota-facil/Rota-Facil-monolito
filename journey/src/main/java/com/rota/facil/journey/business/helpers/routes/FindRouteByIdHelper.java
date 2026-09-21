@@ -1,5 +1,6 @@
 package com.rota.facil.journey.business.helpers.routes;
 
+import com.rota.facil.journey.http.exceptions.RouteNotFoundException;
 import com.rota.facil.journey.persistence.entities.RouteEntity;
 import com.rota.facil.journey.persistence.repositories.RouteRepository;
 import lombok.RequiredArgsConstructor;

@@ -3,6 +3,7 @@ package com.rota.facil.vehicles.entities;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.domain.VehicleStatus;
 import com.rota.facil.vehicles.domain.VehicleType;
+import com.rota.facil.vehicles.domain.exceptions.VehicleInOperationException;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,5 +46,21 @@ public class VehicleEntity {
 
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public void update(Long capacity, String plate, VehicleStatus status, UserEntity driver) {
+        if (capacity != null) this.capacity = capacity;
+        if (plate != null) this.plate = plate;
+        if (status != null) this.status = status;
+
+        UUID currentDriverId = this.driver != null ? this.driver.getId() : null;
+        UUID newDriverId = driver != null ? driver.getId() : null;
+        boolean driverChanged = !java.util.Objects.equals(currentDriverId, newDriverId);
+
+        if (driverChanged && VehicleStatus.OPERATION.equals(this.status)) {
+            throw new VehicleInOperationException();
+        }
+
+        this.driver = driver;
+    }
 }
 
