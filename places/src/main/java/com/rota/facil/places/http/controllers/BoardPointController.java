@@ -1,6 +1,7 @@
 package com.rota.facil.places.http.controllers;
 
 import com.rota.facil.places.business.boardpoints.CreateBoardPointUseCase;
+import com.rota.facil.places.business.boardpoints.DeleteBoardPointUseCase;
 import com.rota.facil.places.business.boardpoints.FetchBoardPointUseCase;
 import com.rota.facil.places.business.boardpoints.ListBoardPointsUseCase;
 import com.rota.facil.places.business.boardpoints.UpdateBoardPointUseCase;
@@ -27,6 +28,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BoardPointController {
     private final CreateBoardPointUseCase createBoardPointUseCase;
+    private final DeleteBoardPointUseCase deleteBoardPointUseCase;
     private final FetchBoardPointUseCase fetchBoardPointUseCase;
     private final ListBoardPointsUseCase listBoardPointsUseCase;
     private final UpdateBoardPointUseCase updateBoardPointUseCase;
@@ -53,6 +55,15 @@ public class BoardPointController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(fetchBoardPointUseCase.execute(boardPointId, currentUser));
+    }
+
+    @DeleteMapping("/{boardPointId}")
+    public ResponseEntity<Void> deleteBoardPoint(
+            @PathVariable UUID boardPointId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        deleteBoardPointUseCase.execute(boardPointId, currentUser);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{boardPointId}")

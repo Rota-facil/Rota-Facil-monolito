@@ -42,6 +42,10 @@ public class BoardPointEntity {
         if (data.latitude() != null) this.latitude = data.latitude();
         if (data.longitude() != null) this.longitude = data.longitude();
     }
+
+    public void deactivate() {
+        this.active = false;
+    }
 }
 
 
