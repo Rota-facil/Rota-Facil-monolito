@@ -1,5 +1,6 @@
 package com.rota.facil.places.persistence.entitites;
 
+import com.rota.facil.places.domain.UpdateInstitutionData;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -36,9 +37,9 @@ public class InstitutionEntity {
     @Builder.Default
     private Boolean active = true;
 
-    public void update(InstitutionEntity infoToUpdate) {
-        if (infoToUpdate.getName() != null) this.name = infoToUpdate.getName();
-        if (infoToUpdate.getLatitude() != null) this.latitude = infoToUpdate.getLatitude();
-        if (infoToUpdate.getLongitude() != null) this.longitude = infoToUpdate.getLongitude();
+    public void update(UpdateInstitutionData data) {
+        if (data.name() != null) this.name = data.name();
+        if (data.latitude() != null) this.latitude = data.latitude();
+        if (data.longitude() != null) this.longitude = data.longitude();
     }
 }
