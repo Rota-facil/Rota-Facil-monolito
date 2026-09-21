@@ -2,6 +2,7 @@ package com.rota.facil.prefectures.http.controllers;
 
 import com.rota.facil.prefectures.business.prefectures.CreatePrefectureUseCase;
 import com.rota.facil.prefectures.business.prefectures.FetchPrefectureUseCase;
+import com.rota.facil.prefectures.business.prefectures.ListPrefecturesUseCase;
 import com.rota.facil.prefectures.http.dto.request.prefecture.CreatePrefectureRequest;
 import com.rota.facil.prefectures.http.dto.response.prefecture.CreatePrefectureResponse;
 import com.rota.facil.prefectures.http.dto.response.prefecture.PrefectureResponse;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,6 +20,7 @@ import java.util.UUID;
 public class PrefectureController {
     private final CreatePrefectureUseCase createPrefectureUseCase;
     private final FetchPrefectureUseCase fetchPrefectureUseCase;
+    private final ListPrefecturesUseCase listPrefecturesUseCase;
 
     @PostMapping
     public ResponseEntity<CreatePrefectureResponse> createPrefecture(@RequestBody CreatePrefectureRequest request) {
@@ -27,5 +30,10 @@ public class PrefectureController {
     @GetMapping("/{prefectureId}")
     public ResponseEntity<PrefectureResponse> fetchPrefecture(@PathVariable UUID prefectureId) {
         return ResponseEntity.ok(fetchPrefectureUseCase.execute(prefectureId));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PrefectureResponse>> listPrefectures() {
+        return ResponseEntity.ok(listPrefecturesUseCase.execute());
     }
 }
