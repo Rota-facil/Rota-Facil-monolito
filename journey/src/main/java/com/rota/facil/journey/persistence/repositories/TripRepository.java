@@ -43,4 +43,20 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         )
     """)
     boolean existsInProgressTripByBoardPointId(@Param("boardPointId") UUID boardPointId);
+
+    @Query("""
+        SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END
+        FROM TripEntity t
+        JOIN t.route r
+        JOIN r.institutions institution
+        WHERE institution.id = :institutionId
+        AND t.actualStatus IN (
+            com.rota.facil.journey.domain.Progress.STARTED,
+            com.rota.facil.journey.domain.Progress.STARTED_FINISHED,
+            com.rota.facil.journey.domain.Progress.RETURN_STARTED,
+            com.rota.facil.journey.domain.Progress.INSTITUTION_ARRIVAL,
+            com.rota.facil.journey.domain.Progress.BOARD_POINT_ARRIVAL
+        )
+    """)
+    boolean existsInProgressTripByInstitutionId(@Param("institutionId") UUID institutionId);
 }

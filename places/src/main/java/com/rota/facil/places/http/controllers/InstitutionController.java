@@ -1,6 +1,7 @@
 package com.rota.facil.places.http.controllers;
 
 import com.rota.facil.places.business.institutions.CreateInstitutionUseCase;
+import com.rota.facil.places.business.institutions.DeleteInstitutionUseCase;
 import com.rota.facil.places.business.institutions.FetchInstitutionUseCase;
 import com.rota.facil.places.business.institutions.ListInstitutionsUseCase;
 import com.rota.facil.places.business.institutions.UpdateInstitutionUseCase;
@@ -27,6 +28,7 @@ import java.util.UUID;
 @RequestMapping("/institutions")
 public class InstitutionController {
     private final CreateInstitutionUseCase createInstitutionUseCase;
+    private final DeleteInstitutionUseCase deleteInstitutionUseCase;
     private final FetchInstitutionUseCase fetchInstitutionUseCase;
     private final ListInstitutionsUseCase listInstitutionsUseCase;
     private final UpdateInstitutionUseCase updateInstitutionUseCase;
@@ -53,6 +55,15 @@ public class InstitutionController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(fetchInstitutionUseCase.execute(institutionId, currentUser));
+    }
+
+    @DeleteMapping("/{institutionId}")
+    public ResponseEntity<Void> deleteInstitution(
+            @PathVariable UUID institutionId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        deleteInstitutionUseCase.execute(institutionId, currentUser);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{institutionId}")
