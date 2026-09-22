@@ -94,4 +94,8 @@ public class UserEntity {
         if (this.getRole().equals(Role.DRIVER)) this.setStatus(DriverStatus.ON_ROUTE);
     }
 
+    public void increaseTrips() {
+        this.trips++;
+    }
+
 }

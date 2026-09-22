@@ -20,4 +20,12 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         AND ST_DWithin(t.geom, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 30)
     """, nativeQuery = true)
     Optional<TripUserEntity> findTripNotStartedByLatitudeAndLongitude(@Param("tripId") UUID tripId, @Param("latitude") Double latitude, @Param("longitude") Double longitude, @Param("userId") UUID userId);
+
+    @Query("""
+        SELECT COUNT(u) FROM TripUserEntity tu
+        INNER JOIN tu.student u
+        WHERE tu.going = :going
+        AND tu.return_ = :return_
+    """)
+    Long countStudentsToGoTrip(@Param("going") boolean going, @Param("return_") boolean return_);
 }

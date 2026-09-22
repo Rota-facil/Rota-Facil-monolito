@@ -3,6 +3,7 @@ package com.rota.facil.journey.persistence.entities;
 import com.rota.facil.journey.domain.Presence;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,14 @@ public class TripUserEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "trip_user_id")
     private UUID id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity student;
+
+    @ManyToOne
+    @JoinColumn(name = "trip_id")
+    private TripEntity trip;
 
     @ManyToOne
     @JoinColumn(name = "institution_id")

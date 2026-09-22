@@ -1,6 +1,6 @@
 package com.rota.facil.journey.spring.events;
 
-import com.rota.facil.journey.http.exceptions.BoardPointInActiveTripException;
+import com.rota.facil.journey.exceptions.BoardPointInActiveTripException;
 import com.rota.facil.journey.persistence.repositories.TripRepository;
 import com.rota.facil.places.spring.events.dto.ValidateBoardPointDeactivationEvent;
 import lombok.RequiredArgsConstructor;

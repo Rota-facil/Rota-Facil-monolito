@@ -1,7 +1,7 @@
 package com.rota.facil.journey.business.trips;
 
 import com.rota.facil.journey.business.helpers.routes.FindRouteByIdHelper;
-import com.rota.facil.journey.http.exceptions.CreateTripException;
+import com.rota.facil.journey.exceptions.CreateTripException;
 import com.rota.facil.journey.http.dto.request.trips.CreateTripRequest;
 import com.rota.facil.journey.http.dto.response.trips.TripResponse;
 import com.rota.facil.journey.persistence.entities.RouteEntity;

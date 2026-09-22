@@ -1,6 +1,6 @@
 package com.rota.facil.journey.spring.events;
 
-import com.rota.facil.journey.http.exceptions.InstitutionInActiveTripException;
+import com.rota.facil.journey.exceptions.InstitutionInActiveTripException;
 import com.rota.facil.journey.persistence.repositories.TripRepository;
 import com.rota.facil.places.spring.events.dto.ValidateInstitutionDeactivationEvent;
 import lombok.RequiredArgsConstructor;

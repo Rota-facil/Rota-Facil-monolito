@@ -1,12 +1,15 @@
 package com.rota.facil.journey.persistence.repositories;
 
 import com.rota.facil.journey.persistence.entities.TripEntity;
+import com.rota.facil.places.persistence.entitites.BoardPointEntity;
+import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -66,4 +69,25 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         )
     """)
     boolean existsInProgressTripByInstitutionId(@Param("institutionId") UUID institutionId);
+
+    Optional<TripEntity> findTripByIdAndPrefectureId(@Param("tripId") UUID tripId, @Param("prefectureId") UUID prefectureId);
+
+    @Query("""
+        SELECT b FROM TripEntity t
+        INNER JOIN t.route r
+        INNER JOIN r.boardPoints bs
+        INNER JOIN bs.boardPoint b
+        WHERE t.id = :tripId
+        AND b.id = :boardPointId 
+    """)
+    Optional<BoardPointEntity> findBoardPointByIdAndBoardPointId(@Param("tripId") UUID tripId, @Param("boardPointId") UUID boardPointId);
+
+    @Query("""
+        SELECT i FROM TripEntity t
+        INNER JOIN t.route r
+        INNER JOIN r.institutions i
+        WHERE t.id = :tripId
+        AND i.id = :institutionId
+    """)
+    Optional<InstitutionEntity> findInstitutionByIdAndInstitutionId(@Param("tripId") UUID tripId, @Param("institutionId") UUID institutionId);
 }
