@@ -9,6 +9,10 @@ import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +23,11 @@ public class CreateBoardPointUseCase {
 
     public CreateBoardPointResponse execute(CreateBoardPointRequest request, UserEntity currentUser) {
         BoardPointEntity preSaved = this.boardPointMapper.map(request);
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+        Point point = geometryFactory.createPoint(new Coordinate(request.longitude(), request.latitude()));
+
         preSaved.setPrefectureId(currentUser.getPrefectureId());
+        preSaved.setGeom(point);
 
         return this.boardPointMapper.map(this.boardPointRepository.save(preSaved));
     }

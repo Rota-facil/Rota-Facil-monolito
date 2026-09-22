@@ -7,6 +7,7 @@ import com.rota.facil.vehicles.entities.VehicleEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -53,6 +54,8 @@ public class TripEntity {
 
     @Column(name = "prefecture_id")
     private UUID prefectureId;
+
+    private Point geom;
 
     @Builder.Default
     @CreationTimestamp

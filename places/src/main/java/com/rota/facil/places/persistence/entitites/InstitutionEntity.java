@@ -4,6 +4,7 @@ import com.rota.facil.places.domain.UpdateInstitutionData;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -28,6 +29,8 @@ public class InstitutionEntity {
     private Double latitude;
 
     private Double longitude;
+
+    private Point geom;
 
     @Builder.Default
     @CreationTimestamp

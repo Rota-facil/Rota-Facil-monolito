@@ -12,6 +12,13 @@ import java.util.UUID;
 @Repository
 public interface TripRepository extends JpaRepository<TripEntity, UUID> {
 
+    @Query(value = """
+        SELECT t.* FROM trips_tb t
+        WHERE t.trip_id = :tripId
+        AND ST_DWithin(t.geom, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 30)
+    """, nativeQuery = true)
+    TripEntity findTripByLatitudeAndLongitude(@Param("tripId") UUID tripId, @Param("latitude") Double latitude, @Param("longitude") Double longitude);
+
     @Modifying(clearAutomatically = true)
     @Query("""
         UPDATE TripEntity t

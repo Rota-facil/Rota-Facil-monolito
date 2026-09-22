@@ -56,4 +56,10 @@ public class FileEntity {
                 .fileSizeBytes(fileSizeBytes)
                 .build();
     }
+
+    public void update(String originalFilename, String mimeType, long fileSizeBytes) {
+        this.originalFilename = originalFilename;
+        this.mimeType = mimeType;
+        this.fileSizeBytes = fileSizeBytes;
+    }
 }

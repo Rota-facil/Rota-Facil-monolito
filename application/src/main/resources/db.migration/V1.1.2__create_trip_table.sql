@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS trips_tb (
     latitude DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     longitude DOUBLE PRECISION NOT NULL DEFAULT 0.0,
     prefecture_id UUID NOT NULL,
+    geom geography NOT NULL,
     students BIGINT NOT NULL DEFAULT 0,
     actual_status TEXT NOT NULL,
     reason_of_cancellation TEXT,

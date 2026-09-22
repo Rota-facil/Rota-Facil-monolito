@@ -3,6 +3,7 @@ package com.rota.facil.files.http.controllers;
 import com.rota.facil.files.business.UploadVehiclePhotoUseCase;
 import com.rota.facil.files.business.ListVehiclePhotosUseCase;
 import com.rota.facil.files.business.FetchVehiclePhotoUseCase;
+import com.rota.facil.files.business.UpdateVehiclePhotoUseCase;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class VehiclePhotoController {
     private final UploadVehiclePhotoUseCase uploadVehiclePhotoUseCase;
     private final ListVehiclePhotosUseCase listVehiclePhotosUseCase;
     private final FetchVehiclePhotoUseCase fetchVehiclePhotoUseCase;
+    private final UpdateVehiclePhotoUseCase updateVehiclePhotoUseCase;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileResponse> upload(@PathVariable UUID vehicleId,
@@ -44,5 +46,17 @@ public class VehiclePhotoController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(fetchVehiclePhotoUseCase.execute(vehicleId, photoId, currentUser));
+    }
+
+    @PutMapping(value = "/{photoId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FileResponse> update(
+            @PathVariable UUID vehicleId,
+            @PathVariable UUID photoId,
+            @RequestPart("file") MultipartFile file,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(
+                updateVehiclePhotoUseCase.execute(vehicleId, photoId, file, currentUser)
+        );
     }
 }
