@@ -17,7 +17,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ValidateCheckinUseCase {
     private final TripUserRepository tripUserRepository;
-    private final TripRepository tripRepository;
 
     public void execute(UUID tripId, UserEntity currentUser, UserLocationCheakinRequest request) {
         TripUserEntity tripUser = this.tripUserRepository.findTripNotStartedByLatitudeAndLongitude(tripId, request.latitude(), request.longitude(), currentUser.getId())
@@ -25,6 +24,6 @@ public class ValidateCheckinUseCase {
 
         tripUser.setPresence(Presence.CHECKIN);
 
-
+        this.tripUserRepository.save(tripUser);
     }
 }
