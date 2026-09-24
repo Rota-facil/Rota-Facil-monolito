@@ -2,10 +2,12 @@ package com.rota.facil.journey.http.controllers;
 
 import com.rota.facil.journey.business.routes.ValidateCheckinUseCase;
 import com.rota.facil.journey.business.trips.CreateTripUseCase;
+import com.rota.facil.journey.business.trips.CancelTripUseCase;
 import com.rota.facil.journey.business.trips.InitTripUseCase;
 import com.rota.facil.journey.business.trips.JoinInTripUseCase;
 import com.rota.facil.journey.http.dto.request.routes.UserLocationCheakinRequest;
 import com.rota.facil.journey.http.dto.request.trips.CreateTripRequest;
+import com.rota.facil.journey.http.dto.request.trips.CancelTripRequest;
 import com.rota.facil.journey.http.dto.request.trips.JoinInTripRequest;
 import com.rota.facil.journey.http.dto.response.trips.TripResponse;
 import com.rota.facil.journey.http.dto.response.trips.TripUserResponse;
@@ -27,6 +29,7 @@ public class TripController {
     private final ValidateCheckinUseCase validateCheckinUseCase;
     private final JoinInTripUseCase joinInTripUseCase;
     private final InitTripUseCase initTripUseCase;
+    private final CancelTripUseCase cancelTripUseCase;
 
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(
@@ -61,5 +64,14 @@ public class TripController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(this.initTripUseCase.execute(currentUser, tripId));
+    }
+
+    @PostMapping("/trip/{tripId}/cancel")
+    public ResponseEntity<TripResponse> cancelTrip(
+            @PathVariable UUID tripId,
+            @AuthenticationPrincipal UserEntity currentUser,
+            @Valid @RequestBody CancelTripRequest request
+    ) {
+        return ResponseEntity.ok(this.cancelTripUseCase.execute(currentUser, tripId, request));
     }
 }
