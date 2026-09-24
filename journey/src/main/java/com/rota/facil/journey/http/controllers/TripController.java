@@ -2,6 +2,7 @@ package com.rota.facil.journey.http.controllers;
 
 import com.rota.facil.journey.business.routes.ValidateCheckinUseCase;
 import com.rota.facil.journey.business.trips.CreateTripUseCase;
+import com.rota.facil.journey.business.trips.InitTripUseCase;
 import com.rota.facil.journey.business.trips.JoinInTripUseCase;
 import com.rota.facil.journey.http.dto.request.routes.UserLocationCheakinRequest;
 import com.rota.facil.journey.http.dto.request.trips.CreateTripRequest;
@@ -25,6 +26,7 @@ public class TripController {
     private final CreateTripUseCase createTripUseCase;
     private final ValidateCheckinUseCase validateCheckinUseCase;
     private final JoinInTripUseCase joinInTripUseCase;
+    private final InitTripUseCase initTripUseCase;
 
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(
@@ -51,5 +53,13 @@ public class TripController {
             @RequestBody JoinInTripRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.joinInTripUseCase.execute(tripId, currentUser, request));
+    }
+
+    @PostMapping("/trip/{tripId}/init")
+    public ResponseEntity<TripResponse> initTrip(
+            @PathVariable UUID tripId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(this.initTripUseCase.execute(currentUser, tripId));
     }
 }

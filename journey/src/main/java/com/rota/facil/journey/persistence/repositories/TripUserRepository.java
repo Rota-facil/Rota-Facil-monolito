@@ -11,6 +11,8 @@ import java.util.UUID;
 
 @Repository
 public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> {
+    boolean existsByTripId(UUID tripId);
+
     @Query(value = """
         SELECT tu.* FROM trips_users_tb tu
         INNER JOIN trips_tb t USING(trip_id)

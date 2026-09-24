@@ -70,7 +70,19 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
     """)
     boolean existsInProgressTripByInstitutionId(@Param("institutionId") UUID institutionId);
 
-    Optional<TripEntity> findTripByIdAndPrefectureId(@Param("tripId") UUID tripId, @Param("prefectureId") UUID prefectureId);
+    @Query("""
+        SELECT t FROM TripEntity t
+        WHERE t.id = :tripId
+        AND t.prefectureId = :prefectureId
+        AND t.vehicle.driver.id = :driverId
+    """)
+    Optional<TripEntity> findTripByIdAndPrefectureIdAndDriverId(
+            @Param("tripId") UUID tripId,
+            @Param("prefectureId") UUID prefectureId,
+            @Param("driverId") UUID driverId
+    );
+
+    Optional<TripEntity> findTripByIdAndPrefectureId(UUID tripId, UUID prefectureId);
 
     @Query("""
         SELECT b FROM TripEntity t
