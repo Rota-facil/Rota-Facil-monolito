@@ -10,7 +10,6 @@ import com.rota.facil.journey.http.dto.response.trips.TripResponse;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.mappers.TripMapper;
 import com.rota.facil.journey.persistence.repositories.TripRepository;
-import com.rota.facil.journey.persistence.repositories.TripUserRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
@@ -29,7 +28,6 @@ public class InitTripUseCase {
     private final UserRepository userRepository;
     private final TripRepository tripRepository;
     private final VehicleRepository vehicleRepository;
-    private final TripUserRepository tripUserRepository;
     private final TripMapper tripMapper;
 
     @Transactional
@@ -37,16 +35,15 @@ public class InitTripUseCase {
         TripEntity trip = findTripByIdAndPrefectureHelper.execute(tripId, currentUser.getPrefectureId());
 
         if (!Progress.NOT_STARTED.equals(trip.getActualStatus())) throw new TripCannotBeStartedException("A ida só pode ser iniciada quando a viagem ainda não foi iniciada");
-        if (!this.tripUserRepository.existsByTripId(tripId)) throw new TripCannotBeStartedException("Não é possível iniciar a ida sem alunos cadastrados na viagem");
+        if (trip.getStudents().equals(0L)) throw new TripCannotBeStartedException("Não é possível iniciar a ida sem alunos cadastrados na viagem");
 
         trip.addNewStatus(Progress.STARTED);
         trip.getVehicle().setStatus(com.rota.facil.vehicles.domain.VehicleStatus.OPERATION);
+        currentUser.moveToOnRoute();
+        currentUser.increaseTrips();
 
         this.registerIgnoredBoardPointsHelper.execute(trip, TripOrientation.GOING);
         this.registerIgnoredInstitutionsHelper.execute(trip, TripOrientation.GOING);
-
-        currentUser.moveToOnRoute();
-        currentUser.increaseTrips();
 
         this.vehicleRepository.save(trip.getVehicle());
         this.userRepository.save(currentUser);
