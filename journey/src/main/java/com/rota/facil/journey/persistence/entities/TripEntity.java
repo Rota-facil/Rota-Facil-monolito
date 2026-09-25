@@ -1,6 +1,8 @@
 package com.rota.facil.journey.persistence.entities;
 
+import com.rota.facil.journey.domain.Delay;
 import com.rota.facil.journey.domain.Progress;
+import com.rota.facil.journey.exceptions.InvalidTimeToInitTripException;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import com.rota.facil.vehicles.entities.VehicleEntity;
@@ -10,6 +12,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -104,5 +108,32 @@ public class TripEntity {
     public void updateCoordinates(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public Delay calculateDelay() {
+        LocalTime now = LocalTime.now();
+        LocalTime start = this.route.getGoing();
+        LocalTime finish = this.route.getGoingFinish();
+
+        if (now.equals(start)) return Delay.PUNCTUAL;
+        if (now.isAfter(start) && now.isBefore(finish)) return Delay.LATE;
+        if (now.isBefore(start) && now.isAfter(start.minusMinutes(6))) return Delay.EARLY;
+
+        throw new InvalidTimeToInitTripException("Você só pode iniciar uma viagem com 6 minutos adiantados ou antes do início da volta");
+    }
+
+    public void addNewStatus(Progress progress) {
+        if (this.tripStatus == null) this.tripStatus = new ArrayList<>();
+
+        this.tripStatus.add(
+                TripStatusEntity.builder()
+                        .trip(this)
+                        .delay(this.calculateDelay())
+                        .progress(progress)
+                        .description(progress.getTitle())
+                        .build()
+        );
+
+        this.actualStatus = progress;
     }
 }
