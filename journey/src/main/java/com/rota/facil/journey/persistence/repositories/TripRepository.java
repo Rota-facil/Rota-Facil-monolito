@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -102,4 +103,12 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         AND i.id = :institutionId
     """)
     Optional<InstitutionEntity> findInstitutionByIdAndInstitutionId(@Param("tripId") UUID tripId, @Param("institutionId") UUID institutionId);
+
+    @Query("""
+        SELECT b FROM TripEntity t
+        INNER JOIN t.route r
+        INNER JOIN r.boardPoints b
+        WHERE t.id = :tripId
+    """)
+    List<BoardPointEntity> findAllBoardPointByTripId(@Param("tripId") UUID tripId);
 }

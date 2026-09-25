@@ -1,7 +1,10 @@
 package com.rota.facil.journey.business.trips;
 
+import com.rota.facil.journey.business.helpers.trips.RegisterIgnoredBoardPointsHelper;
+import com.rota.facil.journey.business.helpers.trips.RegisterIgnoredInstitutionsHelper;
 import com.rota.facil.journey.domain.Delay;
 import com.rota.facil.journey.domain.Progress;
+import com.rota.facil.journey.domain.TripOrientation;
 import com.rota.facil.journey.exceptions.InvalidTimeToInitTripException;
 import com.rota.facil.journey.exceptions.TripCannotBeStartedException;
 import com.rota.facil.journey.exceptions.TripNotFoundException;
@@ -25,6 +28,8 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class InitTripUseCase {
+    private final RegisterIgnoredBoardPointsHelper registerIgnoredBoardPointsHelper;
+    private final RegisterIgnoredInstitutionsHelper registerIgnoredInstitutionsHelper;
     private final UserRepository userRepository;
     private final TripRepository tripRepository;
     private final VehicleRepository vehicleRepository;
@@ -33,16 +38,12 @@ public class InitTripUseCase {
 
     @Transactional
     public TripResponse execute(UserEntity currentUser, UUID tripId) {
-        TripEntity trip = tripRepository.findTripByIdAndPrefectureIdAndDriverId(
+        TripEntity trip = this.tripRepository.findTripByIdAndPrefectureIdAndDriverId(
                         tripId, currentUser.getPrefectureId(), currentUser.getId())
                 .orElseThrow(TripNotFoundException::new);
 
-        if (!Progress.NOT_STARTED.equals(trip.getActualStatus())) {
-            throw new TripCannotBeStartedException("A ida só pode ser iniciada quando a viagem ainda não foi iniciada");
-        }
-        if (!tripUserRepository.existsByTripId(tripId)) {
-            throw new TripCannotBeStartedException("Não é possível iniciar a ida sem alunos cadastrados na viagem");
-        }
+        if (!Progress.NOT_STARTED.equals(trip.getActualStatus())) throw new TripCannotBeStartedException("A ida só pode ser iniciada quando a viagem ainda não foi iniciada");
+        if (!this.tripUserRepository.existsByTripId(tripId)) throw new TripCannotBeStartedException("Não é possível iniciar a ida sem alunos cadastrados na viagem");
 
         Delay delay = calculateDelay(trip);
         TripStatusEntity status = TripStatusEntity.builder()
@@ -57,6 +58,9 @@ public class InitTripUseCase {
         trip.getTripStatus().add(status);
         trip.setActualStatus(Progress.STARTED);
         trip.getVehicle().setStatus(com.rota.facil.vehicles.domain.VehicleStatus.OPERATION);
+
+        this.registerIgnoredBoardPointsHelper.execute(trip, TripOrientation.GOING);
+        this.registerIgnoredInstitutionsHelper.execute(trip, TripOrientation.GOING);
 
         currentUser.moveToOnRoute();
         currentUser.increaseTrips();
@@ -77,4 +81,5 @@ public class InitTripUseCase {
 
         throw new InvalidTimeToInitTripException("Você só pode iniciar uma viagem com 6 minutos adiantados ou antes do início da volta");
     }
+
 }

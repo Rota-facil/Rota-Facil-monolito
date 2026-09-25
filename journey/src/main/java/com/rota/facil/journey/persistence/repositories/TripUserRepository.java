@@ -1,12 +1,16 @@
 package com.rota.facil.journey.persistence.repositories;
 
 import com.rota.facil.journey.persistence.entities.TripUserEntity;
+import com.rota.facil.places.persistence.entitites.BoardPointEntity;
+import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -30,4 +34,44 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         AND tu.return_ = :return_
     """)
     Long countStudentsToGoTrip(@Param("going") boolean going, @Param("return_") boolean return_);
+
+    @Query("""
+        SELECT DISTINCT b FROM TripUserEntity tu
+        INNER JOIN tu.trip t
+        INNER JOIN t.route r
+        INNER JOIN r.boardPoints b
+        WHERE t.id = :tripId
+        AND tu.going IS TRUE
+    """)
+    Set<BoardPointEntity> findAllBoardPointByTripIdOfStudentsGoing(@Param("tripId") UUID tripId);
+
+    @Query("""
+        SELECT DISTINCT b FROM TripUserEntity tu
+        INNER JOIN tu.trip t
+        INNER JOIN t.route r
+        INNER JOIN r.boardPoints b
+        WHERE t.id = :tripId
+        AND tu.return_ IS TRUE
+    """)
+    Set<BoardPointEntity> findAllBoardPointByTripIdOfStudentsReturn(@Param("tripId") UUID tripId);
+
+    @Query("""
+        SELECT DISTINCT i FROM TripUserEntity tu
+        INNER JOIN tu.trip t
+        INNER JOIN t.route r
+        INNER JOIN r.institutions i
+        WHERE t.id = :tripId
+        AND tu.going IS TRUE
+    """)
+    Set<InstitutionEntity> findAllInstitutionsByTripIdOfStudentsGoing(@Param("tripId") UUID tripId);
+
+    @Query("""
+        SELECT DISTINCT i FROM TripUserEntity tu
+        INNER JOIN tu.trip t
+        INNER JOIN t.route r
+        INNER JOIN r.institutions i
+        WHERE t.id = :tripId
+        AND tu.return_ IS TRUE
+    """)
+    Set<InstitutionEntity> findAllInstitutionsByTripIdOfStudentsReturn(@Param("tripId") UUID tripId);
 }
