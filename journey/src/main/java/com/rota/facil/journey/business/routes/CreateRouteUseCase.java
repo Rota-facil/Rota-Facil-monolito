@@ -16,12 +16,12 @@ import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.places.http.exceptions.BoardPointNotFoundException;
 import com.rota.facil.places.http.exceptions.InstitutionNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class CreateRouteUseCase {
     private final CreateRouteRecurringHelper createRouteRecurringHelper;

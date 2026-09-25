@@ -12,13 +12,13 @@ import com.rota.facil.journey.persistence.mappers.TripMapper;
 import com.rota.facil.journey.persistence.repositories.TripRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class CancelTripUseCase {
     private final TripRepository tripRepository;

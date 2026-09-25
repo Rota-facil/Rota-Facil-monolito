@@ -6,11 +6,11 @@ import com.rota.facil.vehicles.entities.VehicleEntity;
 import com.rota.facil.vehicles.http.dto.response.vehicles.FetchVehicleResponse;
 import com.rota.facil.vehicles.persistence.mappers.VehicleMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class FetchVehicleUseCase {
     private final FindVehicleByIdHelper findVehicleByIdHelper;

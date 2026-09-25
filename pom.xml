@@ -31,6 +31,7 @@
 		<module>vehicles</module>
 		<module>places</module>
         <module>prefectures</module>
+        <module>annotations</module>
     </modules>
 	<scm>
 		<connection/>

@@ -12,10 +12,10 @@ import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class CreateAccountUseCase {
     private final FetchPrefectureByIdHelper fetchPrefectureByIdHelper;

@@ -7,11 +7,11 @@ import com.rota.facil.journey.persistence.entities.TripUserEntity;
 import com.rota.facil.journey.persistence.repositories.TripUserRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class ValidateCheckinUseCase {
     private final TripUserRepository tripUserRepository;

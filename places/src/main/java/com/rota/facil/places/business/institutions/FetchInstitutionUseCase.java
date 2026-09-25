@@ -5,11 +5,11 @@ import com.rota.facil.places.http.dto.response.institutions.InstitutionResponse;
 import com.rota.facil.places.persistence.mappers.InstitutionMapper;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class FetchInstitutionUseCase {
     private final FindInstitutionByIdHelper findInstitutionByIdHelper;

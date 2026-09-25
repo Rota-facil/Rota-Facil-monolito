@@ -18,11 +18,11 @@ import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
 import com.rota.facil.vehicles.entities.VehicleEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class JoinInTripUseCase {
     private final UserRepository userRepository;

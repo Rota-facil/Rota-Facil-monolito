@@ -8,13 +8,13 @@ import com.rota.facil.places.persistence.repositories.BoardPointRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class CreateBoardPointUseCase {
     private final BoardPointRepository boardPointRepository;

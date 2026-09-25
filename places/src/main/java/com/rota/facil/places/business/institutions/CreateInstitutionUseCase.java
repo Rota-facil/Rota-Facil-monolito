@@ -11,9 +11,9 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class CreateInstitutionUseCase {
     private final InstitutionRepository institutionRepository;

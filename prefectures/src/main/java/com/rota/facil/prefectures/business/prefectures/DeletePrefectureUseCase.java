@@ -6,12 +6,12 @@ import com.rota.facil.prefectures.persistence.repositories.PrefectureRepository;
 import com.rota.facil.prefectures.spring.events.dto.PrefectureDeactivatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class DeletePrefectureUseCase {
     private final FetchPrefectureByIdHelper fetchPrefectureByIdHelper;

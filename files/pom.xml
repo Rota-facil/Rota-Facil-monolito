@@ -23,7 +23,12 @@
     </properties>
 
     <dependencies>
-        <dependency>
+                <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+<dependency>
             <groupId>com.rota.facil</groupId>
             <artifactId>vehicles</artifactId>
             <version>${project.version}</version>

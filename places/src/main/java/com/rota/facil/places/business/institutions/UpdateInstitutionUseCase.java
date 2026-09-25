@@ -9,12 +9,12 @@ import com.rota.facil.places.persistence.mappers.InstitutionMapper;
 import com.rota.facil.places.persistence.repositories.InstitutionRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class UpdateInstitutionUseCase {
     private final FindInstitutionByIdHelper findInstitutionByIdHelper;

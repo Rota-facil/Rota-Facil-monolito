@@ -5,12 +5,12 @@ import com.rota.facil.interactions.persistence.entities.FeedBackRepository;
 import com.rota.facil.interactions.persistence.mappers.FeedBackMapper;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class ListFeedBacksByUserUseCase {
     private final FeedBackRepository feedBackRepository;

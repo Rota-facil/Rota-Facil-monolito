@@ -4,11 +4,11 @@ import com.rota.facil.prefectures.business.helpers.FetchPrefectureByIdHelper;
 import com.rota.facil.prefectures.http.dto.response.prefecture.PrefectureResponse;
 import com.rota.facil.prefectures.http.mappers.PrefectureMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class FetchPrefectureUseCase {
     private final FetchPrefectureByIdHelper fetchPrefectureByIdHelper;

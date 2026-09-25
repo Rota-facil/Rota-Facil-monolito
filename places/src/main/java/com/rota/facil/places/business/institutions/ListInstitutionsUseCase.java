@@ -7,9 +7,9 @@ import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class ListInstitutionsUseCase {
     private final InstitutionRepository institutionRepository;

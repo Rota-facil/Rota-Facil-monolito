@@ -21,7 +21,12 @@
     </properties>
 
     <dependencies>
-        <dependency>
+                <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+<dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>0.12.6</version>

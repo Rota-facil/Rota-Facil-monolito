@@ -5,11 +5,11 @@ import com.rota.facil.vehicles.http.dto.response.vehicles.ListVehicleResponse;
 import com.rota.facil.vehicles.persistence.mappers.VehicleMapper;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
 import java.util.List;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class ListVehiclesUseCase {
     private final VehicleRepository vehicleRepository;

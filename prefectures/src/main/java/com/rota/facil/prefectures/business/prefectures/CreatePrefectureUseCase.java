@@ -7,10 +7,10 @@ import com.rota.facil.prefectures.http.mappers.PrefectureMapper;
 import com.rota.facil.prefectures.persistence.repositories.PrefectureRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class CreatePrefectureUseCase {
     private final ApplicationEventPublisher eventPublisher;

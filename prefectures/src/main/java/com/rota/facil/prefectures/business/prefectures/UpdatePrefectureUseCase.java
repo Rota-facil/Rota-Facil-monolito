@@ -8,12 +8,12 @@ import com.rota.facil.prefectures.http.mappers.PrefectureMapper;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.prefectures.persistence.repositories.PrefectureRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class UpdatePrefectureUseCase {
     private final PrefectureRepository prefectureRepository;

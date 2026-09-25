@@ -10,11 +10,11 @@ import com.rota.facil.vehicles.http.dto.response.vehicles.UpdateVehicleResponse;
 import com.rota.facil.vehicles.persistence.mappers.VehicleMapper;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class UpdateVehicleUseCase {
     private final FindVehicleByIdHelper findVehicleByIdHelper;

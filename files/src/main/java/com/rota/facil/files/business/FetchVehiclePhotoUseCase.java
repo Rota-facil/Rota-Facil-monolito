@@ -6,12 +6,12 @@ import com.rota.facil.files.http.mappers.FileResponseMapper;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.helpers.FindVehicleByIdHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class FetchVehiclePhotoUseCase {
     private final FindVehicleByIdHelper findVehicleByIdHelper;

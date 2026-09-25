@@ -12,9 +12,9 @@ import com.rota.facil.journey.persistence.repositories.RouteRecurringRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.entities.VehicleEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class CreateTripUseCase {
     private final FindRouteByIdHelper findRouteByIdHelper;

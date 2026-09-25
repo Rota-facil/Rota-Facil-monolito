@@ -4,11 +4,11 @@ import com.rota.facil.prefectures.http.dto.response.prefecture.PrefectureRespons
 import com.rota.facil.prefectures.http.mappers.PrefectureMapper;
 import com.rota.facil.prefectures.persistence.repositories.PrefectureRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
 import java.util.List;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class ListPrefecturesUseCase {
     private final PrefectureRepository prefectureRepository;

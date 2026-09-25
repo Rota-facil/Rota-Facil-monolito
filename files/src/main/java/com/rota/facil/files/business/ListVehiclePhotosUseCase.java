@@ -7,13 +7,13 @@ import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.helpers.FindVehicleByIdHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class ListVehiclePhotosUseCase {
     private final FindVehicleByIdHelper findVehicleByIdHelper;

@@ -7,9 +7,9 @@ import com.rota.facil.vehicles.http.dto.response.vehicles.CreateVehicleResponse;
 import com.rota.facil.vehicles.persistence.mappers.VehicleMapper;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class CreateVehicleUseCase {
     private final VehicleRepository vehicleRepository;

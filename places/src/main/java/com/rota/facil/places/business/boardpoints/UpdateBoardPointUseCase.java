@@ -9,12 +9,12 @@ import com.rota.facil.places.persistence.mappers.BoardPointMapper;
 import com.rota.facil.places.persistence.repositories.BoardPointRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class UpdateBoardPointUseCase {
     private final FindBoardPointByIdHelper findBoardPointByIdHelper;

@@ -7,12 +7,12 @@ import com.rota.facil.places.spring.events.dto.ValidateInstitutionDeactivationEv
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class DeleteInstitutionUseCase {
     private final FindInstitutionByIdHelper findInstitutionByIdHelper;

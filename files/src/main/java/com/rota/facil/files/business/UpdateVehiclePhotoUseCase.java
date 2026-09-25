@@ -10,13 +10,13 @@ import com.rota.facil.files.storage.FileStorage;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.helpers.FindVehicleByIdHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class UpdateVehiclePhotoUseCase {
     private final FindVehicleByIdHelper findVehicleByIdHelper;

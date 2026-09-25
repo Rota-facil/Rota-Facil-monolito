@@ -18,14 +18,14 @@ import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class InitTripUseCase {
     private final RegisterIgnoredBoardPointsHelper registerIgnoredBoardPointsHelper;

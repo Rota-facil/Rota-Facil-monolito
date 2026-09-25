@@ -7,12 +7,12 @@ import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import com.rota.facil.vehicles.spring.events.dto.VehicleDeletedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class DeleteVehicleUseCase {
     private final FindAnyVehicleByIdHelper findAnyVehicleByIdHelper;

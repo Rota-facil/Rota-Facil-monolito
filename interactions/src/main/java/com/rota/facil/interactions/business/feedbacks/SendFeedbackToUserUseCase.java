@@ -11,9 +11,9 @@ import com.rota.facil.users.exceptions.UserNotFoundExceptions;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.rota.facil.annotations.UseCase;
 
-@Service
+@UseCase
 @RequiredArgsConstructor
 public class SendFeedbackToUserUseCase {
     private final UserRepository userRepository;
