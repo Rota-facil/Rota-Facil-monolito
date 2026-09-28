@@ -13,7 +13,7 @@ import java.util.List;
 
 @UseCase
 @RequiredArgsConstructor
-public class ListMyTripsToday {
+public class ListMyTripsTodayUseCase {
     private final TripUserRepository tripUserRepository;
     private final TripRepository tripRepository;
     private final TripMapper tripMapper;

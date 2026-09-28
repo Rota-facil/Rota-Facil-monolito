@@ -1,5 +1,6 @@
 package com.rota.facil.journey.persistence.repositories;
 
+import com.rota.facil.journey.http.dto.response.trips.TripStudentsResponse;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.entities.TripUserEntity;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
@@ -96,4 +97,15 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
            
     """)
     List<TripEntity> findAllTripsByStudentIdAndPrefectureId(UUID studentId, UUID prefectureId);
+
+    @Query("""
+        SELECT tu FROM TripUserEntity tu
+        INNER JOIN tu.trip t
+        INNER JOIN t.vehicle v
+        INNER JOIN v.driver d
+        WHERE d.id = :driverId
+        AND t.id = :tripId
+        AND t.prefectureId = :prefectureId
+    """)
+    List<TripUserEntity> findAllByTripIdAndDriverIdAndPrefectureId(@Param("tripId") UUID tripId, @Param("driverId") UUID driverId, @Param("prefectureId") UUID prefectureId);
 }

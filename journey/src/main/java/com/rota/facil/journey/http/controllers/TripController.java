@@ -6,6 +6,7 @@ import com.rota.facil.journey.http.dto.request.routes.UserLocationCheakinRequest
 import com.rota.facil.journey.http.dto.request.trips.CreateTripRequest;
 import com.rota.facil.journey.http.dto.request.trips.CancelTripRequest;
 import com.rota.facil.journey.http.dto.request.trips.JoinInTripRequest;
+import com.rota.facil.journey.http.dto.response.trips.TripStudentsResponse;
 import com.rota.facil.journey.http.dto.response.trips.TripResponse;
 import com.rota.facil.journey.http.dto.response.trips.TripUserResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
@@ -29,7 +30,8 @@ public class TripController {
     private final InitTripUseCase initTripUseCase;
     private final CancelTripUseCase cancelTripUseCase;
     private final ReturnTripUseCase returnTripUseCase;
-    private final ListMyTripsToday listMyTripsToday;
+    private final ListMyTripsTodayUseCase listMyTripsTodayUseCase;
+    private final ListStudentsOfTripUseCase listStudentsOfTripUseCase;
 
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(
@@ -85,7 +87,14 @@ public class TripController {
 
     @GetMapping("/my-today")
     public ResponseEntity<List<TripResponse>> myTripsToday(@AuthenticationPrincipal UserEntity currentUser) {
-        return ResponseEntity.ok(this.listMyTripsToday.execute(currentUser));
+        return ResponseEntity.ok(this.listMyTripsTodayUseCase.execute(currentUser));
     }
 
+    @GetMapping("/trips/{tripId}/students")
+    public ResponseEntity<List<TripStudentsResponse>> listStudentsOfTrip(
+            @PathVariable UUID tripId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(this.listStudentsOfTripUseCase.execute(currentUser, tripId));
+    }
 }
