@@ -1,6 +1,6 @@
 package com.rota.facil.journey.persistence.entities;
 
-import com.rota.facil.places.persistence.entitites.InstitutionEntity;
+import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,8 +23,8 @@ public class BoardPointVisitedEntity {
     private TripEntity trip;
 
     @ManyToOne
-    @JoinColumn(name = "institution_id")
-    private InstitutionEntity institution;
+    @JoinColumn(name = "board_point_id")
+    private BoardPointEntity boardPoint;
 
     private boolean going = false;
 

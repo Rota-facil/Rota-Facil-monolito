@@ -46,11 +46,11 @@ public class ProcessInstitutionArrivalHelper {
                                 .build()
                 );
 
-        if (isGoing) this.processGoing(trip, institution, institutionVisited, arrivalDate);
-        if (isReturn) this.processReturn(trip, institution, institutionVisited, arrivalDate);
+        if (isGoing) this.processGoing(trip, institution, institutionVisited);
+        if (isReturn) this.processReturn(trip, institution, institutionVisited);
     }
 
-    public void processGoing(TripEntity trip, InstitutionEntity institution, InstitutionVisitedEntity institutionVisited, LocalDateTime arrivalDate) {
+    public void processGoing(TripEntity trip, InstitutionEntity institution, InstitutionVisitedEntity institutionVisited) {
         if (institutionVisited.isGoing() || trip.getIgnoredInstitutions().contains(institution)) return;
 
         institutionVisited.setGoing(true);
@@ -73,7 +73,7 @@ public class ProcessInstitutionArrivalHelper {
         this.tripRepository.save(trip);
     }
 
-    public void processReturn(TripEntity trip, InstitutionEntity institution, InstitutionVisitedEntity institutionVisited, LocalDateTime arrivalDate) {
+    public void processReturn(TripEntity trip, InstitutionEntity institution, InstitutionVisitedEntity institutionVisited) {
         if (institutionVisited.isReturn_() || trip.getIgnoredInstitutions().contains(institution)) return;
 
         institutionVisited.setReturn_(true);
