@@ -50,7 +50,7 @@ public class ProcessInstitutionArrivalHelper {
         if (isReturn) this.processReturn(trip, institution, institutionVisited);
     }
 
-    public void processGoing(TripEntity trip, InstitutionEntity institution, InstitutionVisitedEntity institutionVisited) {
+    private void processGoing(TripEntity trip, InstitutionEntity institution, InstitutionVisitedEntity institutionVisited) {
         if (institutionVisited.isGoing() || trip.getIgnoredInstitutions().contains(institution)) return;
 
         institutionVisited.setGoing(true);
@@ -70,10 +70,11 @@ public class ProcessInstitutionArrivalHelper {
 
         Delay delayGoingFinish = this.calculateDelayHelper.execute(trip.getRoute().getGoingFinish(), LocalTime.now());
         trip.addNewStatus(Progress.INSTITUTION_ARRIVAL, institution.getName(), delayGoingFinish);
+        tripUserRepository.setAbsentsGoingStudentsByTripId(trip.getId());
         this.tripRepository.save(trip);
     }
 
-    public void processReturn(TripEntity trip, InstitutionEntity institution, InstitutionVisitedEntity institutionVisited) {
+    private void processReturn(TripEntity trip, InstitutionEntity institution, InstitutionVisitedEntity institutionVisited) {
         if (institutionVisited.isReturn_() || trip.getIgnoredInstitutions().contains(institution)) return;
 
         institutionVisited.setReturn_(true);

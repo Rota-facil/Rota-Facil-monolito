@@ -74,4 +74,12 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         AND tu.return_ IS TRUE
     """)
     List<InstitutionEntity> findAllInstitutionsByTripIdOfStudentsReturn(@Param("tripId") UUID tripId);
+
+    @Query("""
+        UPDATE TripUserEntity tu
+        SET tu.presence = Presence.ABSENT
+        WHERE tu.presence = Presence.PENDING
+        AND tu.trip.id = :tripId
+    """)
+    void setAbsentsGoingStudentsByTripId(@Param("tripId") UUID tripId);
 }

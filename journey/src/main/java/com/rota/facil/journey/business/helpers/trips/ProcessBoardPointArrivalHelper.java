@@ -6,10 +6,7 @@ import com.rota.facil.journey.persistence.entities.BoardPointRouteEntity;
 import com.rota.facil.journey.persistence.entities.BoardPointVisitedEntity;
 import com.rota.facil.journey.persistence.entities.InstitutionVisitedEntity;
 import com.rota.facil.journey.persistence.entities.TripEntity;
-import com.rota.facil.journey.persistence.repositories.BoardPointVisitedRepository;
-import com.rota.facil.journey.persistence.repositories.InstitutionVisitedRepository;
-import com.rota.facil.journey.persistence.repositories.TripRepository;
-import com.rota.facil.journey.persistence.repositories.TripStatusRepository;
+import com.rota.facil.journey.persistence.repositories.*;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import lombok.RequiredArgsConstructor;
@@ -29,16 +26,17 @@ public class ProcessBoardPointArrivalHelper {
     private final TripRepository tripRepository;
     private final IsTimeInIntervalHelper isTimeInIntervalHelper;
     private final CalculateDelayHelper calculateDelayHelper;
+    private final TripUserRepository tripUserRepository;
 
     public void execute(TripEntity trip, BoardPointEntity boardPoint, LocalDateTime arrivalDate) {
         var route = trip.getRoute();
-        boolean isGoing = !tripStatusRepository.existsByTripIdAndProgress(trip.getId(), Progress.STARTED_FINISHED)
-                && isTimeInIntervalHelper.execute(arrivalDate.toLocalTime(), route.getGoing(), route.getGoingFinish());
-        boolean isReturn = tripStatusRepository.existsByTripIdAndProgress(trip.getId(), Progress.RETURN_STARTED)
-                && isTimeInIntervalHelper.execute(arrivalDate.toLocalTime(), route.getReturn_(), route.getReturnFinish());
+        boolean isGoing = !this.tripStatusRepository.existsByTripIdAndProgress(trip.getId(), Progress.STARTED_FINISHED)
+                && this.isTimeInIntervalHelper.execute(arrivalDate.toLocalTime(), route.getGoing(), route.getGoingFinish());
+        boolean isReturn = this.tripStatusRepository.existsByTripIdAndProgress(trip.getId(), Progress.RETURN_STARTED)
+                && this.isTimeInIntervalHelper.execute(arrivalDate.toLocalTime(), route.getReturn_(), route.getReturnFinish());
         if (!isGoing && !isReturn) return;
 
-        BoardPointVisitedEntity visited = boardPointVisitedRepository.findByBoardPointIdAndTripId(boardPoint.getId(), trip.getId())
+        BoardPointVisitedEntity visited = this.boardPointVisitedRepository.findByBoardPointIdAndTripId(boardPoint.getId(), trip.getId())
                 .orElseGet(() -> BoardPointVisitedEntity.builder().boardPoint(boardPoint).trip(trip).build());
         if (trip.getIgnoredBoardPoints().contains(boardPoint)) return;
 
@@ -56,10 +54,10 @@ public class ProcessBoardPointArrivalHelper {
         if (visited.isGoing() || trip.getIgnoredBoardPoints().contains(boardPoint)) return;
 
         visited.setGoing(true);
-        boardPointVisitedRepository.save(visited);
-        Delay delay = calculateDelayHelper.execute(routeBoardPoint.getBoardTimeGoing(), arrivalDate.toLocalTime());
+        this.boardPointVisitedRepository.save(visited);
+        Delay delay = this.calculateDelayHelper.execute(routeBoardPoint.getBoardTimeGoing(), arrivalDate.toLocalTime());
         trip.addNewStatus(Progress.BOARD_POINT_ARRIVAL, boardPoint.getName(), delay);
-        tripRepository.save(trip);
+        this.tripRepository.save(trip);
     }
 
     public void processReturn(TripEntity trip, BoardPointEntity boardPoint, BoardPointRouteEntity routeBoardPoint,
@@ -67,8 +65,8 @@ public class ProcessBoardPointArrivalHelper {
         if (visited.isReturn_() || trip.getIgnoredBoardPoints().contains(boardPoint)) return;
 
         visited.setReturn_(true);
-        boardPointVisitedRepository.save(visited);
-        Delay delay = calculateDelayHelper.execute(routeBoardPoint.getBoardTimeFinish(), arrivalDate.toLocalTime());
+        this.boardPointVisitedRepository.save(visited);
+        Delay delay = this.calculateDelayHelper.execute(routeBoardPoint.getBoardTimeFinish(), arrivalDate.toLocalTime());
         trip.addNewStatus(Progress.BOARD_POINT_ARRIVAL, boardPoint.getName(), delay);
 
         if (!tripStatusRepository.existsByTripIdAndProgress(trip.getId(), Progress.RETURN_FINISHED)
@@ -76,6 +74,7 @@ public class ProcessBoardPointArrivalHelper {
             Delay returnDelay = calculateDelayHelper.execute(trip.getRoute().getReturnFinish(), arrivalDate.toLocalTime());
             trip.addNewStatus(Progress.RETURN_FINISHED, returnDelay);
             trip.setActualStatus(Progress.RETURN_FINISHED);
+            this.tripUserRepository.setAbsentsGoingStudentsByTripId(trip.getId());
         }
 
         tripRepository.save(trip);
@@ -87,7 +86,7 @@ public class ProcessBoardPointArrivalHelper {
                 .map(BoardPointEntity::getId)
                 .filter(id -> trip.getIgnoredBoardPoints().stream().noneMatch(ignored -> ignored.getId().equals(id)))
                 .collect(Collectors.toSet());
-        Set<UUID> visitedBoardPointIds = boardPointVisitedRepository.findAllReturnedByTripId(trip.getId()).stream()
+        Set<UUID> visitedBoardPointIds = this.boardPointVisitedRepository.findAllReturnedByTripId(trip.getId()).stream()
                 .map(BoardPointVisitedEntity::getBoardPoint)
                 .map(BoardPointEntity::getId)
                 .collect(Collectors.toSet());
@@ -96,7 +95,7 @@ public class ProcessBoardPointArrivalHelper {
                 .map(institutionRoute -> institutionRoute.getInstitution().getId())
                 .filter(id -> trip.getIgnoredInstitutions().stream().noneMatch(ignored -> ignored.getId().equals(id)))
                 .collect(Collectors.toSet());
-        Set<UUID> visitedInstitutionIds = institutionVisitedRepository.findAllReturnedByTripId(trip.getId()).stream()
+        Set<UUID> visitedInstitutionIds = this.institutionVisitedRepository.findAllReturnedByTripId(trip.getId()).stream()
                 .map(InstitutionVisitedEntity::getInstitution)
                 .map(InstitutionEntity::getId)
                 .collect(Collectors.toSet());
