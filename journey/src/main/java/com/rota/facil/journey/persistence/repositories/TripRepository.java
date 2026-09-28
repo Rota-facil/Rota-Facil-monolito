@@ -131,4 +131,14 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         AND AND ST_DWithin(b.geom, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 30)
     """, nativeQuery = true)
     Optional<BoardPointEntity> findBoardPointByIdAndCoordinates(@Param("tripId") UUID tripId, @Param("latitude") Double latitude, @Param("longitude") Double longitude);
+
+    @Query("""
+        SELECT t FROM TripEntity t
+        INNER JOIN t.vehicle v
+        INNER JOIN v.driver d
+        WHERE d.id = :driverId
+        AND t.prefectureId = :prefectureId
+        AND t.createdAt = CURRENT TIMESTAMP
+    """)
+    List<TripEntity> findALLByDriverIdAndPrefectureId(@Param("driverId") UUID driverId, UUID prefectureId);
 }

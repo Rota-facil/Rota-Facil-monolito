@@ -38,7 +38,8 @@ public class ReturnTripUseCase {
         if (!Progress.RETURN_FINISHED.equals(tripFound.getActualStatus())) throw new TripCannotBeReturnInit("Para iniciar a volta, a ida deve ser finalizada");
 
         Delay delay = this.calculateDelayHelper.execute(tripFound.getRoute().getReturn_(), LocalTime.now());
-        tripFound.addNewStatus(Progress.RETURN_STARTED);
+        tripFound.addNewStatus(Progress.RETURN_STARTED, delay);
+        tripFound.setActualStatus(Progress.RETURN_STARTED);
 
         this.registerIgnoredBoardPointsHelper.execute(tripFound, TripOrientation.RETURN);
         this.registerIgnoredInstitutionsHelper.execute(tripFound, TripOrientation.RETURN);

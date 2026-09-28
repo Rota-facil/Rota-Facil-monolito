@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -28,6 +29,7 @@ public class TripController {
     private final InitTripUseCase initTripUseCase;
     private final CancelTripUseCase cancelTripUseCase;
     private final ReturnTripUseCase returnTripUseCase;
+    private final ListMyTripsToday listMyTripsToday;
 
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(
@@ -80,4 +82,10 @@ public class TripController {
     ) {
         return ResponseEntity.ok(this.cancelTripUseCase.execute(currentUser, tripId, request));
     }
+
+    @GetMapping("/my-today")
+    public ResponseEntity<List<TripResponse>> myTripsToday(@AuthenticationPrincipal UserEntity currentUser) {
+        return ResponseEntity.ok(this.listMyTripsToday.execute(currentUser));
+    }
+
 }

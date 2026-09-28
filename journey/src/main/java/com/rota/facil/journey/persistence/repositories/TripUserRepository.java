@@ -1,9 +1,11 @@
 package com.rota.facil.journey.persistence.repositories;
 
+import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.entities.TripUserEntity;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -75,6 +77,7 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
     """)
     List<InstitutionEntity> findAllInstitutionsByTripIdOfStudentsReturn(@Param("tripId") UUID tripId);
 
+    @Modifying
     @Query("""
         UPDATE TripUserEntity tu
         SET tu.presence = Presence.ABSENT
@@ -82,4 +85,15 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         AND tu.trip.id = :tripId
     """)
     void setAbsentsGoingStudentsByTripId(@Param("tripId") UUID tripId);
+
+    @Query("""
+        SELECT t FROM TripUserEntity tu
+        INNER JOIN tu.trip t
+        INNER JOIN tu.student s
+        WHERE s.id = :studentId
+        AND t.prefectureId = :prefectureId
+        AND t.createdAt = CURRENT TIMESTAMP
+           
+    """)
+    List<TripEntity> findAllTripsByStudentIdAndPrefectureId(UUID studentId, UUID prefectureId);
 }
