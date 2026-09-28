@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Function;
 
 @Table(name = "trips_tb")
 @Builder
@@ -69,13 +70,19 @@ public class TripEntity {
     @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
     private List<TripStatusEntity> tripStatus;
 
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+    private List<InstitutionVisitedEntity> institutionsVisited;
+
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+    private List<BoardPointVisitedEntity> boardPointsVisited;
+
     @ManyToMany
     @JoinTable(
             name = "ignored_institutions_tb",
             joinColumns = @JoinColumn(name = "trip_id"),
             inverseJoinColumns = @JoinColumn(name = "institution_id")
     )
-    private Set<InstitutionEntity> ignoredInstitutions;
+    private List<InstitutionEntity> ignoredInstitutions;
 
     @ManyToMany
     @JoinTable(
@@ -83,7 +90,7 @@ public class TripEntity {
             joinColumns = @JoinColumn(name = "trip_id"),
             inverseJoinColumns = @JoinColumn(name = "board_point_id")
     )
-    private Set<BoardPointEntity> ignoredBoardPoints;
+    private List<BoardPointEntity> ignoredBoardPoints;
 
     @Override
     public boolean equals(Object o) {
@@ -110,30 +117,31 @@ public class TripEntity {
         this.longitude = longitude;
     }
 
-    public Delay calculateDelay() {
-        LocalTime now = LocalTime.now();
-        LocalTime start = this.route.getGoing();
-        LocalTime finish = this.route.getGoingFinish();
-
-        if (now.equals(start)) return Delay.PUNCTUAL;
-        if (now.isAfter(start) && now.isBefore(finish)) return Delay.LATE;
-        if (now.isBefore(start) && now.isAfter(start.minusMinutes(6))) return Delay.EARLY;
-
-        throw new InvalidTimeToInitTripException("Você só pode iniciar uma viagem com 6 minutos adiantados ou antes do início da volta");
-    }
-
-    public void addNewStatus(Progress progress) {
+    public void addNewStatus(Progress progress, Delay delay) {
         if (this.tripStatus == null) this.tripStatus = new ArrayList<>();
 
         this.tripStatus.add(
                 TripStatusEntity.builder()
                         .trip(this)
-                        .delay(this.calculateDelay())
+                        .delay(delay)
                         .progress(progress)
                         .description(progress.getTitle())
                         .build()
         );
 
         this.actualStatus = progress;
+    }
+
+    public void addNewStatus(Progress progress, String name, Delay delay) {
+        if (this.tripStatus == null) this.tripStatus = new ArrayList<>();
+
+        this.tripStatus.add(
+                TripStatusEntity.builder()
+                        .trip(this)
+                        .delay(delay)
+                        .progress(progress)
+                        .description(progress + name)
+                        .build()
+        );
     }
 }

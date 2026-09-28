@@ -1,4 +1,4 @@
-package com.rota.facil.journey.business.routes.helpers.routes;
+package com.rota.facil.journey.business.helpers.routes;
 
 import com.rota.facil.journey.persistence.entities.RouteEntity;
 import com.rota.facil.journey.persistence.entities.RouteRecurringEntity;

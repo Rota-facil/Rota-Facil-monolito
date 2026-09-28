@@ -43,7 +43,7 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         WHERE t.id = :tripId
         AND tu.going IS TRUE
     """)
-    Set<BoardPointEntity> findAllBoardPointByTripIdOfStudentsGoing(@Param("tripId") UUID tripId);
+    List<BoardPointEntity> findAllBoardPointByTripIdOfStudentsGoing(@Param("tripId") UUID tripId);
 
     @Query("""
         SELECT DISTINCT b FROM TripUserEntity tu
@@ -53,7 +53,7 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         WHERE t.id = :tripId
         AND tu.return_ IS TRUE
     """)
-    Set<BoardPointEntity> findAllBoardPointByTripIdOfStudentsReturn(@Param("tripId") UUID tripId);
+    List<BoardPointEntity> findAllBoardPointByTripIdOfStudentsReturn(@Param("tripId") UUID tripId);
 
     @Query("""
         SELECT DISTINCT i FROM TripUserEntity tu
@@ -63,7 +63,7 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         WHERE t.id = :tripId
         AND tu.going IS TRUE
     """)
-    Set<InstitutionEntity> findAllInstitutionsByTripIdOfStudentsGoing(@Param("tripId") UUID tripId);
+    List<InstitutionEntity> findAllInstitutionsByTripIdOfStudentsGoing(@Param("tripId") UUID tripId);
 
     @Query("""
         SELECT DISTINCT i FROM TripUserEntity tu
@@ -73,5 +73,5 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         WHERE t.id = :tripId
         AND tu.return_ IS TRUE
     """)
-    Set<InstitutionEntity> findAllInstitutionsByTripIdOfStudentsReturn(@Param("tripId") UUID tripId);
+    List<InstitutionEntity> findAllInstitutionsByTripIdOfStudentsReturn(@Param("tripId") UUID tripId);
 }

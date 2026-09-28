@@ -1,8 +1,10 @@
 package com.rota.facil.journey.business.trips;
 
+import com.rota.facil.journey.business.helpers.trips.CalculateDelayHelper;
 import com.rota.facil.journey.business.helpers.trips.FindTripByIdAndPrefectureHelper;
 import com.rota.facil.journey.business.helpers.trips.RegisterIgnoredBoardPointsHelper;
 import com.rota.facil.journey.business.helpers.trips.RegisterIgnoredInstitutionsHelper;
+import com.rota.facil.journey.domain.Delay;
 import com.rota.facil.journey.domain.Progress;
 import com.rota.facil.journey.domain.TripOrientation;
 import com.rota.facil.journey.exceptions.TripCannotBeReturnInit;
@@ -16,11 +18,13 @@ import lombok.RequiredArgsConstructor;
 import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor
 public class ReturnTripUseCase {
+    private final CalculateDelayHelper calculateDelayHelper;
     private final FindTripByIdAndPrefectureHelper findTripByIdAndPrefectureHelper;
     private final RegisterIgnoredBoardPointsHelper registerIgnoredBoardPointsHelper;
     private final RegisterIgnoredInstitutionsHelper registerIgnoredInstitutionsHelper;
@@ -33,6 +37,7 @@ public class ReturnTripUseCase {
 
         if (!Progress.RETURN_FINISHED.equals(tripFound.getActualStatus())) throw new TripCannotBeReturnInit("Para iniciar a volta, a ida deve ser finalizada");
 
+        Delay delay = this.calculateDelayHelper.execute(tripFound.getRoute().getReturn_(), LocalTime.now());
         tripFound.addNewStatus(Progress.RETURN_STARTED);
 
         this.registerIgnoredBoardPointsHelper.execute(tripFound, TripOrientation.RETURN);

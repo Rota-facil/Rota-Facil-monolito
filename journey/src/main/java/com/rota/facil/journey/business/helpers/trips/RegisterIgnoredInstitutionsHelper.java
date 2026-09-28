@@ -8,6 +8,7 @@ import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -16,7 +17,7 @@ public class RegisterIgnoredInstitutionsHelper {
     private final TripUserRepository tripUserRepository;
 
     public void execute(TripEntity trip, TripOrientation orientation) {
-        Set<InstitutionEntity> ignoredInstitutionsByCurrentOrientation =
+        List<InstitutionEntity> ignoredInstitutionsByCurrentOrientation =
                 (orientation.equals(TripOrientation.GOING))
                 ? this.tripUserRepository.findAllInstitutionsByTripIdOfStudentsReturn(trip.getId())
                 : this.tripUserRepository.findAllInstitutionsByTripIdOfStudentsGoing(trip.getId());

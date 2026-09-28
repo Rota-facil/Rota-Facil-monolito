@@ -53,14 +53,8 @@ public class RouteEntity {
     @Column(name = "days_of_week")
     private Set<DaysOfWeek> daysOfWeek;
 
-    @ManyToMany
-    @JoinTable(
-            name = "routes_institutions_tb",
-            joinColumns = @JoinColumn(name = "route_id"),
-            inverseJoinColumns = @JoinColumn(name = "institution_id")
-    )
-    private List<InstitutionEntity> institutions;
-
+    @OneToMany(mappedBy = "route")
+    private List<InstitutionRouteEntity> institutions;
 
     @OneToMany(mappedBy = "route")
     private List<BoardPointRouteEntity> boardPoints;

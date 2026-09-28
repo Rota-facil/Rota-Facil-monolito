@@ -1,10 +1,12 @@
 package com.rota.facil.journey.business.routes;
 
-import com.rota.facil.journey.business.routes.helpers.routes.CreateRouteRecurringHelper;
+import com.rota.facil.journey.business.helpers.routes.CreateRouteRecurringHelper;
 import com.rota.facil.journey.http.dto.request.routes.CreateBoardPointRouteRequestDTO;
+import com.rota.facil.journey.http.dto.request.routes.CreateInstitutionRouteRequestDTO;
 import com.rota.facil.journey.http.dto.request.routes.CreateRouteRequest;
 import com.rota.facil.journey.http.dto.response.routes.CreateRouteResponse;
 import com.rota.facil.journey.persistence.entities.BoardPointRouteEntity;
+import com.rota.facil.journey.persistence.entities.InstitutionRouteEntity;
 import com.rota.facil.journey.persistence.entities.RouteEntity;
 import com.rota.facil.journey.persistence.mappers.RouteMapper;
 import com.rota.facil.journey.persistence.repositories.RouteRepository;
@@ -35,10 +37,10 @@ public class CreateRouteUseCase {
         preSaved.setPrefectureId(currentUser.getPrefectureId());
 
 
-        List<InstitutionEntity> institutionsFound = this.findAllInstitutions(request.institutionsIds());
-        List<BoardPointEntity> boardPointsFound = this.findAllBoardPoints(request.boardPoints().stream().map(CreateBoardPointRouteRequestDTO::boardPointId).collect(Collectors.toSet()));
+        List<InstitutionEntity> institutionsFound = this.findAllInstitutions(request.institutions().stream().map(CreateInstitutionRouteRequestDTO::institutionId).toList());
+        List<BoardPointEntity> boardPointsFound = this.findAllBoardPoints(request.boardPoints().stream().map(CreateBoardPointRouteRequestDTO::boardPointId).toList());
 
-        this.setInstitutions(preSaved, institutionsFound);
+        this.setInstitutions(preSaved, institutionsFound, request.institutions());
         this.setBoardPoints(preSaved, boardPointsFound, request.boardPoints());
 
         RouteEntity saved = this.routeRepository.save(preSaved);
@@ -48,22 +50,36 @@ public class CreateRouteUseCase {
         return this.routeMapper.map(saved);
     }
 
-    public List<InstitutionEntity> findAllInstitutions(Set<UUID> institutionsId) {
+    public List<InstitutionEntity> findAllInstitutions(List<UUID> institutionsId) {
         List<InstitutionEntity> institutionsFound = this.institutionRepository.findAllById(institutionsId);
 
         if (institutionsFound.size() != institutionsId.size()) throw new InstitutionNotFoundException("Uma das instituições selecionadas não foi encontrada");
         return institutionsFound;
     }
 
-    public List<BoardPointEntity> findAllBoardPoints(Set<UUID> boardPointsId) {
+    public List<BoardPointEntity> findAllBoardPoints(List<UUID> boardPointsId) {
         List<BoardPointEntity> boardPointsFound = this.boardPointRepository.findAllById(boardPointsId);
 
         if (boardPointsFound.size() != boardPointsId.size()) throw new BoardPointNotFoundException("Um dos pontos de embarque selecionados não foi encontrado");
         return boardPointsFound;
     }
 
-    public void setInstitutions(RouteEntity route, List<InstitutionEntity> institutions) {
-        route.setInstitutions(institutions);
+    public void setInstitutions(RouteEntity route, List<InstitutionEntity> institutions, List<CreateInstitutionRouteRequestDTO> request) {
+        List<UUID> institutionsId = institutions.stream().map(InstitutionEntity::getId).toList();
+        Map<UUID, InstitutionEntity> uuidInstitutionEntityMap = institutions.stream().collect(Collectors.toMap(InstitutionEntity::getId, institution -> institution));
+        Map<UUID, CreateInstitutionRouteRequestDTO> uuidCreateInstitutionRouteRequestDTOMap = request.stream().collect(Collectors.toMap(CreateInstitutionRouteRequestDTO::institutionId, institution -> institution));
+
+        for (UUID institutionId : institutionsId) {
+            route.getInstitutions().add(
+                    InstitutionRouteEntity.builder()
+                            .institutionTimeGoing(uuidCreateInstitutionRouteRequestDTOMap.get(institutionId).institutionGoing())
+                            .institutionTimeFinish(uuidCreateInstitutionRouteRequestDTOMap.get(institutionId).institutionFinish())
+                            .institution(uuidInstitutionEntityMap.get(institutionId))
+                            .route(route)
+                            .build()
+            );
+        }
+
     }
 
     public void setBoardPoints(RouteEntity route, List<BoardPointEntity> boardPoints, List<CreateBoardPointRouteRequestDTO> request) {

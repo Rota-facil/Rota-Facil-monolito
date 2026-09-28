@@ -1,8 +1,10 @@
 package com.rota.facil.journey.business.trips;
 
+import com.rota.facil.journey.business.helpers.trips.CalculateDelayHelper;
 import com.rota.facil.journey.business.helpers.trips.FindTripByIdAndPrefectureHelper;
 import com.rota.facil.journey.business.helpers.trips.RegisterIgnoredBoardPointsHelper;
 import com.rota.facil.journey.business.helpers.trips.RegisterIgnoredInstitutionsHelper;
+import com.rota.facil.journey.domain.Delay;
 import com.rota.facil.journey.domain.Progress;
 import com.rota.facil.journey.domain.TripOrientation;
 import com.rota.facil.journey.exceptions.TripCannotBeStartedException;
@@ -17,11 +19,13 @@ import lombok.RequiredArgsConstructor;
 import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor
 public class InitTripUseCase {
+    private final CalculateDelayHelper calculateDelayHelper;
     private final FindTripByIdAndPrefectureHelper findTripByIdAndPrefectureHelper;
     private final RegisterIgnoredBoardPointsHelper registerIgnoredBoardPointsHelper;
     private final RegisterIgnoredInstitutionsHelper registerIgnoredInstitutionsHelper;
@@ -37,7 +41,8 @@ public class InitTripUseCase {
         if (!Progress.NOT_STARTED.equals(trip.getActualStatus())) throw new TripCannotBeStartedException("A ida só pode ser iniciada quando a viagem ainda não foi iniciada");
         if (trip.getStudents().equals(0L)) throw new TripCannotBeStartedException("Não é possível iniciar a ida sem alunos cadastrados na viagem");
 
-        trip.addNewStatus(Progress.STARTED);
+        Delay delay = this.calculateDelayHelper.execute(trip.getRoute().getGoing(), LocalTime.now());
+        trip.addNewStatus(Progress.STARTED, delay);
         trip.getVehicle().setStatus(com.rota.facil.vehicles.domain.VehicleStatus.OPERATION);
         currentUser.moveToOnRoute();
         currentUser.increaseTrips();

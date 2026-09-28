@@ -111,4 +111,24 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         WHERE t.id = :tripId
     """)
     List<BoardPointEntity> findAllBoardPointByTripId(@Param("tripId") UUID tripId);
+
+    @Query(value = """
+        SELECT i.* FROM trips_tb t
+        INNER JOIN routes_tb r USING(route_id)
+        INNER JOIN routes_institutions_tb ri USING(route_id)
+        INNER JOIN institutions_tb i USING(institution_id)
+        WHERE t.trip_id = :tripId
+        AND AND ST_DWithin(i.geom, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 30)
+    """, nativeQuery = true)
+    Optional<InstitutionEntity> findInstitutionByIdAndCoordinates(@Param("tripId") UUID tripId, @Param("latitude") Double latitude, @Param("longitude") Double longitude);
+
+    @Query(value = """
+        SELECT b.* FROM trips_tb t
+        INNER JOIN routes_tb r USING(route_id)
+        INNER JOIN routes_board_points_tb rb USING(route_id)
+        INNER JOIN board_points_tb b USING(board_point_id)
+        WHERE t.trip_id = :tripId
+        AND AND ST_DWithin(b.geom, ST_SetSRID(ST_MakePoint(:longitude, :latitude), 4326)::geography, 30)
+    """, nativeQuery = true)
+    Optional<BoardPointEntity> findBoardPointByIdAndCoordinates(@Param("tripId") UUID tripId, @Param("latitude") Double latitude, @Param("longitude") Double longitude);
 }

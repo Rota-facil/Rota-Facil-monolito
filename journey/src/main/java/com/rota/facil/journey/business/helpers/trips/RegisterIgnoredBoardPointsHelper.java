@@ -18,7 +18,7 @@ public class RegisterIgnoredBoardPointsHelper {
     private final TripUserRepository tripUserRepository;
 
     public void execute(TripEntity trip, TripOrientation orientation) {
-        Set<BoardPointEntity> ignoredBoardPointsByCurrentOrientation =
+        List<BoardPointEntity> ignoredBoardPointsByCurrentOrientation =
                 (orientation.equals(TripOrientation.GOING))
                 ? this.tripUserRepository.findAllBoardPointByTripIdOfStudentsReturn(trip.getId())
                 : this.tripUserRepository.findAllBoardPointByTripIdOfStudentsGoing(trip.getId());

@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public record CreateRouteRequest(
@@ -32,11 +31,11 @@ public record CreateRouteRequest(
         @NotNull(message = "selecione pelo menos um dia da semana que ônibus fara a rota")
         List<DaysOfWeek> daysOfWeek,
 
-        @NotNull(message = "selecione pelo menos uma instiuiçao é obrigátorio")
-        Set<UUID> institutionsIds,
-
         @NotNull(message = "veículos são obrigatórios")
         List<UUID> vehicles,
+
+        @NotNull(message = "selecione pelo menos uma instiuiçao é obrigátorio")
+        List<CreateInstitutionRouteRequestDTO> institutions,
 
         @NotNull(message = "pontos de embarque são obrigatórios")
         List<@Valid CreateBoardPointRouteRequestDTO> boardPoints
