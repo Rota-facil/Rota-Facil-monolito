@@ -1,4 +1,4 @@
-package com.rota.facil.vehicles.entities;
+package com.rota.facil.vehicles.persistence.entities;
 
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.domain.VehicleStatus;

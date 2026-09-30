@@ -4,7 +4,7 @@ import com.rota.facil.users.domain.DriverStatus;
 import com.rota.facil.users.exceptions.UserNotFoundExceptions;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
-import com.rota.facil.vehicles.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import com.rota.facil.vehicles.http.exceptions.DriverAlreadyHasVehicleException;
 import com.rota.facil.vehicles.http.exceptions.DriverIsOnRouteException;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;

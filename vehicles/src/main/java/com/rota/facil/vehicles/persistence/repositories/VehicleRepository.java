@@ -1,6 +1,6 @@
 package com.rota.facil.vehicles.persistence.repositories;
 
-import com.rota.facil.vehicles.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

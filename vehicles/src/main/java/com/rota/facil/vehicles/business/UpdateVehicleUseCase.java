@@ -4,7 +4,7 @@ import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.helpers.FindDriverForVehicleUpdateHelper;
 import com.rota.facil.vehicles.business.helpers.FindVehicleByIdHelper;
 import com.rota.facil.vehicles.domain.UpdateVehicleData;
-import com.rota.facil.vehicles.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import com.rota.facil.vehicles.http.dto.request.vehicles.UpdateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.response.vehicles.UpdateVehicleResponse;
 import com.rota.facil.vehicles.persistence.mappers.VehicleMapper;

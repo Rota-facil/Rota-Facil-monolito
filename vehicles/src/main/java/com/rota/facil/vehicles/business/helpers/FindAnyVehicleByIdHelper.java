@@ -1,6 +1,6 @@
 package com.rota.facil.vehicles.business.helpers;
 
-import com.rota.facil.vehicles.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import com.rota.facil.vehicles.http.exceptions.VehicleNotFoundException;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;

@@ -16,7 +16,7 @@ import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
-import com.rota.facil.vehicles.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import lombok.RequiredArgsConstructor;
 import com.rota.facil.annotations.UseCase;
 

@@ -3,7 +3,7 @@ package com.rota.facil.journey.business.helpers.routes;
 import com.rota.facil.journey.persistence.entities.RouteEntity;
 import com.rota.facil.journey.persistence.entities.RouteRecurringEntity;
 import com.rota.facil.journey.persistence.repositories.RouteRecurringRepository;
-import com.rota.facil.vehicles.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import com.rota.facil.vehicles.http.exceptions.VehicleNotFoundException;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;

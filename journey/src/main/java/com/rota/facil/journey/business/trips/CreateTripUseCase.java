@@ -10,7 +10,7 @@ import com.rota.facil.journey.persistence.mappers.TripMapper;
 import com.rota.facil.journey.persistence.repositories.TripRepository;
 import com.rota.facil.journey.persistence.repositories.RouteRecurringRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
-import com.rota.facil.vehicles.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import lombok.RequiredArgsConstructor;
 import com.rota.facil.annotations.UseCase;
 

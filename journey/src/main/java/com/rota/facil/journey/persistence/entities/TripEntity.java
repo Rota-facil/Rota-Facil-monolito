@@ -2,22 +2,18 @@ package com.rota.facil.journey.persistence.entities;
 
 import com.rota.facil.journey.domain.Delay;
 import com.rota.facil.journey.domain.Progress;
-import com.rota.facil.journey.exceptions.InvalidTimeToInitTripException;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
-import com.rota.facil.vehicles.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.function.Function;
 
 @Table(name = "trips_tb")
 @Builder

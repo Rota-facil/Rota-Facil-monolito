@@ -1,6 +1,6 @@
 package com.rota.facil.journey.persistence.entities;
 
-import com.rota.facil.vehicles.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

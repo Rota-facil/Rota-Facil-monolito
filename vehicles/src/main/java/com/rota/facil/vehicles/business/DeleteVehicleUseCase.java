@@ -2,7 +2,7 @@ package com.rota.facil.vehicles.business;
 
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.helpers.FindAnyVehicleByIdHelper;
-import com.rota.facil.vehicles.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import com.rota.facil.vehicles.spring.events.dto.VehicleDeletedEvent;
 import lombok.RequiredArgsConstructor;
