@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,4 +28,10 @@ public interface RouteRepository extends JpaRepository<RouteEntity, UUID> {
         AND i.id = :institutionId
     """)
     Optional<InstitutionRouteEntity> findInstitutionByRouteIdAndInstitutionId(@Param("routeId") UUID routeId, @Param("institutionId") UUID institutionId);
+
+    @Query("""
+        SELECT r FROM RouteEntity r
+        WHERE r.prefectureId = :prefectureId
+    """)
+    List<RouteEntity> findAllByPrefectureId(@Param("prefectureId") UUID prefectureId);
 }

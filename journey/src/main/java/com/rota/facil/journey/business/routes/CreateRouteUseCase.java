@@ -5,6 +5,7 @@ import com.rota.facil.journey.http.dto.request.routes.CreateBoardPointRouteReque
 import com.rota.facil.journey.http.dto.request.routes.CreateInstitutionRouteRequestDTO;
 import com.rota.facil.journey.http.dto.request.routes.CreateRouteRequest;
 import com.rota.facil.journey.http.dto.response.routes.CreateRouteResponse;
+import com.rota.facil.journey.http.dto.response.routes.RouteResponse;
 import com.rota.facil.journey.persistence.entities.BoardPointRouteEntity;
 import com.rota.facil.journey.persistence.entities.InstitutionRouteEntity;
 import com.rota.facil.journey.persistence.entities.RouteEntity;
@@ -32,7 +33,7 @@ public class CreateRouteUseCase {
     private final BoardPointRepository boardPointRepository;
     private final RouteMapper routeMapper;
 
-    public CreateRouteResponse execute(UserEntity currentUser, CreateRouteRequest request) {
+    public RouteResponse execute(UserEntity currentUser, CreateRouteRequest request) {
         RouteEntity preSaved = this.routeMapper.map(request);
         preSaved.setPrefectureId(currentUser.getPrefectureId());
 
