@@ -1,6 +1,7 @@
 package com.rota.facil.journey.http.controllers;
 
 import com.rota.facil.journey.business.routes.CreateRouteUseCase;
+import com.rota.facil.journey.business.routes.FetchRouteByIdUseCase;
 import com.rota.facil.journey.business.routes.ListRoutesUseCase;
 import com.rota.facil.journey.http.dto.request.routes.CreateRouteRequest;
 import com.rota.facil.journey.http.dto.response.routes.CreateRouteResponse;
@@ -14,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/routes")
@@ -21,6 +23,7 @@ import java.util.List;
 public class RouteController {
     private final CreateRouteUseCase createRouteUseCase;
     private final ListRoutesUseCase listRoutesUseCase;
+    private final FetchRouteByIdUseCase fetchRouteByIdUseCase;
 
     @PostMapping
     public ResponseEntity<RouteResponse> createRoute(
@@ -35,5 +38,13 @@ public class RouteController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(this.listRoutesUseCase.execute(currentUser));
+    }
+
+    @GetMapping("/{routeId}")
+    public ResponseEntity<RouteResponse> fetchRoute(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @PathVariable UUID routeId
+            ) {
+        return ResponseEntity.ok(this.fetchRouteByIdUseCase.execute(currentUser, routeId));
     }
 }

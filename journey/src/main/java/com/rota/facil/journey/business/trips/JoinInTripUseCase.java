@@ -54,7 +54,7 @@ public class JoinInTripUseCase {
                 .return_(request.return_())
                 .trip(tripFound)
                 .institution(institutionFound)
-                .boardPointEntity(boardPointFound)
+                .boardPoint(boardPointFound)
                 .build();
 
 

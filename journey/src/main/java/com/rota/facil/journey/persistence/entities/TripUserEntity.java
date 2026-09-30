@@ -35,7 +35,7 @@ public class TripUserEntity {
 
     @ManyToOne
     @JoinColumn(name = "board_point_id")
-    private BoardPointEntity boardPointEntity;
+    private BoardPointEntity boardPoint;
 
     @Builder.Default
     private Double score = 0.0;
