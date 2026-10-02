@@ -2,14 +2,12 @@ package com.rota.facil.journey.persistence.repositories;
 
 import com.rota.facil.journey.persistence.entities.InstitutionRouteEntity;
 import com.rota.facil.journey.persistence.entities.RouteEntity;
-import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,8 +30,9 @@ public interface RouteRepository extends JpaRepository<RouteEntity, UUID> {
     @Query("""
         SELECT r FROM RouteEntity r
         WHERE r.prefectureId = :prefectureId
+        AND r.active IS TRUE
     """)
-    List<RouteEntity> findAllByPrefectureId(@Param("prefectureId") UUID prefectureId);
+    List<RouteEntity> findAllByPrefectureIdAndActive(@Param("prefectureId") UUID prefectureId);
 
     @Query("""
         SELECT r FROM RouteEntity r

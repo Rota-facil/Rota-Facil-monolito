@@ -16,7 +16,7 @@ public class ListRoutesUseCase {
     private final RouteMapper routeMapper;
 
     public List<RouteResponse> execute(UserEntity currentUser) {
-        return this.routeRepository.findAllByPrefectureId(currentUser.getPrefectureId())
+        return this.routeRepository.findAllByPrefectureIdAndActive(currentUser.getPrefectureId())
                 .stream()
                 .map(routeMapper::map)
                 .toList();
