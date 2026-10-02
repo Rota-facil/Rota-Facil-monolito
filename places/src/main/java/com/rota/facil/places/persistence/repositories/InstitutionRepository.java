@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,4 +22,12 @@ public interface InstitutionRepository extends JpaRepository<InstitutionEntity, 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE InstitutionEntity e SET e.active = false WHERE e.prefectureId = :prefectureId")
     void deactivateAllByPrefectureId(@Param("prefectureId") UUID prefectureId);
+
+    @Query("""
+        SELECT i FROM InstitutionEntity i
+        WHERE i.id = :institutionId
+        AND i.prefectureId = :prefectureId
+        AND i.active IS TRUE
+    """)
+    List<InstitutionEntity> findAllByIdAndPrefectureIdAndActive(@Param("institutionsId") List<UUID> institutionId, @Param("prefectureId") UUID prefectureId);
 }

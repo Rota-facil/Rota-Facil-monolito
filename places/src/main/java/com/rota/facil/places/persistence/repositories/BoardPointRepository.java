@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,6 +18,13 @@ public interface BoardPointRepository extends JpaRepository<BoardPointEntity, UU
     Optional<BoardPointEntity> findByIdAndPrefectureIdAndActiveTrue(UUID id, UUID prefectureId);
     Page<BoardPointEntity> findAllByPrefectureIdAndActiveTrue(UUID prefectureId, Pageable pageable);
 
+    @Query("""
+        SELECT b FROM BoardPointEntity b
+        WHERE b.prefectureId = :prefectureId
+        AND b.id IN (:boardPointIds)
+        AND b.active IS TRUE
+    """)
+    List<BoardPointEntity> findAllByIdAndPrefectureIdAndActive(List<UUID> boardPointIds, UUID prefectureId);
 
     @Modifying(clearAutomatically = true)
     @Query("UPDATE BoardPointEntity e SET e.active = false WHERE e.prefectureId = :prefectureId")

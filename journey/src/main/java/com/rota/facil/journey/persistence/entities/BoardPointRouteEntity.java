@@ -7,6 +7,7 @@ import lombok.*;
 import java.time.LocalTime;
 import java.util.UUID;
 
+
 @Builder
 @Entity
 @Table(name = "board_points_routes_tb")

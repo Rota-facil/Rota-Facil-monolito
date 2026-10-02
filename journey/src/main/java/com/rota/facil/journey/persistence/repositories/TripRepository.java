@@ -141,4 +141,13 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         AND t.createdAt = CURRENT TIMESTAMP
     """)
     List<TripEntity> findALLByDriverIdAndPrefectureId(@Param("driverId") UUID driverId, UUID prefectureId);
+
+    @Query("""
+        SELECT COUNT(t) FROM TripEntity t
+        INNER JOIN t.route r
+        INNER JOIN t.tripStatus ts
+        WHERE r.id = :routeId
+        AND ts.progress IN (com.rota.facil.journey.domain.Progress.STARTED)
+    """)
+    int countTripsStartedByRouteId(@Param("routeId") UUID routeId);
 }

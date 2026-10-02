@@ -1,10 +1,9 @@
 package com.rota.facil.journey.business.routes;
 
 import com.rota.facil.journey.business.helpers.routes.CreateRouteRecurringHelper;
-import com.rota.facil.journey.http.dto.request.routes.CreateBoardPointRouteRequestDTO;
-import com.rota.facil.journey.http.dto.request.routes.CreateInstitutionRouteRequestDTO;
+import com.rota.facil.journey.http.dto.request.routes.CreateBoardPointRouteRequest;
+import com.rota.facil.journey.http.dto.request.routes.CreateInstitutionRouteRequest;
 import com.rota.facil.journey.http.dto.request.routes.CreateRouteRequest;
-import com.rota.facil.journey.http.dto.response.routes.CreateRouteResponse;
 import com.rota.facil.journey.http.dto.response.routes.RouteResponse;
 import com.rota.facil.journey.persistence.entities.BoardPointRouteEntity;
 import com.rota.facil.journey.persistence.entities.InstitutionRouteEntity;
@@ -38,8 +37,8 @@ public class CreateRouteUseCase {
         preSaved.setPrefectureId(currentUser.getPrefectureId());
 
 
-        List<InstitutionEntity> institutionsFound = this.findAllInstitutions(request.institutions().stream().map(CreateInstitutionRouteRequestDTO::institutionId).toList());
-        List<BoardPointEntity> boardPointsFound = this.findAllBoardPoints(request.boardPoints().stream().map(CreateBoardPointRouteRequestDTO::boardPointId).toList());
+        List<InstitutionEntity> institutionsFound = this.findAllInstitutions(request.institutions().stream().map(CreateInstitutionRouteRequest::institutionId).toList());
+        List<BoardPointEntity> boardPointsFound = this.findAllBoardPoints(request.boardPoints().stream().map(CreateBoardPointRouteRequest::boardPointId).toList());
 
         this.setInstitutions(preSaved, institutionsFound, request.institutions());
         this.setBoardPoints(preSaved, boardPointsFound, request.boardPoints());
@@ -65,10 +64,10 @@ public class CreateRouteUseCase {
         return boardPointsFound;
     }
 
-    public void setInstitutions(RouteEntity route, List<InstitutionEntity> institutions, List<CreateInstitutionRouteRequestDTO> request) {
+    public void setInstitutions(RouteEntity route, List<InstitutionEntity> institutions, List<CreateInstitutionRouteRequest> request) {
         List<UUID> institutionsId = institutions.stream().map(InstitutionEntity::getId).toList();
         Map<UUID, InstitutionEntity> uuidInstitutionEntityMap = institutions.stream().collect(Collectors.toMap(InstitutionEntity::getId, institution -> institution));
-        Map<UUID, CreateInstitutionRouteRequestDTO> uuidCreateInstitutionRouteRequestDTOMap = request.stream().collect(Collectors.toMap(CreateInstitutionRouteRequestDTO::institutionId, institution -> institution));
+        Map<UUID, CreateInstitutionRouteRequest> uuidCreateInstitutionRouteRequestDTOMap = request.stream().collect(Collectors.toMap(CreateInstitutionRouteRequest::institutionId, institution -> institution));
 
         for (UUID institutionId : institutionsId) {
             route.getInstitutions().add(
@@ -83,10 +82,10 @@ public class CreateRouteUseCase {
 
     }
 
-    public void setBoardPoints(RouteEntity route, List<BoardPointEntity> boardPoints, List<CreateBoardPointRouteRequestDTO> request) {
+    public void setBoardPoints(RouteEntity route, List<BoardPointEntity> boardPoints, List<CreateBoardPointRouteRequest> request) {
         List<UUID> boardPointsId = boardPoints.stream().map(BoardPointEntity::getId).toList();
         Map<UUID, BoardPointEntity> uuidBoardPointEntityMap = boardPoints.stream().collect(Collectors.toMap(BoardPointEntity::getId, boardPoint -> boardPoint));
-        Map<UUID, CreateBoardPointRouteRequestDTO> uuidCreateBoardPointRouteRequestDTOMap = request.stream().collect(Collectors.toMap(CreateBoardPointRouteRequestDTO::boardPointId, boardPoint -> boardPoint));
+        Map<UUID, CreateBoardPointRouteRequest> uuidCreateBoardPointRouteRequestDTOMap = request.stream().collect(Collectors.toMap(CreateBoardPointRouteRequest::boardPointId, boardPoint -> boardPoint));
 
         route.setBoardPoints(new ArrayList<>());
 

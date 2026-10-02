@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public record CreateBoardPointRouteRequestDTO (
+public record UpdateRouteBoardPointRequest(
         @NotNull(message = "ponto de embarque é obrigatório")
         UUID boardPointId,
 

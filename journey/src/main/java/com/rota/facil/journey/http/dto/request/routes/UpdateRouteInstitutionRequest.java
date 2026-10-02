@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public record CreateInstitutionRouteRequestDTO(
+public record UpdateRouteInstitutionRequest(
         @NotNull(message = "Instituição é obrigatório")
         UUID institutionId,
 

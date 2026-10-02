@@ -1,4 +1,3 @@
-
 package com.rota.facil.journey.http.dto.request.routes;
 
 import com.rota.facil.journey.domain.DaysOfWeek;
@@ -9,7 +8,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
-public record CreateRouteRequest(
+public record UpdateRouteRequest(
         @NotNull(message = "turno é obrigatório")
         Shift shift,
 
@@ -35,9 +34,9 @@ public record CreateRouteRequest(
         List<UUID> vehicles,
 
         @NotNull(message = "selecione pelo menos uma instiuiçao é obrigátorio")
-        List<CreateInstitutionRouteRequest> institutions,
+        List<UpdateRouteInstitutionRequest> institutions,
 
         @NotNull(message = "pontos de embarque são obrigatórios")
-        List<CreateBoardPointRouteRequest> boardPoints
+        List<UpdateRouteBoardPointRequest> boardPoints
 ) {
 }
