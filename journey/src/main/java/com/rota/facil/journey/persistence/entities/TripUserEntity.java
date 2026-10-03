@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Builder
 @Entity
-@Table(name = "trips_users_tb")
+@Table(name = "trip_users_tb")
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -40,11 +40,15 @@ public class TripUserEntity {
     @Builder.Default
     private Double score = 0.0;
 
+    @Enumerated(EnumType.STRING)
     @Builder.Default
     private Presence presence = Presence.PENDING;
 
+    @Builder.Default
+    @Column(name = "return")
     private boolean return_ = false;
 
+    @Builder.Default
     private boolean going = true;
 
 }

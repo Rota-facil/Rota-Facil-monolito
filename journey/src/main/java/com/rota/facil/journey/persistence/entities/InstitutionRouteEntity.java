@@ -24,7 +24,7 @@ public class InstitutionRouteEntity {
     private InstitutionEntity institution;
 
     @ManyToOne
-    @JoinColumn(name = "route_iid")
+    @JoinColumn(name = "route_id")
     private RouteEntity route;
 
     @Column(name = "institution_time_going")

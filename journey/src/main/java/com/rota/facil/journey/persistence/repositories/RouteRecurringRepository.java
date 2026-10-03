@@ -27,7 +27,7 @@ public interface RouteRecurringRepository extends JpaRepository<RouteRecurringEn
     @Query("""
         SELECT rr FROM RouteRecurringEntity rr
         INNER JOIN rr.route r
-        WHERE :fromValueDay IN r.daysOfWeek
+        WHERE  :fromValueDay MEMBER OF r.daysOfWeek
         AND r.active = true
         AND rr.vehicle.active = true
     """)

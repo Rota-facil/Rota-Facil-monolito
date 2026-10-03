@@ -28,5 +28,6 @@ public class BoardPointVisitedEntity {
 
     private boolean going = false;
 
+    @Column(name = "return")
     private boolean return_ = false;
 }
