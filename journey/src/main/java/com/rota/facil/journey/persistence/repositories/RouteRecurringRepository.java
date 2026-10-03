@@ -4,6 +4,7 @@ import com.rota.facil.journey.domain.DaysOfWeek;
 import com.rota.facil.journey.persistence.entities.RouteRecurringEntity;
 import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -33,4 +34,11 @@ public interface RouteRecurringRepository extends JpaRepository<RouteRecurringEn
     List<RouteRecurringEntity> findAllRecurringToday(@Param("fromValueDay") DaysOfWeek fromValueDay);
 
     void deleteAllByVehicleId(UUID vehicleId);
+
+    @Modifying
+    @Query("""
+        DELETE RouteRecurringEntity rr
+        WHERE rr.route.id = :routeId
+    """)
+    void deleteAllByRouteId(@Param("routeId") UUID routeId);
 }

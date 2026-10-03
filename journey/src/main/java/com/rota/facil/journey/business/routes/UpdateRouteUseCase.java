@@ -2,6 +2,7 @@ package com.rota.facil.journey.business.routes;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.journey.business.helpers.routes.FindRouteByIdAndPrefectureIdHelper;
+import com.rota.facil.journey.business.helpers.routes.ValidateUpdateRouteHelper;
 import com.rota.facil.journey.domain.DaysOfWeek;
 import com.rota.facil.journey.exceptions.UpdateRouteException;
 import com.rota.facil.journey.http.dto.request.routes.*;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 @UseCase
 @RequiredArgsConstructor
 public class UpdateRouteUseCase {
-
+    private final ValidateUpdateRouteHelper validateUpdateRouteHelper;
     private final FindRouteByIdAndPrefectureIdHelper findRouteByIdAndPrefectureIdHelper;
     private final BoardPointRepository boardPointRepository;
     private final InstitutionRepository institutionRepository;
@@ -37,13 +38,7 @@ public class UpdateRouteUseCase {
     public RouteResponse execute(UserEntity currentUser, UpdateRouteRequest request, UUID routeId) {
 
         RouteEntity routeFound = this.findRouteByIdAndPrefectureIdHelper.execute(routeId, currentUser.getPrefectureId());
-
-        if (this.tripRepository.countTripsStartedByRouteId(routeId) > 0) {
-            throw new UpdateRouteException(
-                    "Não é possível atualizar a rota porque ainda existem viagens em curso nesse momento"
-            );
-        }
-
+        this.validateUpdateRouteHelper.execute(routeId);
 
         List<UUID> boardPointsId = request.boardPoints()
                 .stream()

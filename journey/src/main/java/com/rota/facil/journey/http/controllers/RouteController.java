@@ -1,9 +1,6 @@
 package com.rota.facil.journey.http.controllers;
 
-import com.rota.facil.journey.business.routes.CreateRouteUseCase;
-import com.rota.facil.journey.business.routes.FetchRouteByIdUseCase;
-import com.rota.facil.journey.business.routes.ListRoutesUseCase;
-import com.rota.facil.journey.business.routes.UpdateRouteUseCase;
+import com.rota.facil.journey.business.routes.*;
 import com.rota.facil.journey.http.dto.request.routes.CreateRouteRequest;
 import com.rota.facil.journey.http.dto.request.routes.UpdateRouteRequest;
 import com.rota.facil.journey.http.dto.response.routes.CreateRouteResponse;
@@ -27,6 +24,7 @@ public class RouteController {
     private final ListRoutesUseCase listRoutesUseCase;
     private final FetchRouteByIdUseCase fetchRouteByIdUseCase;
     private final UpdateRouteUseCase updateRouteUseCase;
+    private final DeactivateRouteUseCase deactivateRouteUseCase;
 
     @PostMapping
     public ResponseEntity<RouteResponse> createRoute(
@@ -58,5 +56,14 @@ public class RouteController {
             @RequestBody UpdateRouteRequest request
     ) {
         return ResponseEntity.ok(this.updateRouteUseCase.execute(currentUser, request, routeId));
+    }
+
+    @DeleteMapping("{routeId}")
+    public ResponseEntity<Void> delete(
+            @PathVariable UUID routeId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        this.deactivateRouteUseCase.execute(currentUser, routeId);
+        return ResponseEntity.ok().build();
     }
 }
