@@ -41,7 +41,7 @@ public class TripController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.createTripUseCase.execute(currentUser, request));
     }
 
-    @PostMapping("trip/{tripId}/checkin")
+    @PostMapping("/{tripId}/checkin")
     public ResponseEntity<Void> validateCheckin(
         @PathVariable UUID tripId,
         @AuthenticationPrincipal UserEntity currentUser,
@@ -51,7 +51,7 @@ public class TripController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/trip/{tripId}/join")
+    @PostMapping("/{tripId}/join")
     public ResponseEntity<TripUserResponse> join(
             @PathVariable UUID tripId,
             @AuthenticationPrincipal UserEntity currentUser,
@@ -60,7 +60,7 @@ public class TripController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.joinInTripUseCase.execute(tripId, currentUser, request));
     }
 
-    @PostMapping("/trip/{tripId}/init")
+    @PostMapping("/{tripId}/init")
     public ResponseEntity<TripResponse> initTrip(
             @PathVariable UUID tripId,
             @AuthenticationPrincipal UserEntity currentUser
@@ -68,7 +68,7 @@ public class TripController {
         return ResponseEntity.ok(this.initTripUseCase.execute(currentUser, tripId));
     }
 
-    @PostMapping("/trip/{tripId}/return")
+    @PostMapping("/{tripId}/return")
     public ResponseEntity<TripResponse> returnTrip(
             @PathVariable UUID tripId,
             @AuthenticationPrincipal UserEntity currentUser
@@ -76,7 +76,7 @@ public class TripController {
         return ResponseEntity.ok(this.returnTripUseCase.execute(currentUser, tripId));
     }
 
-    @PostMapping("/trip/{tripId}/cancel")
+    @PostMapping("/{tripId}/cancel")
     public ResponseEntity<TripResponse> cancelTrip(
             @PathVariable UUID tripId,
             @AuthenticationPrincipal UserEntity currentUser,
@@ -90,7 +90,7 @@ public class TripController {
         return ResponseEntity.ok(this.listMyTripsTodayUseCase.execute(currentUser));
     }
 
-    @GetMapping("/trips/{tripId}/students")
+    @GetMapping("/{tripId}/students")
     public ResponseEntity<List<TripStudentsResponse>> listStudentsOfTrip(
             @PathVariable UUID tripId,
             @AuthenticationPrincipal UserEntity currentUser
