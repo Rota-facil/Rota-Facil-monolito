@@ -30,6 +30,7 @@ public class InstitutionEntity {
 
     private Double longitude;
 
+    @Column(columnDefinition = "geography(Point,4326)")
     private Point geom;
 
     @Builder.Default

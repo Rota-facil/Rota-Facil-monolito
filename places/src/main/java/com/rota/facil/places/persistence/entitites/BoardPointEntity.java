@@ -30,6 +30,7 @@ public class BoardPointEntity {
 
     private Double longitude;
 
+    @Column(columnDefinition = "geography(Point,4326)")
     private Point geom;
 
     @Builder.Default
@@ -50,5 +51,4 @@ public class BoardPointEntity {
         this.active = false;
     }
 }
-
 

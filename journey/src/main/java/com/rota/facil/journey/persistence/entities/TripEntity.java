@@ -56,6 +56,7 @@ public class TripEntity {
     @Column(name = "prefecture_id")
     private UUID prefectureId;
 
+    @Column(columnDefinition = "geography(Point,4326)")
     private Point geom;
 
     @Builder.Default

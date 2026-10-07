@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.lang.ScopedValue;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -67,4 +68,11 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
         )
     """)
     void disassociateNonOperationalUsersByPrefectureId(@Param("prefectureId") UUID prefectureId);
+
+    @Query("""
+        SELECT u FROM UserEntity u
+        WHERE u.cpf = :cpf
+        AND u.active IS TRUE
+    """)
+    Optional<UserEntity> findByCpfAndActive(@Param(value = "cpf") String cpf);
 }

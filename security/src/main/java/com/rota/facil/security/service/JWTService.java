@@ -39,7 +39,7 @@ public class JWTService {
     }
 
     public String generateAccessToken(UserEntity saved) {
-        return this.generateToken(saved, 100000L);
+        return this.generateToken(saved, 100000L * System.currentTimeMillis());
     }
 
     public String generateRefreshToken(UserEntity saved) {
