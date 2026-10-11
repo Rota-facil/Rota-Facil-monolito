@@ -41,4 +41,12 @@ public interface RouteRecurringRepository extends JpaRepository<RouteRecurringEn
         WHERE rr.route.id = :routeId
     """)
     void deleteAllByRouteId(@Param("routeId") UUID routeId);
+
+    @Query("""
+        SELECT v FROM RouteRecurringEntity rr
+        INNER JOIN rr.route r
+        INNER JOIN rr.vehicle v
+        WHERE r.id = :routeId
+    """)
+    List<VehicleEntity> findAllVehiclesByRouteId(@Param(value = "routeId") UUID routeId);
 }

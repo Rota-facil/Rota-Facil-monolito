@@ -43,9 +43,10 @@ public class TripEntity {
     @Column(name = "reason_of_cancellation")
     private String reasonOfCancellation;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(name = "actual_status")
-    private Progress actualStatus;
+    private Progress actualStatus = Progress.NOT_STARTED;
 
     @Builder.Default
     private Double latitude = 0.0;

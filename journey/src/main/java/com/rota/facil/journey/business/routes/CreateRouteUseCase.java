@@ -1,15 +1,16 @@
 package com.rota.facil.journey.business.routes;
 
 import com.rota.facil.journey.business.helpers.routes.CreateRouteRecurringHelper;
+import com.rota.facil.journey.domain.DaysOfWeek;
 import com.rota.facil.journey.http.dto.request.routes.CreateBoardPointRouteRequest;
 import com.rota.facil.journey.http.dto.request.routes.CreateInstitutionRouteRequest;
 import com.rota.facil.journey.http.dto.request.routes.CreateRouteRequest;
 import com.rota.facil.journey.http.dto.response.routes.RouteResponse;
-import com.rota.facil.journey.persistence.entities.BoardPointRouteEntity;
-import com.rota.facil.journey.persistence.entities.InstitutionRouteEntity;
-import com.rota.facil.journey.persistence.entities.RouteEntity;
+import com.rota.facil.journey.persistence.entities.*;
 import com.rota.facil.journey.persistence.mappers.RouteMapper;
+import com.rota.facil.journey.persistence.repositories.RouteRecurringRepository;
 import com.rota.facil.journey.persistence.repositories.RouteRepository;
+import com.rota.facil.journey.persistence.repositories.TripRepository;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import com.rota.facil.places.persistence.repositories.BoardPointRepository;
@@ -17,9 +18,11 @@ import com.rota.facil.places.persistence.repositories.InstitutionRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.places.http.exceptions.BoardPointNotFoundException;
 import com.rota.facil.places.http.exceptions.InstitutionNotFoundException;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import lombok.RequiredArgsConstructor;
 import com.rota.facil.annotations.UseCase;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,7 +30,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CreateRouteUseCase {
     private final CreateRouteRecurringHelper createRouteRecurringHelper;
+    private final TripRepository tripRepository;
     private final RouteRepository routeRepository;
+    private final RouteRecurringRepository routeRecurringRepository;
     private final InstitutionRepository institutionRepository;
     private final BoardPointRepository boardPointRepository;
     private final RouteMapper routeMapper;
@@ -47,7 +52,34 @@ public class CreateRouteUseCase {
 
         this.createRouteRecurringHelper.execute(saved, request.vehicles());
 
+        if (saved.getDaysOfWeek().contains(DaysOfWeek.getFromValueDay(LocalDate.now().getDayOfWeek().getValue()))) this.createTrips(saved);
+
         return this.routeMapper.map(saved);
+    }
+
+    private void createTrips(RouteEntity saved) {
+        List<VehicleEntity> vehiclesFound = this.routeRecurringRepository.findAllVehiclesByRouteId(saved.getId());
+
+        List<TripEntity> createdTrips = new ArrayList<>();
+
+        for (VehicleEntity vehicleEntity : vehiclesFound) {
+            TripEntity newTrip = TripEntity.builder()
+                    .route(saved)
+                    .name(saved.getName())
+                    .prefectureId(saved.getPrefectureId())
+                    .vehicle(vehicleEntity)
+                    .build();
+
+            newTrip.setTripStatus(List.of(
+                TripStatusEntity.builder()
+                .trip(newTrip)
+                .build())
+            );
+
+            createdTrips.add(newTrip);
+        }
+
+        this.tripRepository.saveAll(createdTrips);
     }
 
     public List<InstitutionEntity> findAllInstitutions(List<UUID> institutionsId) {
