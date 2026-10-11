@@ -88,8 +88,8 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
     @Query("""
         SELECT b FROM TripEntity t
         INNER JOIN t.route r
-        INNER JOIN r.boardPoints bs
-        INNER JOIN bs.boardPoint b
+        INNER JOIN r.boardPoints rb
+        INNER JOIN rb.boardPoint b
         WHERE t.id = :tripId
         AND b.id = :boardPointId 
     """)
@@ -98,7 +98,8 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
     @Query("""
         SELECT i FROM TripEntity t
         INNER JOIN t.route r
-        INNER JOIN r.institutions i
+        INNER JOIN r.institutions ri
+        INNER JOIN ri.institution i
         WHERE t.id = :tripId
         AND i.id = :institutionId
     """)

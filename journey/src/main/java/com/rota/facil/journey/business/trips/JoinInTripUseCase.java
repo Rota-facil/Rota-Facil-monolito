@@ -1,7 +1,9 @@
 package com.rota.facil.journey.business.trips;
 
+import com.rota.facil.journey.domain.Progress;
 import com.rota.facil.journey.exceptions.MaxCapacityLimitedException;
 import com.rota.facil.journey.exceptions.InvalidTripGoingReturnException;
+import com.rota.facil.journey.exceptions.NotAllowedJoinTripException;
 import com.rota.facil.journey.exceptions.TripNotFoundException;
 import com.rota.facil.journey.http.dto.request.trips.JoinInTripRequest;
 import com.rota.facil.journey.http.dto.response.trips.TripUserResponse;
@@ -19,6 +21,7 @@ import com.rota.facil.users.persistence.repositories.UserRepository;
 import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import lombok.RequiredArgsConstructor;
 import com.rota.facil.annotations.UseCase;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -30,6 +33,7 @@ public class JoinInTripUseCase {
     private final TripUserRepository tripUserRepository;
     private final TripUserMapper tripUserMapper;
 
+    @Transactional
     public TripUserResponse execute(UUID tripId, UserEntity currentUser, JoinInTripRequest request) {
         if (!request.going() && !request.return_()) throw new InvalidTripGoingReturnException();
         TripEntity tripFound = this.tripRepository.findTripByIdAndPrefectureId(tripId, currentUser.getPrefectureId())
@@ -37,9 +41,15 @@ public class JoinInTripUseCase {
 
         VehicleEntity vehicle = tripFound.getVehicle();
 
+        if (request.going() && (tripFound.getActualStatus().equals(Progress.STARTED) || tripFound.getActualStatus().equals(Progress.STARTED_FINISHED)))
+            throw new NotAllowedJoinTripException("Não é possível selecionar a ida pois a viagem já começou");
+
+        if (request.return_() && (tripFound.getActualStatus().equals(Progress.RETURN_STARTED) || tripFound.getActualStatus().equals(Progress.RETURN_FINISHED)))
+            throw new NotAllowedJoinTripException("Não é possível selecionara a volta pois a viagem já iniciou a volta");
+
         long studentsToGoTrip = this.tripUserRepository.countStudentsToGoTrip(request.going(), request.return_()) + 1L;
 
-        if (vehicle.getCapacity() >= studentsToGoTrip) throw new MaxCapacityLimitedException();
+        if (studentsToGoTrip >= vehicle.getCapacity()) throw new MaxCapacityLimitedException();
 
 
         BoardPointEntity boardPointFound  = this.tripRepository.findBoardPointByIdAndBoardPointId(tripId, request.boardPointId())
