@@ -1,6 +1,8 @@
 package com.rota.facil.vehicles.business;
 
+import com.rota.facil.users.exceptions.UserNotFoundExceptions;
 import com.rota.facil.users.persistence.entities.UserEntity;
+import com.rota.facil.users.persistence.repositories.UserRepository;
 import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import com.rota.facil.vehicles.http.dto.request.vehicles.CreateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.response.vehicles.CreateVehicleResponse;
@@ -12,6 +14,7 @@ import com.rota.facil.annotations.UseCase;
 @UseCase
 @RequiredArgsConstructor
 public class CreateVehicleUseCase {
+    private final UserRepository userRepository;
     private final VehicleRepository vehicleRepository;
     private final VehicleMapper vehicleMapper;
 
@@ -19,6 +22,13 @@ public class CreateVehicleUseCase {
         VehicleEntity preSaved = this.vehicleMapper.map(request);
         preSaved.setVehicleType(request.vehicleType());
         preSaved.setPrefectureId(currentUser.getPrefectureId());
+
+        UserEntity driverFound = this.userRepository.findDriverByIdAndPrefectureIdActive(request.driverId(), currentUser.getPrefectureId())
+                .orElseThrow(UserNotFoundExceptions::new);
+
+        this.vehicleRepository.removeDriverFromVehicle(driverFound.getId());
+
+        preSaved.setDriver(driverFound);
 
         return this.vehicleMapper.map(this.vehicleRepository.save(preSaved));
     }

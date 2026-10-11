@@ -18,7 +18,7 @@ public record RouteResponse(
         LocalTime goingFinish,
         LocalTime returnFinish,
         UUID prefectureId,
-        Set<DaysOfWeek> daysOfWeeks,
+        Set<DaysOfWeek> daysOfWeek,
         LocalDateTime createdAt,
         List<RouteInstitutionResponse> institutions,
         List<RouteBoardPointResponse> boardPoints

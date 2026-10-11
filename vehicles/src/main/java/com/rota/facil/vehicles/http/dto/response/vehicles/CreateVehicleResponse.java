@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public record CreateVehicleResponse(
         UUID id,
-        CreateVehicleUser user,
+        CreateVehicleUser driver,
         UUID prefectureId,
         Long capacity,
         String plate,

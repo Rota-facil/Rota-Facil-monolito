@@ -53,10 +53,10 @@ public class RouteEntity {
     @Column(name = "days_of_week")
     private Set<DaysOfWeek> daysOfWeek;
 
-    @OneToMany(mappedBy = "route")
+    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
     private List<InstitutionRouteEntity> institutions;
 
-    @OneToMany(mappedBy = "route")
+    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
     private List<BoardPointRouteEntity> boardPoints;
 
     @Builder.Default

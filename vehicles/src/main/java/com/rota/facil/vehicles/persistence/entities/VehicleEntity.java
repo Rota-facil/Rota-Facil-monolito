@@ -23,7 +23,7 @@ public class VehicleEntity {
     @Column(name = "vehicle_id")
     private UUID id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "driver_id")
     private UserEntity driver;
 
@@ -35,6 +35,7 @@ public class VehicleEntity {
 
     private String plate;
 
+    @Builder.Default
     private boolean active = true;
 
     @Builder.Default

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.lang.ScopedValue;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +22,15 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
         AND u.active IS TRUE
     """)
     Optional<UserEntity> findByIdAndPrefectureIdActive(@Param(value = "userId") UUID userId, @Param(value = "prefectureId") UUID prefectureId);
+
+    @Query("""
+        SELECT u FROM UserEntity u
+        WHERE u.id = :userId
+        AND u.prefectureId = :prefectureId
+        AND u.active IS TRUE
+        AND u.role = com.rota.facil.users.domain.Role.DRIVER
+    """)
+    Optional<UserEntity> findDriverByIdAndPrefectureIdActive(@Param(value = "userId") UUID userId, @Param(value = "prefectureId") UUID prefectureId);
 
     @Query("""
         SELECT COUNT(u) FROM UserEntity u

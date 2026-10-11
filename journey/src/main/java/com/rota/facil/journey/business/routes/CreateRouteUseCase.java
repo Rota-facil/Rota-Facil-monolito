@@ -69,6 +69,8 @@ public class CreateRouteUseCase {
         Map<UUID, InstitutionEntity> uuidInstitutionEntityMap = institutions.stream().collect(Collectors.toMap(InstitutionEntity::getId, institution -> institution));
         Map<UUID, CreateInstitutionRouteRequest> uuidCreateInstitutionRouteRequestDTOMap = request.stream().collect(Collectors.toMap(CreateInstitutionRouteRequest::institutionId, institution -> institution));
 
+        route.setInstitutions(new ArrayList<>());
+
         for (UUID institutionId : institutionsId) {
             route.getInstitutions().add(
                     InstitutionRouteEntity.builder()
