@@ -139,7 +139,7 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         INNER JOIN v.driver d
         WHERE d.id = :driverId
         AND t.prefectureId = :prefectureId
-        AND t.createdAt = CURRENT TIMESTAMP
+        AND t.createdAt = CURRENT DATE
     """)
     List<TripEntity> findALLByDriverIdAndPrefectureId(@Param("driverId") UUID driverId, UUID prefectureId);
 
