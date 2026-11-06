@@ -1,5 +1,6 @@
 package com.rota.facil.security.configuration;
 
+import com.rota.facil.security.business.auth.LoginWithGoogleSuccessUseCase;
 import com.rota.facil.security.filters.RotaFacilAuthenticationFilter;
 import com.rota.facil.security.service.RotaFacilUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -27,17 +28,15 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfiguration {
-    @Value(value = "${web.local.base.url}")
-    private String WEB_LOCAL_BASE_URL;
-
-    @Value(value = "${web.production.base.url}")
-    private String WEB_PRODUCTION_BASE_URL;
+    @Value("${web.base.url}")
+    private String WEB_BASE_URL;
 
     @Value(value = "${app.base.url}")
     private String APP_BASE_URL;
 
     private final RotaFacilUserDetailsService rotaFacilUserDetailsService;
     private final RotaFacilAuthenticationFilter rotaFacilAuthenticationFilter;
+    private final LoginWithGoogleSuccessUseCase loginWithGoogleSuccessUseCase;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
@@ -47,11 +46,11 @@ public class SecurityConfiguration {
                 .addFilterBefore(rotaFacilAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/webjars/**", "/*/v3/api-docs").permitAll()
-                            .requestMatchers("/*/v3/api-docs/**", "/*/swagger-ui/**", "/*/swagger-ui.html").permitAll()
+                            .requestMatchers("/*/v3/api-docs/**", "/*/swagger-ui/**", "/*/swagger-ui.html", "/oauth2/**").permitAll()
                             .requestMatchers("/swagger-ui.html").permitAll()
                             .requestMatchers(HttpMethod.OPTIONS).permitAll()
                             .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
-                            .requestMatchers("/auth/login", "/auth/register").permitAll()
+                            .requestMatchers("/auth/login", "/auth/register", "/auth/complete/google").permitAll()
 
                             .requestMatchers(HttpMethod.GET, "/prefectures/**").permitAll()
                             .requestMatchers("/prefectures/**").hasRole("SUPERUSER")
@@ -99,6 +98,7 @@ public class SecurityConfiguration {
                             .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2Login(oauth2 -> oauth2.successHandler(loginWithGoogleSuccessUseCase))
                 .build();
     }
 
@@ -108,8 +108,7 @@ public class SecurityConfiguration {
 
         corsConfiguration.setAllowedOrigins(
                 List.of(
-                        WEB_LOCAL_BASE_URL,
-                        WEB_PRODUCTION_BASE_URL,
+                        WEB_BASE_URL,
                         APP_BASE_URL
                 )
         );

@@ -83,4 +83,11 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
         AND u.active IS TRUE
     """)
     Optional<UserEntity> findByCpfAndActive(@Param(value = "cpf") String cpf);
+
+    @Query("""
+        SELECT u FROM UserEntity u
+        WHERE u.email = :email
+        AND u.active IS TRUE
+    """)
+    Optional<UserEntity> findByEmail(@Param(value = "email") String email);
 }

@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS token_complete_google_login_tb (
-    id UUID PRIMARY KEY,
+    token_complete_google_login_id UUID PRIMARY KEY,
     user_id UUID NOT NULL,
     pending_token UUID NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

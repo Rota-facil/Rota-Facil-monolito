@@ -21,6 +21,7 @@ public interface UserTokenRepository extends JpaRepository<UserTokenEntity, UUID
         SELECT ut FROM UserTokenEntity ut
         JOIN ut.user u
         WHERE u.id = :userId
+        AND u.active IS TRUE
     """)
     Optional<UserTokenEntity> findByUserId(@Param(value = "userId") UUID userId);
 }
