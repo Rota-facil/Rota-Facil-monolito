@@ -42,7 +42,8 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         SELECT DISTINCT b FROM TripUserEntity tu
         INNER JOIN tu.trip t
         INNER JOIN t.route r
-        INNER JOIN r.boardPoints b
+        INNER JOIN r.boardPoints rb
+        INNER JOIN rb.boardPoint b
         WHERE t.id = :tripId
         AND tu.going IS TRUE
     """)
@@ -52,7 +53,8 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         SELECT DISTINCT b FROM TripUserEntity tu
         INNER JOIN tu.trip t
         INNER JOIN t.route r
-        INNER JOIN r.boardPoints b
+        INNER JOIN r.boardPoints rb
+        INNER JOIN rb.boardPoint b
         WHERE t.id = :tripId
         AND tu.return_ IS TRUE
     """)
@@ -62,7 +64,8 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         SELECT DISTINCT i FROM TripUserEntity tu
         INNER JOIN tu.trip t
         INNER JOIN t.route r
-        INNER JOIN r.institutions i
+        INNER JOIN r.institutions ri
+        INNER JOIN ri.institution i
         WHERE t.id = :tripId
         AND tu.going IS TRUE
     """)
@@ -72,7 +75,8 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         SELECT DISTINCT i FROM TripUserEntity tu
         INNER JOIN tu.trip t
         INNER JOIN t.route r
-        INNER JOIN r.institutions i
+        INNER JOIN r.institutions ri
+        INNER JOIN ri.institution i
         WHERE t.id = :tripId
         AND tu.return_ IS TRUE
     """)

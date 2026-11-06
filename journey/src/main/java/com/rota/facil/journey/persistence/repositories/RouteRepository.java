@@ -2,6 +2,8 @@ package com.rota.facil.journey.persistence.repositories;
 
 import com.rota.facil.journey.persistence.entities.InstitutionRouteEntity;
 import com.rota.facil.journey.persistence.entities.RouteEntity;
+import com.rota.facil.places.persistence.entitites.BoardPointEntity;
+import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -40,4 +42,20 @@ public interface RouteRepository extends JpaRepository<RouteEntity, UUID> {
         AND  r.prefectureId = :prefectureId
     """)
     RouteEntity findByIdAndPrefectureId(@Param("routeId") UUID routeId, @Param("prefectureId") UUID prefectureId);
+
+    @Query("""
+        SELECT b FROM RouteEntity r
+        INNER JOIN r.boardPoints rb
+        INNER JOIN rb.boardPoint b
+        WHERE r.id = :routeId
+    """)
+    List<BoardPointEntity> findAllBoardPointsByRouteId(@Param(value = "routeId") UUID routeId);
+
+    @Query("""
+        SELECT i FROM RouteEntity r
+        INNER JOIN r.institutions ri
+        INNER JOIN ri.institution i
+        where r.id = :routeId
+    """)
+    List<InstitutionEntity> findAllInstitutionsByRouteId(@Param(value = "routeId") UUID routeId);
 }
