@@ -26,7 +26,7 @@ public class DeactivateRouteUseCase {
 
         this.validateUpdateRouteHelper.execute(routeId);
 
-        routeFound.setActive(false);
+        routeFound.deactivate();
 
         this.routeRecurringRepository.deleteAllByRouteId(routeId);
 

@@ -73,5 +73,9 @@ public class VehicleEntity {
         this.driver = null;
         this.active = false;
     }
+
+    public void moveToOutOperation() {
+        this.status = VehicleStatus.OUT_OF_OPERATION;
+    }
 }
 

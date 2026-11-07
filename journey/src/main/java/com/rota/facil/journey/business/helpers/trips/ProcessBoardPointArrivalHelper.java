@@ -9,6 +9,7 @@ import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.repositories.*;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
+import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,9 +28,11 @@ public class ProcessBoardPointArrivalHelper {
     private final IsTimeInIntervalHelper isTimeInIntervalHelper;
     private final CalculateDelayHelper calculateDelayHelper;
     private final TripUserRepository tripUserRepository;
+    private final VehicleRepository vehicleRepository;
 
     public void execute(TripEntity trip, BoardPointEntity boardPoint, LocalDateTime arrivalDate) {
         var route = trip.getRoute();
+
         boolean isGoing = !this.tripStatusRepository.existsByTripIdAndProgress(trip.getId(), Progress.STARTED_FINISHED)
                 && this.isTimeInIntervalHelper.execute(arrivalDate.toLocalTime(), route.getGoing(), route.getGoingFinish());
         boolean isReturn = this.tripStatusRepository.existsByTripIdAndProgress(trip.getId(), Progress.RETURN_STARTED)
@@ -70,11 +73,14 @@ public class ProcessBoardPointArrivalHelper {
         trip.addNewStatus(Progress.BOARD_POINT_ARRIVAL, boardPoint.getName(), delay);
 
         if (!tripStatusRepository.existsByTripIdAndProgress(trip.getId(), Progress.RETURN_FINISHED)
-                && allInstitutionsAndBoardPointsVisitedInReturn(trip)) {
+                && this.allInstitutionsAndBoardPointsVisitedInReturn(trip)) {
             Delay returnDelay = calculateDelayHelper.execute(trip.getRoute().getReturnFinish(), arrivalDate.toLocalTime());
             trip.addNewStatus(Progress.RETURN_FINISHED, returnDelay);
             trip.setActualStatus(Progress.RETURN_FINISHED);
             this.tripUserRepository.setAbsentsGoingStudentsByTripId(trip.getId());
+
+            trip.getVehicle().moveToOutOperation();
+            this.vehicleRepository.save(trip.getVehicle());
         }
 
         tripRepository.save(trip);

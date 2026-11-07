@@ -32,6 +32,7 @@ public class TripController {
     private final ReturnTripUseCase returnTripUseCase;
     private final ListMyTripsTodayUseCase listMyTripsTodayUseCase;
     private final ListStudentsOfTripUseCase listStudentsOfTripUseCase;
+    private final DeactivateTripUseCase deactivateTripUseCase;
 
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(
@@ -96,5 +97,14 @@ public class TripController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(this.listStudentsOfTripUseCase.execute(currentUser, tripId));
+    }
+
+    @DeleteMapping("/{tripId}")
+    public ResponseEntity<Void> deleteTrip(
+            @PathVariable UUID tripId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        this.deactivateTripUseCase.execute(tripId, currentUser);
+        return ResponseEntity.ok().build();
     }
 }

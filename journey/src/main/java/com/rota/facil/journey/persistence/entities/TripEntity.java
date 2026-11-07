@@ -90,6 +90,9 @@ public class TripEntity {
     )
     private List<BoardPointEntity> ignoredBoardPoints;
 
+    @Builder.Default
+    private boolean active = true;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -141,5 +144,9 @@ public class TripEntity {
                         .description(progress + name)
                         .build()
         );
+    }
+
+    public void deactivate() {
+        this.active = false;
     }
 }

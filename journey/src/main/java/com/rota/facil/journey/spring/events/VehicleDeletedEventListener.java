@@ -13,6 +13,6 @@ public class VehicleDeletedEventListener {
 
     @EventListener
     public void execute(VehicleDeletedEvent event) {
-        routeRecurringRepository.deleteAllByVehicleId(event.vehicleId());
+        this.routeRecurringRepository.deleteAllByVehicleId(event.vehicleId());
     }
 }

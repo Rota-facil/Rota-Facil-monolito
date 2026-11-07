@@ -61,4 +61,8 @@ public class RouteEntity {
 
     @Builder.Default
     private Boolean active = true;
+
+    public void deactivate() {
+        this.active = false;
+    }
 }
