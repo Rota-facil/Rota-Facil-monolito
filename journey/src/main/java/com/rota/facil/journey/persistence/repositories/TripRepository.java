@@ -3,6 +3,7 @@ package com.rota.facil.journey.persistence.repositories;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -151,4 +152,17 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         AND ts.progress IN (com.rota.facil.journey.domain.Progress.STARTED)
     """)
     int countTripsStartedByRouteId(@Param("routeId") UUID routeId);
+
+    @EntityGraph(attributePaths = {
+            "vehicle",
+            "institutionsVisited",
+            "boardPointsVisited",
+            "ignoredBoardPoints",
+            "ignoredInstitutions"
+    })
+    @Query("""  
+        SELECT t FROM TripEntity t
+        WHERE t.id = :tripId
+    """)
+    Optional<TripEntity> findByIdWithDetails(@Param(value = "tripId") UUID tripId);
 }

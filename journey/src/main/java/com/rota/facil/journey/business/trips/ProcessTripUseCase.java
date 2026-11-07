@@ -2,6 +2,7 @@ package com.rota.facil.journey.business.trips;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.journey.business.helpers.trips.FindTripByIdHelper;
+import com.rota.facil.journey.business.helpers.trips.FindTripFetchDetailsIdHelper;
 import com.rota.facil.journey.business.helpers.trips.ProcessBoardPointArrivalHelper;
 import com.rota.facil.journey.business.helpers.trips.ProcessInstitutionArrivalHelper;
 import com.rota.facil.journey.persistence.entities.TripEntity;
@@ -22,12 +23,12 @@ import java.util.UUID;
 public class ProcessTripUseCase {
     private final ProcessBoardPointArrivalHelper processBoardPointArrivalHelper;
     private final ProcessInstitutionArrivalHelper processInstitutionArrivalHelper;
-    private final FindTripByIdHelper findTripByIdHelper;
+    private final FindTripFetchDetailsIdHelper findTripFetchDetailsIdHelper;
     private final TripRepository tripRepository;
 
     @Transactional
     public void execute(UUID tripId, Double latitude, Double longitude) {
-        TripEntity tripFound = this.findTripByIdHelper.execute(tripId);
+        TripEntity tripFound = this.findTripFetchDetailsIdHelper.execute(tripId);
 
         tripFound.setLatitude(latitude);
         tripFound.setLongitude(longitude);
