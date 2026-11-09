@@ -25,7 +25,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/institutions")
+@RequestMapping("/places/institutions")
 public class InstitutionController {
     private final CreateInstitutionUseCase createInstitutionUseCase;
     private final DeleteInstitutionUseCase deleteInstitutionUseCase;

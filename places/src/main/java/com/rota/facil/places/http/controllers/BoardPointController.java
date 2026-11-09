@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/board-points")
+@RequestMapping("/places/board-points")
 @RequiredArgsConstructor
 public class BoardPointController {
     private final CreateBoardPointUseCase createBoardPointUseCase;
