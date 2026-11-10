@@ -28,7 +28,7 @@ public class ListVehiclePhotosUseCase {
                 .findAllByOwnerIdAndPrefectureIdAndFileCategoryOrderByCreatedAtDesc(
                         vehicleId,
                         prefectureId,
-                        FileCategory.VEHICLE_PHOTO
+                        FileCategory.PHOTO
                 )
                 .stream()
                 .map(fileResponseMapper::map)

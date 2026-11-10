@@ -42,16 +42,19 @@ public class FileEntity {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public static FileEntity newVehiclePhoto(UUID vehicleId, UUID creatorId, UUID prefectureId,
-                                             String originalFilename, String mimeType, long fileSizeBytes) {
+    public static FileEntity newFile(
+            UUID ownerId, UUID creatorId, UUID prefectureId,
+            String originalFilename, String mimeType, long fileSizeBytes,
+            OwnerType ownerType, FileCategory fileCategory
+    ) {
         return FileEntity.builder()
                 .originalFilename(originalFilename)
-                .objectKey("vehicles/" + vehicleId + "/photos/" + UUID.randomUUID())
-                .ownerId(vehicleId)
+                .objectKey("vehicles/" + ownerId + "/photos/" + UUID.randomUUID())
+                .ownerId(ownerId)
                 .creatorId(creatorId)
                 .prefectureId(prefectureId)
-                .ownerType(OwnerType.VEHICLE)
-                .fileCategory(FileCategory.VEHICLE_PHOTO)
+                .ownerType(ownerType)
+                .fileCategory(fileCategory)
                 .mimeType(mimeType)
                 .fileSizeBytes(fileSizeBytes)
                 .build();

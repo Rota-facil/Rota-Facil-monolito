@@ -19,7 +19,7 @@ public class FindVehiclePhotoByIdHelper {
                         photoId,
                         vehicleId,
                         prefectureId,
-                        FileCategory.VEHICLE_PHOTO
+                        FileCategory.PHOTO
                 )
                 .orElseThrow(() -> new FileNotFoundException("Foto do veículo não foi encontrada"));
     }

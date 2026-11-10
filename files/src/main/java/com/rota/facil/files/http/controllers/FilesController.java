@@ -1,5 +1,6 @@
 package com.rota.facil.files.http.controllers;
 
+import com.rota.facil.files.business.institutions.UploadInstitutionPhotoUseCase;
 import com.rota.facil.files.business.vehicles.FetchVehiclePhotoUseCase;
 import com.rota.facil.files.business.vehicles.ListVehiclePhotosUseCase;
 import com.rota.facil.files.business.vehicles.UpdateVehiclePhotoUseCase;
@@ -18,18 +19,20 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/files")
+@RequestMapping(value = "/files")
 @RequiredArgsConstructor
-public class VehiclesController {
+public class FilesController {
     private final UploadVehiclePhotoUseCase uploadVehiclePhotoUseCase;
     private final ListVehiclePhotosUseCase listVehiclePhotosUseCase;
     private final FetchVehiclePhotoUseCase fetchVehiclePhotoUseCase;
     private final UpdateVehiclePhotoUseCase updateVehiclePhotoUseCase;
 
+    private final UploadInstitutionPhotoUseCase uploadInstitutionPhotoUseCase;
+
     @PostMapping(value = "/vehicles/{vehicleId}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileResponse> uploadVehiclePhoto(@PathVariable UUID vehicleId,
-                                               @RequestPart("file") MultipartFile file,
-                                               @AuthenticationPrincipal UserEntity currentUser) {
+                                                           @RequestPart("file") MultipartFile file,
+                                                           @AuthenticationPrincipal UserEntity currentUser) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(uploadVehiclePhotoUseCase.execute(vehicleId, file, currentUser));
     }
@@ -61,5 +64,14 @@ public class VehiclesController {
         return ResponseEntity.ok(
                 updateVehiclePhotoUseCase.execute(vehicleId, photoId, file, currentUser)
         );
+    }
+
+    @PostMapping(value = "/institutions/{institutionId}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FileResponse> uploadInstitutionPhoto(
+            @PathVariable UUID institutionId,
+            @RequestPart("file") MultipartFile file,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(this.uploadInstitutionPhotoUseCase.execute(institutionId, file, currentUser));
     }
 }

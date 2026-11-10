@@ -1,2 +1,2 @@
 package com.rota.facil.files.domain;
-public enum OwnerType { VEHICLE }
+public enum OwnerType {INSTITUTION, VEHICLE }
