@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.UUID;
 
 @Entity
@@ -49,7 +50,7 @@ public class FileEntity {
     ) {
         return FileEntity.builder()
                 .originalFilename(originalFilename)
-                .objectKey("vehicles/" + ownerId + "/photos/" + UUID.randomUUID())
+                .objectKey(ownerType.name().toLowerCase() + "/" + ownerId + "/" + fileCategory.name().toLowerCase() + "/" + UUID.randomUUID())
                 .ownerId(ownerId)
                 .creatorId(creatorId)
                 .prefectureId(prefectureId)

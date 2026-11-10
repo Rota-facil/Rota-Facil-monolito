@@ -1,6 +1,9 @@
 package com.rota.facil.files.http.controllers;
 
 import com.rota.facil.files.business.institutions.UploadInstitutionPhotoUseCase;
+import com.rota.facil.files.business.institutions.FetchInstitutionPhotoUseCase;
+import com.rota.facil.files.business.institutions.ListInstitutionPhotosUseCase;
+import com.rota.facil.files.business.institutions.UpdateInstitutionPhotoUseCase;
 import com.rota.facil.files.business.vehicles.FetchVehiclePhotoUseCase;
 import com.rota.facil.files.business.vehicles.ListVehiclePhotosUseCase;
 import com.rota.facil.files.business.vehicles.UpdateVehiclePhotoUseCase;
@@ -28,6 +31,9 @@ public class FilesController {
     private final UpdateVehiclePhotoUseCase updateVehiclePhotoUseCase;
 
     private final UploadInstitutionPhotoUseCase uploadInstitutionPhotoUseCase;
+    private final ListInstitutionPhotosUseCase listInstitutionPhotosUseCase;
+    private final FetchInstitutionPhotoUseCase fetchInstitutionPhotoUseCase;
+    private final UpdateInstitutionPhotoUseCase updateInstitutionPhotoUseCase;
 
     @PostMapping(value = "/vehicles/{vehicleId}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileResponse> uploadVehiclePhoto(@PathVariable UUID vehicleId,
@@ -72,6 +78,34 @@ public class FilesController {
             @RequestPart("file") MultipartFile file,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
-        return ResponseEntity.ok(this.uploadInstitutionPhotoUseCase.execute(institutionId, file, currentUser));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(this.uploadInstitutionPhotoUseCase.execute(institutionId, file, currentUser));
+    }
+
+    @GetMapping("/institutions/{institutionId}/photos")
+    public ResponseEntity<List<FileResponse>> listInstitutionPhotos(
+            @PathVariable UUID institutionId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(listInstitutionPhotosUseCase.execute(institutionId, currentUser));
+    }
+
+    @GetMapping("/institutions/{institutionId}/photos/{photoId}")
+    public ResponseEntity<FileResponse> fetchInstitutionPhoto(
+            @PathVariable UUID institutionId,
+            @PathVariable UUID photoId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(fetchInstitutionPhotoUseCase.execute(institutionId, photoId, currentUser));
+    }
+
+    @PutMapping(value = "/institutions/{institutionId}/photos/{photoId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FileResponse> updateInstitutionPhoto(
+            @PathVariable UUID institutionId,
+            @PathVariable UUID photoId,
+            @RequestPart("file") MultipartFile file,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(updateInstitutionPhotoUseCase.execute(institutionId, photoId, file, currentUser));
     }
 }
