@@ -3,7 +3,7 @@ package com.rota.facil.files.business.institutions;
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.http.dto.response.FileResponse;
-import com.rota.facil.files.http.mappers.FileResponseMapper;
+import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.places.business.helpers.institutions.FindInstitutionByIdHelper;
 import com.rota.facil.users.persistence.entities.UserEntity;
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class ListInstitutionPhotosUseCase {
     private final FindInstitutionByIdHelper findInstitutionByIdHelper;
     private final FileRepository fileRepository;
-    private final FileResponseMapper fileResponseMapper;
+    private final FileMapper fileMapper;
 
     @Transactional(readOnly = true)
     public List<FileResponse> execute(UUID institutionId, UserEntity currentUser) {
@@ -28,7 +28,7 @@ public class ListInstitutionPhotosUseCase {
                         institutionId, prefectureId, FileCategory.PHOTO
                 ).stream()
                 .filter(file -> file.getOwnerType().name().equals("INSTITUTION"))
-                .map(fileResponseMapper::map)
+                .map(fileMapper::map)
                 .toList();
     }
 }

@@ -2,7 +2,7 @@ package com.rota.facil.files.business.vehicles;
 
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.http.dto.response.FileResponse;
-import com.rota.facil.files.http.mappers.FileResponseMapper;
+import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.helpers.FindVehicleByIdHelper;
@@ -18,7 +18,7 @@ import java.util.UUID;
 public class ListVehiclePhotosUseCase {
     private final FindVehicleByIdHelper findVehicleByIdHelper;
     private final FileRepository fileRepository;
-    private final FileResponseMapper fileResponseMapper;
+    private final FileMapper fileMapper;
 
     @Transactional(readOnly = true)
     public List<FileResponse> execute(UUID vehicleId, UserEntity currentUser) {
@@ -31,7 +31,7 @@ public class ListVehiclePhotosUseCase {
                         FileCategory.PHOTO
                 )
                 .stream()
-                .map(fileResponseMapper::map)
+                .map(fileMapper::map)
                 .toList();
     }
 }

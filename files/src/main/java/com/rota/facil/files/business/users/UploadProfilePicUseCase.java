@@ -4,7 +4,7 @@ import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.domain.OwnerType;
 import com.rota.facil.files.http.dto.response.FileResponse;
-import com.rota.facil.files.http.mappers.FileResponseMapper;
+import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.files.storage.FileStorage;
@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadProfilePicUseCase {
     private final FileRepository fileRepository;
     private final FileStorage fileStorage;
-    private final FileResponseMapper fileResponseMapper;
+    private final FileMapper fileMapper;
 
     public FileResponse execute(UserEntity currentUser, MultipartFile file) {
         FileEntity profilePicFound = this.fileRepository.findByIdAndOwnerIdAndPrefectureIdAndFileCategory(
@@ -57,6 +57,6 @@ public class UploadProfilePicUseCase {
 
         FileEntity saved = this.fileRepository.save(profilePicFound);
 
-        return this.fileResponseMapper.map(saved);
+        return this.fileMapper.map(saved);
     }
 }

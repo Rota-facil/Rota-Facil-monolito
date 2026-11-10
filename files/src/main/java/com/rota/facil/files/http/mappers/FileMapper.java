@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class FileResponseMapper {
+public class FileMapper {
     private final FileStorage fileStorage;
 
     public FileResponse map(FileEntity file) {

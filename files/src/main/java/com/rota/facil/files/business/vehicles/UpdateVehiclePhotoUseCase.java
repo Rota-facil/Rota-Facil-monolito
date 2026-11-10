@@ -3,7 +3,7 @@ package com.rota.facil.files.business.vehicles;
 import com.rota.facil.files.business.helpers.FindVehiclePhotoByIdHelper;
 import com.rota.facil.files.business.helpers.ValidateImageHelper;
 import com.rota.facil.files.http.dto.response.FileResponse;
-import com.rota.facil.files.http.mappers.FileResponseMapper;
+import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.files.storage.FileStorage;
@@ -24,7 +24,7 @@ public class UpdateVehiclePhotoUseCase {
     private final ValidateImageHelper validateImageHelper;
     private final FileRepository fileRepository;
     private final FileStorage fileStorage;
-    private final FileResponseMapper fileResponseMapper;
+    private final FileMapper fileMapper;
 
     @Transactional
     public FileResponse execute(
@@ -41,6 +41,6 @@ public class UpdateVehiclePhotoUseCase {
         fileStorage.upload(newPhoto, photo.getObjectKey());
         photo.update(newPhoto.getOriginalFilename(), newPhoto.getContentType(), newPhoto.getSize());
         FileEntity updated = fileRepository.save(photo);
-        return fileResponseMapper.map(updated);
+        return fileMapper.map(updated);
     }
 }

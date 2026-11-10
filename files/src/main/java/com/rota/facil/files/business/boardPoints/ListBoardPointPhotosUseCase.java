@@ -4,7 +4,7 @@ import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.domain.OwnerType;
 import com.rota.facil.files.http.dto.response.FileResponse;
-import com.rota.facil.files.http.mappers.FileResponseMapper;
+import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.places.business.helpers.boardpoints.FindBoardPointByIdHelper;
 import com.rota.facil.users.persistence.entities.UserEntity;
@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ListBoardPointPhotosUseCase {
     private final FindBoardPointByIdHelper findBoardPointByIdHelper;
     private final FileRepository fileRepository;
-    private final FileResponseMapper fileResponseMapper;
+    private final FileMapper fileMapper;
 
     @Transactional(readOnly = true)
     public List<FileResponse> execute(UUID boardPointId, UserEntity currentUser) {
@@ -29,7 +29,7 @@ public class ListBoardPointPhotosUseCase {
                         boardPointId, prefectureId, FileCategory.PHOTO
                 ).stream()
                 .filter(file -> file.getOwnerType() == OwnerType.BOARD_POINT)
-                .map(fileResponseMapper::map)
+                .map(fileMapper::map)
                 .toList();
     }
 }

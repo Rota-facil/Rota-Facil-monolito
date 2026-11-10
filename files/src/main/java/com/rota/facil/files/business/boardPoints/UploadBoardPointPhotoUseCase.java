@@ -5,7 +5,7 @@ import com.rota.facil.files.business.helpers.ValidateImageHelper;
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.domain.OwnerType;
 import com.rota.facil.files.http.dto.response.FileResponse;
-import com.rota.facil.files.http.mappers.FileResponseMapper;
+import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.files.storage.FileStorage;
@@ -24,7 +24,7 @@ public class UploadBoardPointPhotoUseCase {
     private final ValidateImageHelper validateImageHelper;
     private final FileRepository fileRepository;
     private final FileStorage fileStorage;
-    private final FileResponseMapper fileResponseMapper;
+    private final FileMapper fileMapper;
 
     @Transactional
     public FileResponse execute(UUID boardPointId, MultipartFile file, UserEntity currentUser) {
@@ -37,6 +37,6 @@ public class UploadBoardPointPhotoUseCase {
                 OwnerType.BOARD_POINT, FileCategory.PHOTO
         ));
         fileStorage.upload(file, saved.getObjectKey());
-        return fileResponseMapper.map(saved);
+        return fileMapper.map(saved);
     }
 }

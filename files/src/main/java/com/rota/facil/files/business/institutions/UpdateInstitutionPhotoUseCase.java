@@ -4,7 +4,7 @@ import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.business.helpers.FindInstitutionPhotoByIdHelper;
 import com.rota.facil.files.business.helpers.ValidateImageHelper;
 import com.rota.facil.files.http.dto.response.FileResponse;
-import com.rota.facil.files.http.mappers.FileResponseMapper;
+import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.files.storage.FileStorage;
@@ -24,7 +24,7 @@ public class UpdateInstitutionPhotoUseCase {
     private final ValidateImageHelper validateImageHelper;
     private final FileRepository fileRepository;
     private final FileStorage fileStorage;
-    private final FileResponseMapper fileResponseMapper;
+    private final FileMapper fileMapper;
 
     @Transactional
     public FileResponse execute(UUID institutionId, UUID photoId, MultipartFile newPhoto, UserEntity currentUser) {
@@ -34,6 +34,6 @@ public class UpdateInstitutionPhotoUseCase {
         FileEntity photo = findInstitutionPhotoByIdHelper.execute(photoId, institutionId, prefectureId);
         fileStorage.upload(newPhoto, photo.getObjectKey());
         photo.update(newPhoto.getOriginalFilename(), newPhoto.getContentType(), newPhoto.getSize());
-        return fileResponseMapper.map(fileRepository.save(photo));
+        return fileMapper.map(fileRepository.save(photo));
     }
 }

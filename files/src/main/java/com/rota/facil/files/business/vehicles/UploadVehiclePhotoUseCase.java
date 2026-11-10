@@ -4,7 +4,7 @@ import com.rota.facil.files.business.helpers.ValidateImageHelper;
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.domain.OwnerType;
 import com.rota.facil.files.http.dto.response.FileResponse;
-import com.rota.facil.files.http.mappers.FileResponseMapper;
+import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.files.storage.FileStorage;
@@ -23,7 +23,7 @@ public class UploadVehiclePhotoUseCase {
     private final ValidateImageHelper validateImageHelper;
     private final FileRepository fileRepository;
     private final FileStorage fileStorage;
-    private final FileResponseMapper fileResponseMapper;
+    private final FileMapper fileMapper;
 
     @Transactional
     public FileResponse execute(UUID vehicleId, MultipartFile file, UserEntity currentUser) {
@@ -38,6 +38,6 @@ public class UploadVehiclePhotoUseCase {
 
         this.fileStorage.upload(file, saved.getObjectKey());
 
-        return this.fileResponseMapper.map(saved);
+        return this.fileMapper.map(saved);
     }
 }
