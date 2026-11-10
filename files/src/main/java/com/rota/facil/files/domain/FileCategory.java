@@ -1,2 +1,2 @@
 package com.rota.facil.files.domain;
-public enum FileCategory {PHOTO }
+public enum FileCategory {PROFILE_PIC, PHOTO }

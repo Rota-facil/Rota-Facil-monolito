@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.UUID;
 
+@Builder
 @Entity
 @Table(name = "files_tb")
-@Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class FileEntity {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "file_id")
@@ -50,7 +50,7 @@ public class FileEntity {
     ) {
         return FileEntity.builder()
                 .originalFilename(originalFilename)
-                .objectKey(ownerType.name().toLowerCase() + "/" + ownerId + "/" + fileCategory.name().toLowerCase() + "/" + UUID.randomUUID())
+                .objectKey(generateObjectKey(originalFilename, ownerId, ownerType, fileCategory))
                 .ownerId(ownerId)
                 .creatorId(creatorId)
                 .prefectureId(prefectureId)
@@ -59,6 +59,10 @@ public class FileEntity {
                 .mimeType(mimeType)
                 .fileSizeBytes(fileSizeBytes)
                 .build();
+    }
+
+    public static String generateObjectKey(String originalFilename, UUID ownerId, OwnerType ownerType, FileCategory fileCategory) {
+        return ownerType.name().toLowerCase() + "/" + ownerId + "/" + fileCategory.name().toLowerCase() + "/" + originalFilename + "_" + UUID.randomUUID();
     }
 
     public void update(String originalFilename, String mimeType, long fileSizeBytes) {

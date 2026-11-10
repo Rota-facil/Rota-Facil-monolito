@@ -8,6 +8,7 @@ import com.rota.facil.files.business.institutions.UploadInstitutionPhotoUseCase;
 import com.rota.facil.files.business.institutions.FetchInstitutionPhotoUseCase;
 import com.rota.facil.files.business.institutions.ListInstitutionPhotosUseCase;
 import com.rota.facil.files.business.institutions.UpdateInstitutionPhotoUseCase;
+import com.rota.facil.files.business.users.UploadProfilePicUseCase;
 import com.rota.facil.files.business.vehicles.FetchVehiclePhotoUseCase;
 import com.rota.facil.files.business.vehicles.ListVehiclePhotosUseCase;
 import com.rota.facil.files.business.vehicles.UpdateVehiclePhotoUseCase;
@@ -44,12 +45,14 @@ public class FilesController {
     private final FetchBoardPointPhotoUseCase fetchBoardPointPhotoUseCase;
     private final UpdateBoardPointPhotoUseCase updateBoardPointPhotoUseCase;
 
+    private final UploadProfilePicUseCase uploadProfilePicUseCase;
+
     @PostMapping(value = "/vehicles/{vehicleId}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileResponse> uploadVehiclePhoto(@PathVariable UUID vehicleId,
                                                            @RequestPart("file") MultipartFile file,
                                                            @AuthenticationPrincipal UserEntity currentUser) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(uploadVehiclePhotoUseCase.execute(vehicleId, file, currentUser));
+                .body(this.uploadVehiclePhotoUseCase.execute(vehicleId, file, currentUser));
     }
 
     @GetMapping("/vehicles/{vehicleId}/photos")
@@ -57,7 +60,7 @@ public class FilesController {
             @PathVariable UUID vehicleId,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
-        return ResponseEntity.ok(listVehiclePhotosUseCase.execute(vehicleId, currentUser));
+        return ResponseEntity.ok(this.listVehiclePhotosUseCase.execute(vehicleId, currentUser));
     }
 
     @GetMapping("/vehicles/{vehicleId}/photos/{photoId}")
@@ -66,7 +69,7 @@ public class FilesController {
             @PathVariable UUID photoId,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
-        return ResponseEntity.ok(fetchVehiclePhotoUseCase.execute(vehicleId, photoId, currentUser));
+        return ResponseEntity.ok(this.fetchVehiclePhotoUseCase.execute(vehicleId, photoId, currentUser));
     }
 
     @PutMapping(value = "vehicles/{vehicleId}/photos/{photoId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -77,7 +80,7 @@ public class FilesController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(
-                updateVehiclePhotoUseCase.execute(vehicleId, photoId, file, currentUser)
+                this.updateVehiclePhotoUseCase.execute(vehicleId, photoId, file, currentUser)
         );
     }
 
@@ -96,7 +99,7 @@ public class FilesController {
             @PathVariable UUID institutionId,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
-        return ResponseEntity.ok(listInstitutionPhotosUseCase.execute(institutionId, currentUser));
+        return ResponseEntity.ok(this.listInstitutionPhotosUseCase.execute(institutionId, currentUser));
     }
 
     @GetMapping("/institutions/{institutionId}/photos/{photoId}")
@@ -105,7 +108,7 @@ public class FilesController {
             @PathVariable UUID photoId,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
-        return ResponseEntity.ok(fetchInstitutionPhotoUseCase.execute(institutionId, photoId, currentUser));
+        return ResponseEntity.ok(this.fetchInstitutionPhotoUseCase.execute(institutionId, photoId, currentUser));
     }
 
     @PutMapping(value = "/institutions/{institutionId}/photos/{photoId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -115,7 +118,7 @@ public class FilesController {
             @RequestPart("file") MultipartFile file,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
-        return ResponseEntity.ok(updateInstitutionPhotoUseCase.execute(institutionId, photoId, file, currentUser));
+        return ResponseEntity.ok(this.updateInstitutionPhotoUseCase.execute(institutionId, photoId, file, currentUser));
     }
 
     @PostMapping(value = "/board-points/{boardPointId}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -125,7 +128,7 @@ public class FilesController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(uploadBoardPointPhotoUseCase.execute(boardPointId, file, currentUser));
+                .body(this.uploadBoardPointPhotoUseCase.execute(boardPointId, file, currentUser));
     }
 
     @GetMapping("/board-points/{boardPointId}/photos")
@@ -133,7 +136,7 @@ public class FilesController {
             @PathVariable UUID boardPointId,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
-        return ResponseEntity.ok(listBoardPointPhotosUseCase.execute(boardPointId, currentUser));
+        return ResponseEntity.ok(this.listBoardPointPhotosUseCase.execute(boardPointId, currentUser));
     }
 
     @GetMapping("/board-points/{boardPointId}/photos/{photoId}")
@@ -142,7 +145,7 @@ public class FilesController {
             @PathVariable UUID photoId,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
-        return ResponseEntity.ok(fetchBoardPointPhotoUseCase.execute(boardPointId, photoId, currentUser));
+        return ResponseEntity.ok(this.fetchBoardPointPhotoUseCase.execute(boardPointId, photoId, currentUser));
     }
 
     @PutMapping(value = "/board-points/{boardPointId}/photos/{photoId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -152,6 +155,14 @@ public class FilesController {
             @RequestPart("file") MultipartFile file,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
-        return ResponseEntity.ok(updateBoardPointPhotoUseCase.execute(boardPointId, photoId, file, currentUser));
+        return ResponseEntity.ok(this.updateBoardPointPhotoUseCase.execute(boardPointId, photoId, file, currentUser));
+    }
+
+    @PostMapping(value = "/users/profile-pic", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FileResponse> uploadProfilePic(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @RequestParam("file") MultipartFile file
+    ) {
+        return ResponseEntity.ok(this.uploadProfilePicUseCase.execute(currentUser, file));
     }
 }

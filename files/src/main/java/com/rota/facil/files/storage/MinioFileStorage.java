@@ -21,6 +21,7 @@ public class MinioFileStorage implements FileStorage {
         this.properties = properties;
     }
 
+    @Override
     public void upload(MultipartFile file, String objectKey) {
         try {
             minioClient.putObject(PutObjectArgs.builder().bucket(properties.bucketName()).object(objectKey)
@@ -30,11 +31,26 @@ public class MinioFileStorage implements FileStorage {
         }
     }
 
+    @Override
     public String createTemporaryUrl(String objectKey) {
         try {
             return publicMinioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                     .bucket(properties.bucketName()).object(objectKey).method(Method.GET)
-                    .expiry(1, TimeUnit.DAYS).build());
+                    .expiry(2, TimeUnit.DAYS).build());
+        } catch (Exception exception) {
+            throw new IllegalStateException("Não foi possível gerar a URL do arquivo", exception);
+        }
+    }
+
+    @Override
+    public void delete(String objectKey) {
+        try {
+            publicMinioClient.removeObject(
+                    RemoveObjectArgs.builder()
+                            .bucket(this.properties.bucketName())
+                            .object(objectKey)
+                            .build()
+            );
         } catch (Exception exception) {
             throw new IllegalStateException("Não foi possível gerar a URL do arquivo", exception);
         }
