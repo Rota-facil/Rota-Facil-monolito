@@ -21,9 +21,9 @@ public class CreateVehicleUseCase {
     public CreateVehicleResponse execute(CreateVehicleRequest request, UserEntity currentUser) {
         VehicleEntity preSaved = this.vehicleMapper.map(request);
         preSaved.setVehicleType(request.vehicleType());
-        preSaved.setPrefectureId(currentUser.getPrefectureId());
+        preSaved.setPrefectureId(currentUser.getPrefecture().getId());
 
-        UserEntity driverFound = this.userRepository.findDriverByIdAndPrefectureIdActive(request.driverId(), currentUser.getPrefectureId())
+        UserEntity driverFound = this.userRepository.findDriverByIdAndPrefectureIdActive(request.driverId(), currentUser.getPrefecture().getId())
                 .orElseThrow(UserNotFoundExceptions::new);
 
         this.vehicleRepository.removeDriverFromVehicle(driverFound.getId());

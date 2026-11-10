@@ -33,7 +33,7 @@ public class ReturnTripUseCase {
 
     @Transactional
     public TripResponse execute(UserEntity currentUser, UUID tripId) {
-        TripEntity tripFound = this.findTripByIdAndPrefectureHelper.execute(tripId, currentUser.getPrefectureId());
+        TripEntity tripFound = this.findTripByIdAndPrefectureHelper.execute(tripId, currentUser.getPrefecture().getId());
 
         if (!Progress.RETURN_FINISHED.equals(tripFound.getActualStatus())) throw new TripCannotBeReturnInit("Para iniciar a volta, a ida deve ser finalizada");
 

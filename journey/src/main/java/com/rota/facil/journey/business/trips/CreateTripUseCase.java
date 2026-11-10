@@ -33,7 +33,7 @@ public class CreateTripUseCase {
                         .name(request.name())
                         .vehicle(validVehicleForTripFound)
                         .route(routeFound)
-                        .prefectureId(currentUser.getPrefectureId())
+                        .prefectureId(currentUser.getPrefecture().getId())
                         .build()
         );
 

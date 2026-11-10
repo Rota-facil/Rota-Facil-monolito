@@ -25,7 +25,7 @@ public class CreateInstitutionUseCase {
         Point point = geometryFactory.createPoint(new Coordinate(request.longitude(), request.latitude()));
 
         preSaved.setGeom(point);
-        preSaved.setPrefectureId(currentUser.getPrefectureId());
+        preSaved.setPrefectureId(currentUser.getPrefecture().getId());
 
         return this.institutionMapper.map(this.institutionRepository.save(preSaved));
     }

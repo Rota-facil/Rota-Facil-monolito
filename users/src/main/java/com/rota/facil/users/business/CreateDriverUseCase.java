@@ -1,6 +1,8 @@
 package com.rota.facil.users.business;
 
 import com.rota.facil.annotations.UseCase;
+import com.rota.facil.prefectures.business.helpers.FetchPrefectureByIdHelper;
+import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.users.business.helpers.users.ValidateCpfHelper;
 import com.rota.facil.users.business.helpers.users.ValidateEmailHelper;
 import com.rota.facil.users.domain.Role;
@@ -17,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class CreateDriverUseCase {
     private final ValidateCpfHelper validateCpfHelper;
     private final ValidateEmailHelper validateEmailHelper;
+    private final FetchPrefectureByIdHelper fetchPrefectureByIdHelper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
@@ -25,11 +28,13 @@ public class CreateDriverUseCase {
         this.validateEmailHelper.execute(createDriver.email());
         this.validateCpfHelper.execute(createDriver.cpf());
 
+        PrefectureEntity prefectureFound = this.fetchPrefectureByIdHelper.execute(currentUser.getPrefecture().getId());
+
         UserEntity driverEntity = this.userMapper.map(createDriver);
 
         driverEntity.setPassword(passwordEncoder.encode(createDriver.password()));
         driverEntity.setRole(Role.DRIVER);
-        driverEntity.setPrefectureId(currentUser.getPrefectureId());
+        driverEntity.setPrefecture(prefectureFound);
 
         return this.userMapper.map(this.userRepository.save(driverEntity));
     }

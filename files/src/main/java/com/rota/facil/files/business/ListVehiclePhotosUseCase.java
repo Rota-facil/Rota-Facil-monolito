@@ -22,7 +22,7 @@ public class ListVehiclePhotosUseCase {
 
     @Transactional(readOnly = true)
     public List<FileResponse> execute(UUID vehicleId, UserEntity currentUser) {
-        UUID prefectureId = currentUser.getPrefectureId();
+        UUID prefectureId = currentUser.getPrefecture().getId();
         findVehicleByIdHelper.execute(vehicleId, prefectureId);
         return fileRepository
                 .findAllByOwnerIdAndPrefectureIdAndFileCategoryOrderByCreatedAtDesc(

@@ -39,7 +39,7 @@ public class CreateRouteUseCase {
 
     public RouteResponse execute(UserEntity currentUser, CreateRouteRequest request) {
         RouteEntity preSaved = this.routeMapper.map(request);
-        preSaved.setPrefectureId(currentUser.getPrefectureId());
+        preSaved.setPrefectureId(currentUser.getPrefecture().getId());
 
 
         List<InstitutionEntity> institutionsFound = this.findAllInstitutions(request.institutions().stream().map(CreateInstitutionRouteRequest::institutionId).toList());

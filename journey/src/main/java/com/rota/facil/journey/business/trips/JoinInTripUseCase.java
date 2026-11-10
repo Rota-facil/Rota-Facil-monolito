@@ -36,7 +36,7 @@ public class JoinInTripUseCase {
     @Transactional
     public TripUserResponse execute(UUID tripId, UserEntity currentUser, JoinInTripRequest request) {
         if (!request.going() && !request.return_()) throw new InvalidTripGoingReturnException();
-        TripEntity tripFound = this.tripRepository.findTripByIdAndPrefectureId(tripId, currentUser.getPrefectureId())
+        TripEntity tripFound = this.tripRepository.findTripByIdAndPrefectureId(tripId, currentUser.getPrefecture().getId())
                 .orElseThrow(TripNotFoundException::new);
 
         VehicleEntity vehicle = tripFound.getVehicle();

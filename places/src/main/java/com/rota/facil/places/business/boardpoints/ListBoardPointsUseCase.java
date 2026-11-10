@@ -17,7 +17,7 @@ public class ListBoardPointsUseCase {
 
     public Page<BoardPointResponse> execute(Pageable pageable, UserEntity currentUser) {
         return boardPointRepository
-                .findAllByPrefectureIdAndActiveTrue(currentUser.getPrefectureId(), pageable)
+                .findAllByPrefectureIdAndActiveTrue(currentUser.getPrefecture().getId(), pageable)
                 .map(boardPointMapper::mapToResponse);
     }
 }

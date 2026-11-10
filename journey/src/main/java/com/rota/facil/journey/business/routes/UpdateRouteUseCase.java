@@ -37,7 +37,7 @@ public class UpdateRouteUseCase {
 
     public RouteResponse execute(UserEntity currentUser, UpdateRouteRequest request, UUID routeId) {
 
-        RouteEntity routeFound = this.findRouteByIdAndPrefectureIdHelper.execute(routeId, currentUser.getPrefectureId());
+        RouteEntity routeFound = this.findRouteByIdAndPrefectureIdHelper.execute(routeId, currentUser.getPrefecture().getId());
         this.validateUpdateRouteHelper.execute(routeId);
 
         List<UUID> boardPointsId = request.boardPoints()
@@ -54,12 +54,12 @@ public class UpdateRouteUseCase {
 
         this.removeOldInstitutions(routeFound, institutionsId);
 
-        List<BoardPointRouteEntity> boardPointsToAdd = this.constructNewBoardPointsToAddRoute(routeFound, request.boardPoints(), currentUser.getPrefectureId());
+        List<BoardPointRouteEntity> boardPointsToAdd = this.constructNewBoardPointsToAddRoute(routeFound, request.boardPoints(), currentUser.getPrefecture().getId());
         routeFound.getBoardPoints().addAll(boardPointsToAdd);
         this.updateExistingBoardPoints(routeFound, request.boardPoints());
 
 
-        List<InstitutionRouteEntity> institutionsToAdd = this.constructNewInstitutionsToAddRoute(routeFound, request.institutions(), currentUser.getPrefectureId());
+        List<InstitutionRouteEntity> institutionsToAdd = this.constructNewInstitutionsToAddRoute(routeFound, request.institutions(), currentUser.getPrefecture().getId());
         routeFound.getInstitutions().addAll(institutionsToAdd);
         this.updateExistingInstitutions(routeFound, request.institutions());
 

@@ -17,16 +17,18 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
 
     @Query("""
         SELECT u FROM UserEntity u
+        INNER JOIN u.prefecture p
         WHERE u.id = :userId
-        AND u.prefectureId = :prefectureId
+        AND p.id = :prefectureId
         AND u.active IS TRUE
     """)
     Optional<UserEntity> findByIdAndPrefectureIdActive(@Param(value = "userId") UUID userId, @Param(value = "prefectureId") UUID prefectureId);
 
     @Query("""
         SELECT u FROM UserEntity u
+        INNER JOIN u.prefecture p
         WHERE u.id = :userId
-        AND u.prefectureId = :prefectureId
+        AND p.id = :prefectureId
         AND u.active IS TRUE
         AND u.role = com.rota.facil.users.domain.Role.DRIVER
     """)
@@ -48,7 +50,7 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     @Query("""
         UPDATE UserEntity u
         SET u.status = com.rota.facil.users.domain.DriverStatus.AVAILABLE
-        WHERE u.prefectureId = :prefectureId
+        WHERE u.prefecture.id = :prefectureId
         AND u.role = com.rota.facil.users.domain.Role.DRIVER
     """)
     void prepareDriversForDeactivation(@Param("prefectureId") UUID prefectureId);
@@ -57,7 +59,7 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     @Query("""
         UPDATE UserEntity u
         SET u.active = false
-        WHERE u.prefectureId = :prefectureId
+        WHERE u.prefecture.id = :prefectureId
         AND u.role IN (
             com.rota.facil.users.domain.Role.DRIVER,
             com.rota.facil.users.domain.Role.ADMIN
@@ -68,8 +70,8 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     @Modifying(clearAutomatically = true)
     @Query("""
         UPDATE UserEntity u
-        SET u.prefectureId = null
-        WHERE u.prefectureId = :prefectureId
+        SET u.prefecture = null
+        WHERE u.prefecture.id = :prefectureId
         AND u.role NOT IN (
             com.rota.facil.users.domain.Role.DRIVER,
             com.rota.facil.users.domain.Role.ADMIN

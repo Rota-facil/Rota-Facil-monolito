@@ -50,7 +50,7 @@ public class JWTService {
         return Jwts.builder()
                 .subject(saved.getEmail())
                 .claim("userId", saved.getId())
-                .claim("prefectureId", saved.getPrefectureId())
+                .claim("prefectureId", saved.getPrefecture().getId())
                 .claim("role", saved.getRole())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))

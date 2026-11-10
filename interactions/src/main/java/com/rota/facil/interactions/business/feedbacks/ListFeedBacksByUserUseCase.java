@@ -19,7 +19,7 @@ public class ListFeedBacksByUserUseCase {
     public List<FeedBackResponse> execute(UserEntity currentUser, UUID userId) {
         return this.feedBackRepository.findAllByReceiverIdAndPrefectureId(
                 userId,
-                currentUser.getPrefectureId()
+                currentUser.getPrefecture().getId()
         )
                 .stream()
                 .map(feedBackMapper::map)

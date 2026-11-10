@@ -20,7 +20,7 @@ public class FetchVehiclePhotoUseCase {
 
     @Transactional(readOnly = true)
     public FileResponse execute(UUID vehicleId, UUID photoId, UserEntity currentUser) {
-        UUID prefectureId = currentUser.getPrefectureId();
+        UUID prefectureId = currentUser.getPrefecture().getId();
         findVehicleByIdHelper.execute(vehicleId, prefectureId);
         return fileResponseMapper.map(
                 findVehiclePhotoByIdHelper.execute(photoId, vehicleId, prefectureId)

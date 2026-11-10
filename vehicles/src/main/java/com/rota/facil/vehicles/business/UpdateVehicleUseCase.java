@@ -24,8 +24,8 @@ public class UpdateVehicleUseCase {
 
     @Transactional
     public UpdateVehicleResponse execute(UUID vehicleId, UpdateVehicleRequest request, UserEntity currentUser) {
-        VehicleEntity vehicle = findVehicleByIdHelper.execute(vehicleId, currentUser.getPrefectureId());
-        UserEntity driver = findDriverForVehicleUpdateHelper.execute(request.driverId(), currentUser.getPrefectureId(), vehicle);
+        VehicleEntity vehicle = findVehicleByIdHelper.execute(vehicleId, currentUser.getPrefecture().getId());
+        UserEntity driver = findDriverForVehicleUpdateHelper.execute(request.driverId(), currentUser.getPrefecture().getId(), vehicle);
 
         UpdateVehicleData updateData = vehicleMapper.map(request, driver);
         vehicle.update(updateData);

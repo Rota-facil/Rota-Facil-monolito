@@ -23,7 +23,7 @@ public class DeleteBoardPointUseCase {
     public void execute(UUID boardPointId, UserEntity currentUser) {
         BoardPointEntity boardPoint = findBoardPointByIdHelper.execute(
                 boardPointId,
-                currentUser.getPrefectureId()
+                currentUser.getPrefecture().getId()
         );
 
         eventPublisher.publishEvent(new ValidateBoardPointDeactivationEvent(boardPointId));

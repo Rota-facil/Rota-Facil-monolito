@@ -16,7 +16,7 @@ public class ListVehiclesUseCase {
     private final VehicleMapper vehicleMapper;
 
     public List<ListVehicleResponse> execute(UserEntity currentUser) {
-        return vehicleRepository.findAllByPrefectureIdAndActiveTrue(currentUser.getPrefectureId())
+        return vehicleRepository.findAllByPrefectureIdAndActiveTrue(currentUser.getPrefecture().getId())
                 .stream()
                 .map(vehicleMapper::mapToListResponse)
                 .toList();

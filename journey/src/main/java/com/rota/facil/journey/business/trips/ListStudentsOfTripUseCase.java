@@ -17,7 +17,7 @@ public class ListStudentsOfTripUseCase {
     private final TripUserMapper tripUserMapper;
 
     public List<TripStudentsResponse> execute(UserEntity currentUser, UUID tripId) {
-        return this.tripUserRepository.findAllByTripIdAndDriverIdAndPrefectureId(tripId, currentUser.getId(), currentUser.getPrefectureId())
+        return this.tripUserRepository.findAllByTripIdAndDriverIdAndPrefectureId(tripId, currentUser.getId(), currentUser.getPrefecture().getId())
                 .stream()
                 .map(tripUserMapper::mapTripStudents)
                 .toList();

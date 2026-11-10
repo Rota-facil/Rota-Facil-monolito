@@ -17,7 +17,7 @@ public class FetchBoardPointUseCase {
 
     public BoardPointResponse execute(UUID boardPointId, UserEntity currentUser) {
         return boardPointMapper.mapToResponse(
-                findBoardPointByIdHelper.execute(boardPointId, currentUser.getPrefectureId())
+                findBoardPointByIdHelper.execute(boardPointId, currentUser.getPrefecture().getId())
         );
     }
 }

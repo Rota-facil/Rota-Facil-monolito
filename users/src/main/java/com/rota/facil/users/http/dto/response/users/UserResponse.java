@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public record UserResponse(
         UUID id,
-        UUID prefectureId,
+        UserPrefectureResponse prefecture,
         String name,
         String email,
         String cpf

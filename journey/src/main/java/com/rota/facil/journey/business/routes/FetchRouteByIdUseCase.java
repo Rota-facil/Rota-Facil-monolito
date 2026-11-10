@@ -19,7 +19,7 @@ public class FetchRouteByIdUseCase {
 
     public RouteResponse execute(UserEntity currentUser, UUID routeId) {
         return this.routeMapper.map(
-                this.findRouteByIdAndPrefectureIdHelper.execute(routeId, currentUser.getPrefectureId())
+                this.findRouteByIdAndPrefectureIdHelper.execute(routeId, currentUser.getPrefecture().getId())
         );
     }
 }

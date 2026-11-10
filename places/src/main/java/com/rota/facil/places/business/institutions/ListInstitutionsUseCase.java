@@ -17,7 +17,7 @@ public class ListInstitutionsUseCase {
 
     public Page<InstitutionResponse> execute(Pageable pageable, UserEntity currentUser) {
         return institutionRepository
-                .findAllByPrefectureIdAndActiveTrue(currentUser.getPrefectureId(), pageable)
+                .findAllByPrefectureIdAndActiveTrue(currentUser.getPrefecture().getId(), pageable)
                 .map(institutionMapper::mapToResponse);
     }
 }

@@ -25,7 +25,7 @@ public class UpdateInstitutionUseCase {
     public InstitutionResponse execute(UUID institutionId, UpdateInstitutionRequest request, UserEntity currentUser) {
         InstitutionEntity institution = findInstitutionByIdHelper.execute(
                 institutionId,
-                currentUser.getPrefectureId()
+                currentUser.getPrefecture().getId()
         );
         UpdateInstitutionData updateData = institutionMapper.map(request);
 

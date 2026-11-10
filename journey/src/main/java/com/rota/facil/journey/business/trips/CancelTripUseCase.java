@@ -27,7 +27,7 @@ public class CancelTripUseCase {
     @Transactional
     public TripResponse execute(UserEntity currentUser, UUID tripId, CancelTripRequest request) {
         TripEntity trip = tripRepository.findTripByIdAndPrefectureIdAndDriverId(
-                        tripId, currentUser.getPrefectureId(), currentUser.getId())
+                        tripId, currentUser.getPrefecture().getId(), currentUser.getId())
                 .orElseThrow(TripNotFoundException::new);
 
         if (Progress.CANCELLED.equals(trip.getActualStatus())) {

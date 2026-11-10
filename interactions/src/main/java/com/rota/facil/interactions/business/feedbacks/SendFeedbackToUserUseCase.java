@@ -23,7 +23,7 @@ public class SendFeedbackToUserUseCase {
     public FeedBackResponse execute(UserEntity currentUser, SendFeedBackRequest request) {
         if (currentUser.getId().equals(request.receiverId())) throw new EvaluateYourSelfException();
 
-        UserEntity receiver = this.userRepository.findByIdAndPrefectureIdActive(request.receiverId(), currentUser.getPrefectureId())
+        UserEntity receiver = this.userRepository.findByIdAndPrefectureIdActive(request.receiverId(), currentUser.getPrefecture().getId())
                 .orElseThrow(UserNotFoundExceptions::new);
 
         if (currentUser.getRole().equals(receiver.getRole())) throw new EvaluationSameRoleException("Apenas motoristas e alunos podem se avaliar entre si");

@@ -22,8 +22,8 @@ public class ListMyTripsTodayUseCase {
             List<TripEntity> trips;
 
             switch (currentUser.getRole()) {
-                case DRIVER -> trips = this.tripRepository.findALLByDriverIdAndPrefectureId(currentUser.getId(), currentUser.getPrefectureId());
-                case STUDENT -> trips = this.tripUserRepository.findAllTripsByStudentIdAndPrefectureId(currentUser.getId(), currentUser.getPrefectureId());
+                case DRIVER -> trips = this.tripRepository.findALLByDriverIdAndPrefectureId(currentUser.getId(), currentUser.getPrefecture().getId());
+                case STUDENT -> trips = this.tripUserRepository.findAllTripsByStudentIdAndPrefectureId(currentUser.getId(), currentUser.getPrefecture().getId());
                 default -> throw new RuntimeException();
             }
 

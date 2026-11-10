@@ -17,7 +17,7 @@ public class FetchVehicleUseCase {
     private final VehicleMapper vehicleMapper;
 
     public FetchVehicleResponse execute(UUID vehicleId, UserEntity currentUser) {
-        VehicleEntity vehicle = findVehicleByIdHelper.execute(vehicleId, currentUser.getPrefectureId());
+        VehicleEntity vehicle = findVehicleByIdHelper.execute(vehicleId, currentUser.getPrefecture().getId());
         return vehicleMapper.mapToFetchResponse(vehicle);
     }
 }

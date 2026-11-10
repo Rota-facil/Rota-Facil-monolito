@@ -17,7 +17,7 @@ public class FetchInstitutionUseCase {
 
     public InstitutionResponse execute(UUID institutionId, UserEntity currentUser) {
         return institutionMapper.mapToResponse(
-                findInstitutionByIdHelper.execute(institutionId, currentUser.getPrefectureId())
+                findInstitutionByIdHelper.execute(institutionId, currentUser.getPrefecture().getId())
         );
     }
 }

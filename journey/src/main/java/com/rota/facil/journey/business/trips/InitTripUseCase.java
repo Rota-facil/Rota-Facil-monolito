@@ -36,7 +36,7 @@ public class InitTripUseCase {
 
     @Transactional
     public TripResponse execute(UserEntity currentUser, UUID tripId) {
-        TripEntity trip = findTripByIdAndPrefectureHelper.execute(tripId, currentUser.getPrefectureId());
+        TripEntity trip = findTripByIdAndPrefectureHelper.execute(tripId, currentUser.getPrefecture().getId());
 
         if (!Progress.NOT_STARTED.equals(trip.getActualStatus())) throw new TripCannotBeStartedException("A ida só pode ser iniciada quando a viagem ainda não foi iniciada");
         if (trip.getStudents().equals(0L)) throw new TripCannotBeStartedException("Não é possível iniciar a ida sem alunos cadastrados na viagem");

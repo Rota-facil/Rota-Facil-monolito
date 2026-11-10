@@ -66,7 +66,7 @@ public class LoginWithGoogleSuccessUseCase implements AuthenticationSuccessHandl
 
         response.setContentType("application/json");
 
-        if (user.getPrefectureId() != null && user.getCpf() != null) {
+        if (user.getPrefecture().getId() != null && user.getCpf() != null) {
             UserTokenEntity userToken = this.findUserTokenByUserIdHelper.execute(user.getId());
 
             String accessToken = jwtService.generateAccessToken(user);

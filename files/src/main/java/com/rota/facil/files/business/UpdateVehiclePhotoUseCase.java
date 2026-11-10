@@ -33,7 +33,7 @@ public class UpdateVehiclePhotoUseCase {
             MultipartFile newPhoto,
             UserEntity currentUser
     ) {
-        UUID prefectureId = currentUser.getPrefectureId();
+        UUID prefectureId = currentUser.getPrefecture().getId();
         findVehicleByIdHelper.execute(vehicleId, prefectureId);
         validateImageHelper.execute(newPhoto);
         FileEntity photo = findVehiclePhotoByIdHelper.execute(photoId, vehicleId, prefectureId);

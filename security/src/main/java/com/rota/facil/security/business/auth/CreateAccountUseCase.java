@@ -34,7 +34,7 @@ public class CreateAccountUseCase {
                 .cpf(request.cpf())
                 .email(request.email())
                 .name(request.name())
-                .prefectureId(prefecture.getId())
+                .prefecture(prefecture)
                 .password(passwordEncoder.encode(request.password()))
                 .role(Role.STUDENT)
                 .build();

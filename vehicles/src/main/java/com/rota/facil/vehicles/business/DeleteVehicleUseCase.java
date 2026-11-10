@@ -21,7 +21,7 @@ public class DeleteVehicleUseCase {
 
     @Transactional
     public void execute(UUID vehicleId, UserEntity currentUser) {
-        VehicleEntity vehicle = findAnyVehicleByIdHelper.execute(vehicleId, currentUser.getPrefectureId());
+        VehicleEntity vehicle = findAnyVehicleByIdHelper.execute(vehicleId, currentUser.getPrefecture().getId());
 
         vehicle.deactivate();
         vehicleRepository.save(vehicle);

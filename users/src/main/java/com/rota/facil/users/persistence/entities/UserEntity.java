@@ -1,5 +1,6 @@
 package com.rota.facil.users.persistence.entities;
 
+import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.users.domain.DriverStatus;
 import com.rota.facil.users.domain.Role;
 import jakarta.persistence.*;
@@ -20,8 +21,9 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "prefecture_id")
-    private UUID prefectureId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "prefecture_id")
+    private PrefectureEntity prefecture;
 
     private String password;
 
@@ -51,7 +53,7 @@ public class UserEntity {
     private DriverStatus status;
 
     public void update(UserEntity userEntity) {
-        if (userEntity.getPrefectureId() != null) this.prefectureId = userEntity.getPrefectureId();
+        if (userEntity.getPrefecture() != null) this.prefecture = userEntity.getPrefecture();
         if (userEntity.getName() != null) this.name = userEntity.getName();
         if (userEntity.getEmail() != null) this.email = userEntity.getEmail();
         if (userEntity.getScore() != null) this.score = userEntity.getScore();

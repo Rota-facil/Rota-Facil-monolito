@@ -23,7 +23,7 @@ public class DeleteInstitutionUseCase {
     public void execute(UUID institutionId, UserEntity currentUser) {
         InstitutionEntity institution = findInstitutionByIdHelper.execute(
                 institutionId,
-                currentUser.getPrefectureId()
+                currentUser.getPrefecture().getId()
         );
 
         eventPublisher.publishEvent(new ValidateInstitutionDeactivationEvent(institutionId));

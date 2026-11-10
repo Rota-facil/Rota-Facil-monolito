@@ -44,7 +44,7 @@ public class CompleteGoogleLoginUseCase {
         }
 
         UserEntity user = tokenCompleteGoogleLogin.getUser();
-        user.setPrefectureId(prefectureFound.getId());
+        user.setPrefecture(prefectureFound);
         user.setCpf(request.cpf());
 
        this.tokenCompleteGoogleLoginRepository.delete(tokenCompleteGoogleLogin);

@@ -26,7 +26,7 @@ public class CreateBoardPointUseCase {
         GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
         Point point = geometryFactory.createPoint(new Coordinate(request.longitude(), request.latitude()));
 
-        preSaved.setPrefectureId(currentUser.getPrefectureId());
+        preSaved.setPrefectureId(currentUser.getPrefecture().getId());
         preSaved.setGeom(point);
 
         return this.boardPointMapper.map(this.boardPointRepository.save(preSaved));

@@ -25,11 +25,11 @@ public class UploadVehiclePhotoUseCase {
 
     @Transactional
     public FileResponse execute(UUID vehicleId, MultipartFile file, UserEntity currentUser) {
-        findVehicleByIdHelper.execute(vehicleId, currentUser.getPrefectureId());
+        findVehicleByIdHelper.execute(vehicleId, currentUser.getPrefecture().getId());
         validateImageHelper.execute(file);
 
         FileEntity saved = fileRepository.save(FileEntity.newVehiclePhoto(
-                vehicleId, currentUser.getId(), currentUser.getPrefectureId(),
+                vehicleId, currentUser.getId(), currentUser.getPrefecture().getId(),
                 file.getOriginalFilename(), file.getContentType(), file.getSize()));
 
         fileStorage.upload(file, saved.getObjectKey());

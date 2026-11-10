@@ -17,7 +17,7 @@ public class DeactivateTripUseCase {
     private final TripRepository tripRepository;
 
     public void execute(UUID tripId, UserEntity currentUser) {
-        TripEntity tripFound = this.tripRepository.findTripByIdAndPrefectureId(tripId, currentUser.getPrefectureId())
+        TripEntity tripFound = this.tripRepository.findTripByIdAndPrefectureId(tripId, currentUser.getPrefecture().getId())
                 .orElseThrow(TripNotFoundException::new);
 
         if (!tripFound.getActualStatus().equals(Progress.CANCELLED) && !tripFound.getActualStatus().equals(Progress.NOT_STARTED)) {

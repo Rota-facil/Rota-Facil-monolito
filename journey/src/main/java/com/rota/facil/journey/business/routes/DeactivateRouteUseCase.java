@@ -22,7 +22,7 @@ public class DeactivateRouteUseCase {
 
     @Transactional
     public void execute(UserEntity currentUser, UUID routeId) {
-        RouteEntity routeFound = this.findRouteByIdAndPrefectureIdHelper.execute(routeId, currentUser.getPrefectureId());
+        RouteEntity routeFound = this.findRouteByIdAndPrefectureIdHelper.execute(routeId, currentUser.getPrefecture().getId());
 
         this.validateUpdateRouteHelper.execute(routeId);
 

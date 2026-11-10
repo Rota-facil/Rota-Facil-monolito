@@ -25,7 +25,7 @@ public class UpdateBoardPointUseCase {
     public BoardPointResponse execute(UUID boardPointId, UpdateBoardPointRequest request, UserEntity currentUser) {
         BoardPointEntity boardPoint = findBoardPointByIdHelper.execute(
                 boardPointId,
-                currentUser.getPrefectureId()
+                currentUser.getPrefecture().getId()
         );
         UpdateBoardPointData updateData = boardPointMapper.map(request);
 
