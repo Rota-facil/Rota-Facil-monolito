@@ -1,9 +1,9 @@
 package com.rota.facil.files.http.controllers;
 
-import com.rota.facil.files.business.FetchVehiclePhotoUseCase;
-import com.rota.facil.files.business.ListVehiclePhotosUseCase;
-import com.rota.facil.files.business.UpdateVehiclePhotoUseCase;
-import com.rota.facil.files.business.UploadVehiclePhotoUseCase;
+import com.rota.facil.files.business.vehicles.FetchVehiclePhotoUseCase;
+import com.rota.facil.files.business.vehicles.ListVehiclePhotosUseCase;
+import com.rota.facil.files.business.vehicles.UpdateVehiclePhotoUseCase;
+import com.rota.facil.files.business.vehicles.UploadVehiclePhotoUseCase;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
