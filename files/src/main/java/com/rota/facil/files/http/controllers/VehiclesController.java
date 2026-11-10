@@ -20,7 +20,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/files")
 @RequiredArgsConstructor
-public class FilesController {
+public class VehiclesController {
     private final UploadVehiclePhotoUseCase uploadVehiclePhotoUseCase;
     private final ListVehiclePhotosUseCase listVehiclePhotosUseCase;
     private final FetchVehiclePhotoUseCase fetchVehiclePhotoUseCase;
