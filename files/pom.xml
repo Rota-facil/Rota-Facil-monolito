@@ -42,6 +42,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.rota.facil</groupId>
+            <artifactId>journey</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>8.5.10</version>

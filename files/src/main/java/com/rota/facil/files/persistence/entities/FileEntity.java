@@ -19,26 +19,36 @@ public class FileEntity {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "file_id")
     private UUID id;
+
     @Column(name = "original_filename", nullable = false)
     private String originalFilename;
+
     @Column(name = "object_key", nullable = false, unique = true)
     private String objectKey;
+
     @Column(name = "owner_id", nullable = false)
     private UUID ownerId;
+
     @Column(name = "creator_id", nullable = false)
     private UUID creatorId;
+
     @Column(name = "prefecture_id", nullable = false)
     private UUID prefectureId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "owner_type", nullable = false)
     private OwnerType ownerType;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "file_category", nullable = false)
     private FileCategory fileCategory;
+
     @Column(name = "mime_type", nullable = false)
     private String mimeType;
+
     @Column(name = "file_size_bytes", nullable = false)
     private Long fileSizeBytes;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

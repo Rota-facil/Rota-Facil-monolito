@@ -8,6 +8,7 @@ import com.rota.facil.files.business.institutions.UploadInstitutionPhotoUseCase;
 import com.rota.facil.files.business.institutions.FetchInstitutionPhotoUseCase;
 import com.rota.facil.files.business.institutions.ListInstitutionPhotosUseCase;
 import com.rota.facil.files.business.institutions.UpdateInstitutionPhotoUseCase;
+import com.rota.facil.files.business.routes.UploadHeatMapRouteUseCase;
 import com.rota.facil.files.business.users.FetchProfilePicUseCase;
 import com.rota.facil.files.business.users.UploadProfilePicUseCase;
 import com.rota.facil.files.business.vehicles.FetchVehiclePhotoUseCase;
@@ -48,6 +49,8 @@ public class FilesController {
 
     private final UploadProfilePicUseCase uploadProfilePicUseCase;
     private final FetchProfilePicUseCase fetchProfilePicUseCase;
+
+    private final UploadHeatMapRouteUseCase uploadHeatMapRouteUseCase;
 
     @PostMapping(value = "/vehicles/{vehicleId}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileResponse> uploadVehiclePhoto(@PathVariable UUID vehicleId,
@@ -171,5 +174,15 @@ public class FilesController {
     @GetMapping("/users/profile-pic")
     public ResponseEntity<FileResponse> fetchProfilePic(@AuthenticationPrincipal UserEntity currentUser) {
         return ResponseEntity.ok(this.fetchProfilePicUseCase.execute(currentUser));
+    }
+
+    @PostMapping(value = "/heat-map/{routeId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> uploadHeatMapRoute(
+            @PathVariable UUID routeId,
+            @RequestPart(name = "file" ) MultipartFile file,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        this.uploadHeatMapRouteUseCase.execute(routeId, file, currentUser);
+        return ResponseEntity.ok().build();
     }
 }
