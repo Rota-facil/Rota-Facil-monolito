@@ -2,6 +2,7 @@ package com.rota.facil.security.http.controllers;
 
 import com.rota.facil.security.business.CompleteGoogleLoginUseCase;
 import com.rota.facil.security.business.auth.CreateAccountUseCase;
+import com.rota.facil.security.business.auth.DeactivateUserUseCase;
 import com.rota.facil.security.business.auth.LoginUseCase;
 import com.rota.facil.security.business.auth.LogoutUseCase;
 import com.rota.facil.security.http.dto.request.google.CompleteGoogleLoginRequest;
@@ -26,6 +27,7 @@ public class AuthController {
     private final CompleteGoogleLoginUseCase completeGoogleLoginUseCase;
     private final LoginUseCase loginUseCase;
     private final LogoutUseCase logoutUseCase;
+    private final DeactivateUserUseCase deactivateUserUseCase;
 
     @PostMapping("/register")
     public ResponseEntity<TokenResponse> createAccount(@Valid @RequestBody CreateAccountRequest request) {
@@ -51,4 +53,11 @@ public class AuthController {
         this.logoutUseCase.execute(currentUser);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/deactivate")
+    public ResponseEntity<Void> deactivateUser(@AuthenticationPrincipal UserEntity currentUser) {
+        this.deactivateUserUseCase.execute(currentUser);
+        return ResponseEntity.ok().build();
+    }
+
 }

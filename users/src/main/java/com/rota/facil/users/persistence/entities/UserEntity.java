@@ -99,4 +99,7 @@ public class UserEntity {
         this.trips++;
     }
 
+    public void deactivate() {
+        this.active = false;
+    }
 }

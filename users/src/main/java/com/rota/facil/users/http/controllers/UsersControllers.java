@@ -1,6 +1,5 @@
 package com.rota.facil.users.http.controllers;
 
-import com.rota.facil.prefectures.http.dto.response.prefecture.PrefectureResponse;
 import com.rota.facil.users.business.users.ChangePrefectureUseCase;
 import com.rota.facil.users.business.admin.CreateDriverUseCase;
 import com.rota.facil.users.business.users.FetchMeUseCase;
