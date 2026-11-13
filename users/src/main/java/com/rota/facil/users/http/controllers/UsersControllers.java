@@ -4,7 +4,9 @@ import com.rota.facil.prefectures.http.dto.response.prefecture.PrefectureRespons
 import com.rota.facil.users.business.users.ChangePrefectureUseCase;
 import com.rota.facil.users.business.admin.CreateDriverUseCase;
 import com.rota.facil.users.business.users.FetchMeUseCase;
+import com.rota.facil.users.business.users.UpdateAccountUseCase;
 import com.rota.facil.users.http.dto.request.users.CreateDriverRequest;
+import com.rota.facil.users.http.dto.request.users.UpdateAccountRequest;
 import com.rota.facil.users.http.dto.response.users.UserResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ public class UsersControllers {
     private final CreateDriverUseCase createDriverUseCase;
     private final ChangePrefectureUseCase changePrefectureUseCase;
     private final FetchMeUseCase fetchMeUseCase;
+    private final UpdateAccountUseCase updateAccountUseCase;
 
     @PostMapping("/drivers")
     public ResponseEntity<UserResponse> createDriver(
@@ -33,6 +36,14 @@ public class UsersControllers {
     @GetMapping("/me")
     public ResponseEntity<UserResponse> fetchMe(@AuthenticationPrincipal UserEntity currentUser) {
         return ResponseEntity.ok(this.fetchMeUseCase.execute(currentUser));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserResponse> update(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @RequestBody UpdateAccountRequest request
+    ) {
+        return ResponseEntity.ok(this.updateAccountUseCase.execute(currentUser, request));
     }
 
     @PatchMapping("/{prefectureId}/change")

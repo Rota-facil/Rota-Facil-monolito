@@ -3,6 +3,7 @@ package com.rota.facil.users.persistence.entities;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.users.domain.DriverStatus;
 import com.rota.facil.users.domain.Role;
+import com.rota.facil.users.domain.UpdateUserData;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -52,12 +53,10 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private DriverStatus status;
 
-    public void update(UserEntity userEntity) {
-        if (userEntity.getPrefecture() != null) this.prefecture = userEntity.getPrefecture();
-        if (userEntity.getName() != null) this.name = userEntity.getName();
-        if (userEntity.getEmail() != null) this.email = userEntity.getEmail();
-        if (userEntity.getScore() != null) this.score = userEntity.getScore();
-        if (userEntity.getCpf() != null) this.cpf = userEntity.getCpf();
+    public void update(UpdateUserData updateUserData) {
+        if (updateUserData.name() != null) this.name = updateUserData.name();
+        if (updateUserData.cpf() != null) this.cpf = updateUserData.cpf();
+        if (updateUserData.email() != null) this.email = updateUserData.email();
     }
 
     @Override
