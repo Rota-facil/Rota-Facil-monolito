@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice(name = "interactionsGlobalExceptionHandler")
 public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> evaluateYourSelfException(HttpServletRequest request, EvaluateYourSelfException ex) {

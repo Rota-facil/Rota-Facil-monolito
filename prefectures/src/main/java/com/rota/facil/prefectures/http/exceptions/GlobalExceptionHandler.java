@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice(name = "prefecturesGlobalExceptionHandler")
 public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> prefectureNotFoundException(HttpServletRequest request, PrefectureNotFoundExceptions ex) {

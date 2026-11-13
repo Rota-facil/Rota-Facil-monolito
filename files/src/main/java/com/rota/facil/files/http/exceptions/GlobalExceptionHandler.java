@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
+@ControllerAdvice(name = "filesGlobalExceptionHandler")
 public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> fileNotFoundException(HttpServletRequest request, FileNotFoundException ex) {

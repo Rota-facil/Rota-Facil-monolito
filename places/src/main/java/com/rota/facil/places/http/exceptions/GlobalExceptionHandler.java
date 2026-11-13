@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice(name = "placesGlobalExceptionHandler")
 public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> boardPointNotFoundException(HttpServletRequest request, BoardPointNotFoundException ex) {

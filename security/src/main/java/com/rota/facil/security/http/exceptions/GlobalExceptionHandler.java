@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice(name = "securityGlobalExceptionHandler")
 public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> cpfAlreadyExistsException(HttpServletRequest request, CpfAlreadyExistsException ex) {
