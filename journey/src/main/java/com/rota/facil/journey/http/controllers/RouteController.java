@@ -24,6 +24,7 @@ public class RouteController {
     private final FetchRouteByIdUseCase fetchRouteByIdUseCase;
     private final UpdateRouteUseCase updateRouteUseCase;
     private final DeactivateRouteUseCase deactivateRouteUseCase;
+    private final GenerateHeatMapRouteUseCase generateHeatMapRouteUseCase;
 
     @PostMapping
     public ResponseEntity<RouteResponse> createRoute(
@@ -31,6 +32,15 @@ public class RouteController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.createRouteUseCase.execute(currentUser, request));
+    }
+
+    @PostMapping("/heat-map/{routeId}")
+    public ResponseEntity<Void> generateHeatMapRoute(
+            @PathVariable UUID routeId,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        this.generateHeatMapRouteUseCase.execute(routeId, currentUser);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping

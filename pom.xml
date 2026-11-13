@@ -32,6 +32,7 @@
 		<module>places</module>
         <module>prefectures</module>
         <module>annotations</module>
+        <module>client-http</module>
     </modules>
 	<scm>
 		<connection/>

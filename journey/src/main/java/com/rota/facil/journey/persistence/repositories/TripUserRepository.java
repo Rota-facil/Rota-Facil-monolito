@@ -1,5 +1,6 @@
 package com.rota.facil.journey.persistence.repositories;
 
+import com.rota.facil.client.http.dto.request.heatMaps.PointRequest;
 import com.rota.facil.journey.http.dto.response.trips.TripStudentsResponse;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.entities.TripUserEntity;
@@ -112,4 +113,14 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         AND t.prefectureId = :prefectureId
     """)
     List<TripUserEntity> findAllByTripIdAndDriverIdAndPrefectureId(@Param("tripId") UUID tripId, @Param("driverId") UUID driverId, @Param("prefectureId") UUID prefectureId);
+
+    @Query("""
+        SELECT new com.rota.facil.client.http.dto.request.heatMaps.PointRequest(
+                b.latitude,
+                b.longitude
+            )
+        FROM TripUserEntity tu
+        INNER JOIN tu.boardPoint b
+    """)
+    List<PointRequest> findAllStudentsBoardPointsPointsSelectByRouteId(@Param(value = "routeId") UUID routeId);
 }

@@ -32,6 +32,12 @@
 
         <dependency>
             <groupId>com.rota.facil</groupId>
+            <artifactId>client-http</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.rota.facil</groupId>
             <artifactId>journey</artifactId>
             <version>${project.version}</version>
         </dependency>
