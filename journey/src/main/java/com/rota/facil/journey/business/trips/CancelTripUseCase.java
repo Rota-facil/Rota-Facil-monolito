@@ -2,8 +2,8 @@ package com.rota.facil.journey.business.trips;
 
 import com.rota.facil.journey.domain.Delay;
 import com.rota.facil.journey.domain.Progress;
-import com.rota.facil.journey.exceptions.TripAlreadyCancelledException;
-import com.rota.facil.journey.exceptions.TripNotFoundException;
+import com.rota.facil.journey.http.exceptions.TripAlreadyCancelledException;
+import com.rota.facil.journey.http.exceptions.TripNotFoundException;
 import com.rota.facil.journey.http.dto.request.trips.CancelTripRequest;
 import com.rota.facil.journey.http.dto.response.trips.TripResponse;
 import com.rota.facil.journey.persistence.entities.TripEntity;

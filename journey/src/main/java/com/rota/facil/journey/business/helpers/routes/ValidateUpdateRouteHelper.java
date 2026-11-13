@@ -1,6 +1,6 @@
 package com.rota.facil.journey.business.helpers.routes;
 
-import com.rota.facil.journey.exceptions.UpdateRouteException;
+import com.rota.facil.journey.http.exceptions.UpdateRouteException;
 import com.rota.facil.journey.persistence.repositories.TripRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -1,10 +1,10 @@
 package com.rota.facil.journey.business.trips;
 
 import com.rota.facil.journey.domain.Progress;
-import com.rota.facil.journey.exceptions.MaxCapacityLimitedException;
-import com.rota.facil.journey.exceptions.InvalidTripGoingReturnException;
-import com.rota.facil.journey.exceptions.NotAllowedJoinTripException;
-import com.rota.facil.journey.exceptions.TripNotFoundException;
+import com.rota.facil.journey.http.exceptions.MaxCapacityLimitedException;
+import com.rota.facil.journey.http.exceptions.InvalidTripGoingReturnException;
+import com.rota.facil.journey.http.exceptions.NotAllowedJoinTripException;
+import com.rota.facil.journey.http.exceptions.TripNotFoundException;
 import com.rota.facil.journey.http.dto.request.trips.JoinInTripRequest;
 import com.rota.facil.journey.http.dto.response.trips.TripUserResponse;
 import com.rota.facil.journey.persistence.entities.TripEntity;

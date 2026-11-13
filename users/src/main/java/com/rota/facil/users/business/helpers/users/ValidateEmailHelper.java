@@ -1,6 +1,6 @@
 package com.rota.facil.users.business.helpers.users;
 
-import com.rota.facil.users.exceptions.EmailAlreadyExistsException;
+import com.rota.facil.users.http.exceptions.EmailAlreadyExistsException;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

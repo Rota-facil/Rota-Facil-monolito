@@ -7,7 +7,7 @@ import com.rota.facil.journey.business.helpers.trips.RegisterIgnoredInstitutions
 import com.rota.facil.journey.domain.Delay;
 import com.rota.facil.journey.domain.Progress;
 import com.rota.facil.journey.domain.TripOrientation;
-import com.rota.facil.journey.exceptions.TripCannotBeStartedException;
+import com.rota.facil.journey.http.exceptions.TripCannotBeStartedException;
 import com.rota.facil.journey.http.dto.response.trips.TripResponse;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.mappers.TripMapper;

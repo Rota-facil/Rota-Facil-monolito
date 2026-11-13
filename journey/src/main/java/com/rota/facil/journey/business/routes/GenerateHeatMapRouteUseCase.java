@@ -5,7 +5,7 @@ import com.rota.facil.client.http.controllers.IntelligenceHttpClient;
 import com.rota.facil.client.http.dto.request.heatMaps.PointRequest;
 import com.rota.facil.client.http.dto.request.heatMaps.RouteHeatMapCurrentUserRequest;
 import com.rota.facil.client.http.dto.request.heatMaps.RouteHeatMapRequest;
-import com.rota.facil.journey.exceptions.RouteNotFoundException;
+import com.rota.facil.journey.http.exceptions.RouteNotFoundException;
 import com.rota.facil.journey.persistence.entities.RouteEntity;
 import com.rota.facil.journey.persistence.repositories.RouteRepository;
 import com.rota.facil.journey.persistence.repositories.TripUserRepository;

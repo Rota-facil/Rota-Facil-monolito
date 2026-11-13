@@ -1,6 +1,6 @@
 package com.rota.facil.journey.business.helpers.trips;
 
-import com.rota.facil.journey.exceptions.TripNotFoundException;
+import com.rota.facil.journey.http.exceptions.TripNotFoundException;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.repositories.TripRepository;
 import lombok.RequiredArgsConstructor;

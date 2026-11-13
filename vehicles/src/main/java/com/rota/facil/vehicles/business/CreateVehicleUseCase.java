@@ -1,6 +1,6 @@
 package com.rota.facil.vehicles.business;
 
-import com.rota.facil.users.exceptions.UserNotFoundExceptions;
+import com.rota.facil.users.http.exceptions.UserNotFoundExceptions;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
 import com.rota.facil.vehicles.persistence.entities.VehicleEntity;

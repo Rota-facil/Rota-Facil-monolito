@@ -1,13 +1,13 @@
 package com.rota.facil.interactions.business.feedbacks;
 
-import com.rota.facil.interactions.exceptions.EvaluateYourSelfException;
-import com.rota.facil.interactions.exceptions.EvaluationSameRoleException;
+import com.rota.facil.interactions.http.exceptions.EvaluateYourSelfException;
+import com.rota.facil.interactions.http.exceptions.EvaluationSameRoleException;
 import com.rota.facil.interactions.http.dto.request.feedbacks.SendFeedBackRequest;
 import com.rota.facil.interactions.http.dto.response.feedbacks.FeedBackResponse;
 import com.rota.facil.interactions.persistence.entities.FeedBackEntity;
 import com.rota.facil.interactions.persistence.entities.FeedBackRepository;
 import com.rota.facil.interactions.persistence.mappers.FeedBackMapper;
-import com.rota.facil.users.exceptions.UserNotFoundExceptions;
+import com.rota.facil.users.http.exceptions.UserNotFoundExceptions;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

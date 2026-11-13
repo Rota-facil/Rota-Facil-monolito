@@ -2,8 +2,8 @@ package com.rota.facil.journey.business.trips;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.journey.domain.Progress;
-import com.rota.facil.journey.exceptions.DeactivateTripExceptions;
-import com.rota.facil.journey.exceptions.TripNotFoundException;
+import com.rota.facil.journey.http.exceptions.DeactivateTripExceptions;
+import com.rota.facil.journey.http.exceptions.TripNotFoundException;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.repositories.TripRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;

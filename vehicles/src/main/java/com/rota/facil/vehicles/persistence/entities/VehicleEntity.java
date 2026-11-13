@@ -4,7 +4,7 @@ import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.domain.VehicleStatus;
 import com.rota.facil.vehicles.domain.VehicleType;
 import com.rota.facil.vehicles.domain.UpdateVehicleData;
-import com.rota.facil.vehicles.domain.exceptions.VehicleInOperationException;
+import com.rota.facil.vehicles.http.exceptions.VehicleInOperationException;
 import jakarta.persistence.*;
 import lombok.*;
 

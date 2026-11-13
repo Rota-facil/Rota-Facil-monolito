@@ -1,6 +1,6 @@
 package com.rota.facil.security.business.auth.helpers;
 
-import com.rota.facil.security.exceptions.UserTokenNotFoundExceptions;
+import com.rota.facil.security.http.exceptions.UserTokenNotFoundExceptions;
 import com.rota.facil.security.persistence.entities.UserTokenEntity;
 import com.rota.facil.security.persistence.repositories.UserTokenRepository;
 import lombok.RequiredArgsConstructor;

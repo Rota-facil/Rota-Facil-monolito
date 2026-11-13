@@ -4,7 +4,7 @@ import com.rota.facil.annotations.UseCase;
 import com.rota.facil.journey.business.helpers.routes.FindRouteByIdAndPrefectureIdHelper;
 import com.rota.facil.journey.business.helpers.routes.ValidateUpdateRouteHelper;
 import com.rota.facil.journey.domain.DaysOfWeek;
-import com.rota.facil.journey.exceptions.UpdateRouteException;
+import com.rota.facil.journey.http.exceptions.UpdateRouteException;
 import com.rota.facil.journey.http.dto.request.routes.*;
 import com.rota.facil.journey.http.dto.response.routes.RouteResponse;
 import com.rota.facil.journey.persistence.entities.BoardPointRouteEntity;

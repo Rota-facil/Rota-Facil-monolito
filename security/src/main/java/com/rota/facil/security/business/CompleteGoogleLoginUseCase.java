@@ -1,11 +1,11 @@
 package com.rota.facil.security.business;
 
 import com.rota.facil.annotations.UseCase;
-import com.rota.facil.prefectures.exceptions.PrefectureNotFoundExceptions;
+import com.rota.facil.prefectures.http.exceptions.PrefectureNotFoundExceptions;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.prefectures.persistence.repositories.PrefectureRepository;
-import com.rota.facil.security.exceptions.TimeForAccessCodeCompleteGooglehasExpiredException;
-import com.rota.facil.security.exceptions.TokenCompleteGoogleLoginNotFoundException;
+import com.rota.facil.security.http.exceptions.TimeForAccessCodeCompleteGooglehasExpiredException;
+import com.rota.facil.security.http.exceptions.TokenCompleteGoogleLoginNotFoundException;
 import com.rota.facil.security.http.dto.request.google.CompleteGoogleLoginRequest;
 import com.rota.facil.security.http.dto.response.token.TokenResponse;
 import com.rota.facil.security.persistence.entities.TokenCompleteGoogleLoginEntity;

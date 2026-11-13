@@ -1,7 +1,7 @@
 package com.rota.facil.vehicles.business.helpers;
 
 import com.rota.facil.users.domain.DriverStatus;
-import com.rota.facil.users.exceptions.UserNotFoundExceptions;
+import com.rota.facil.users.http.exceptions.UserNotFoundExceptions;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
 import com.rota.facil.vehicles.persistence.entities.VehicleEntity;

@@ -1,5 +1,5 @@
 package com.rota.facil.files.business.helpers;
-import com.rota.facil.files.exceptions.InvalidFileException;
+import com.rota.facil.files.http.exceptions.InvalidFileException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 @Component

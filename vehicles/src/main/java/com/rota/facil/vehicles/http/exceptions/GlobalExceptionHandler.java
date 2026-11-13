@@ -1,6 +1,6 @@
 package com.rota.facil.vehicles.http.exceptions;
 
-import com.rota.facil.users.exceptions.UserNotFoundExceptions;
+import com.rota.facil.users.http.exceptions.UserNotFoundExceptions;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
