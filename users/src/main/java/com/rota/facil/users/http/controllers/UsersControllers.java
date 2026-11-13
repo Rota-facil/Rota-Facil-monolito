@@ -6,6 +6,7 @@ import com.rota.facil.users.business.users.FetchMeUseCase;
 import com.rota.facil.users.business.users.UpdateAccountUseCase;
 import com.rota.facil.users.http.dto.request.users.CreateDriverRequest;
 import com.rota.facil.users.http.dto.request.users.UpdateAccountRequest;
+import com.rota.facil.users.http.dto.request.users.UpdateAccountRequest;
 import com.rota.facil.users.http.dto.response.users.UserResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
