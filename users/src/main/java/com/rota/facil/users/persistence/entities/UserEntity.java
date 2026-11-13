@@ -7,6 +7,7 @@ import com.rota.facil.users.domain.UpdateUserData;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Builder
@@ -52,6 +53,10 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     private DriverStatus status;
+
+    @Builder.Default
+    @Column(name = "created_at")
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public void update(UpdateUserData updateUserData) {
         if (updateUserData.name() != null) this.name = updateUserData.name();
