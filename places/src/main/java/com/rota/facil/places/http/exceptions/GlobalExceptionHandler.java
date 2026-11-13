@@ -15,12 +15,12 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> boardPointNotFoundException(HttpServletRequest request, BoardPointNotFoundException ex) {
-        return this.resolveExceptions(HttpStatus.BAD_REQUEST, request, ex);
+        return this.resolveExceptions(HttpStatus.NOT_FOUND, request, ex);
     }
 
     @ExceptionHandler
     public ResponseEntity<Object> institutionNotFoundException(HttpServletRequest request, InstitutionNotFoundException ex) {
-        return this.resolveExceptions(HttpStatus.BAD_REQUEST, request, ex);
+        return this.resolveExceptions(HttpStatus.NOT_FOUND, request, ex);
     }
 
 

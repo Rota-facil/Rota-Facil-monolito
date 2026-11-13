@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<Object> routeNotFoundException(HttpServletRequest request, RouteNotFoundException ex) {
-        return this.resolveExceptions(HttpStatus.BAD_REQUEST, request, ex);
+        return this.resolveExceptions(HttpStatus.NOT_FOUND, request, ex);
     }
 
     @ExceptionHandler
@@ -75,12 +75,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<Object> tripNotFoundException(HttpServletRequest request, TripNotFoundException ex) {
-        return this.resolveExceptions(HttpStatus.BAD_REQUEST, request, ex);
+        return this.resolveExceptions(HttpStatus.NOT_FOUND, request, ex);
     }
 
     @ExceptionHandler
     public ResponseEntity<Object> tripUserNotFoundExeption(HttpServletRequest request, TripUserNotFoundExeption ex) {
-        return this.resolveExceptions(HttpStatus.BAD_REQUEST, request, ex);
+        return this.resolveExceptions(HttpStatus.NOT_FOUND, request, ex);
     }
 
     @ExceptionHandler

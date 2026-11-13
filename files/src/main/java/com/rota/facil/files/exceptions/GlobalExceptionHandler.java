@@ -16,7 +16,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<Object> fileNotFoundException(HttpServletRequest request, FileNotFoundException ex) {
-        return this.resolveExceptions(HttpStatus.BAD_REQUEST, request, ex);
+        return this.resolveExceptions(HttpStatus.NOT_FOUND, request, ex);
     }
 
     @ExceptionHandler
