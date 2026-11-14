@@ -1,12 +1,11 @@
-package com.rota.facil.files.business.boardPoints;
+package com.rota.facil.files.business.useCases.institutions;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.repositories.FileRepository;
-import com.rota.facil.places.business.helpers.boardpoints.FindBoardPointByIdHelper;
+import com.rota.facil.places.business.helpers.institutions.FindInstitutionByIdHelper;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,19 +15,19 @@ import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor
-public class ListBoardPointPhotosUseCase {
-    private final FindBoardPointByIdHelper findBoardPointByIdHelper;
+public class ListInstitutionPhotosUseCase {
+    private final FindInstitutionByIdHelper findInstitutionByIdHelper;
     private final FileRepository fileRepository;
     private final FileMapper fileMapper;
 
     @Transactional(readOnly = true)
-    public List<FileResponse> execute(UUID boardPointId, UserEntity currentUser) {
+    public List<FileResponse> execute(UUID institutionId, UserEntity currentUser) {
         UUID prefectureId = currentUser.getPrefecture().getId();
-        findBoardPointByIdHelper.execute(boardPointId, prefectureId);
+        findInstitutionByIdHelper.execute(institutionId, prefectureId);
         return fileRepository.findAllByOwnerIdAndPrefectureIdAndFileCategoryOrderByCreatedAtDesc(
-                        boardPointId, prefectureId, FileCategory.PHOTO
+                        institutionId, prefectureId, FileCategory.PHOTO
                 ).stream()
-                .filter(file -> file.getOwnerType() == OwnerType.BOARD_POINT)
+                .filter(file -> file.getOwnerType().name().equals("INSTITUTION"))
                 .map(fileMapper::map)
                 .toList();
     }

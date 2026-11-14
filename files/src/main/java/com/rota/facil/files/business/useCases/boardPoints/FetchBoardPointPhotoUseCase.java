@@ -1,4 +1,4 @@
-package com.rota.facil.files.business.boardPoints;
+package com.rota.facil.files.business.useCases.boardPoints;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.business.helpers.FindBoardPointPhotoByIdHelper;

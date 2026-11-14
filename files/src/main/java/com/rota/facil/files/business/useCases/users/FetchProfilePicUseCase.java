@@ -1,4 +1,4 @@
-package com.rota.facil.files.business.users;
+package com.rota.facil.files.business.useCases.users;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.domain.FileCategory;

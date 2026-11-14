@@ -1,4 +1,4 @@
-package com.rota.facil.files.business.vehicles;
+package com.rota.facil.files.business.useCases.vehicles;
 
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.http.dto.response.FileResponse;

@@ -1,4 +1,4 @@
-package com.rota.facil.files.business.institutions;
+package com.rota.facil.files.business.useCases.boardPoints;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.business.helpers.ValidateImageHelper;
@@ -9,38 +9,34 @@ import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.files.storage.FileStorage;
-import com.rota.facil.places.business.helpers.institutions.FindInstitutionByIdHelper;
-import com.rota.facil.places.persistence.entitites.InstitutionEntity;
+import com.rota.facil.places.business.helpers.boardpoints.FindBoardPointByIdHelper;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor
-public class UploadInstitutionPhotoUseCase {
-    private final FindInstitutionByIdHelper findInstitutionByIdHelper;
+public class UploadBoardPointPhotoUseCase {
+    private final FindBoardPointByIdHelper findBoardPointByIdHelper;
     private final ValidateImageHelper validateImageHelper;
     private final FileRepository fileRepository;
     private final FileStorage fileStorage;
     private final FileMapper fileMapper;
 
-
-    public FileResponse execute(UUID institutionId, MultipartFile file, UserEntity currentUser) {
-        InstitutionEntity institutionFound = this.findInstitutionByIdHelper.execute(institutionId, currentUser.getPrefecture().getId());
-
-        this.validateImageHelper.execute(file);
-
-
-        FileEntity saved = this.fileRepository.save(FileEntity.newFile(
-                institutionFound.getId(), currentUser.getId(), currentUser.getPrefecture().getId(),
+    @Transactional
+    public FileResponse execute(UUID boardPointId, MultipartFile file, UserEntity currentUser) {
+        UUID prefectureId = currentUser.getPrefecture().getId();
+        findBoardPointByIdHelper.execute(boardPointId, prefectureId);
+        validateImageHelper.execute(file);
+        FileEntity saved = fileRepository.save(FileEntity.newFile(
+                boardPointId, currentUser.getId(), prefectureId,
                 file.getOriginalFilename(), file.getContentType(), file.getSize(),
-                OwnerType.INSTITUTION, FileCategory.PHOTO
+                OwnerType.BOARD_POINT, FileCategory.PHOTO
         ));
-
-        this.fileStorage.upload(file, saved.getObjectKey());
-
-        return this.fileMapper.map(saved);
+        fileStorage.upload(file, saved.getObjectKey());
+        return fileMapper.map(saved);
     }
 }

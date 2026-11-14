@@ -1,11 +1,12 @@
-package com.rota.facil.files.business.institutions;
+package com.rota.facil.files.business.useCases.boardPoints;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.domain.FileCategory;
+import com.rota.facil.files.domain.OwnerType;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.repositories.FileRepository;
-import com.rota.facil.places.business.helpers.institutions.FindInstitutionByIdHelper;
+import com.rota.facil.places.business.helpers.boardpoints.FindBoardPointByIdHelper;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,19 +16,19 @@ import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor
-public class ListInstitutionPhotosUseCase {
-    private final FindInstitutionByIdHelper findInstitutionByIdHelper;
+public class ListBoardPointPhotosUseCase {
+    private final FindBoardPointByIdHelper findBoardPointByIdHelper;
     private final FileRepository fileRepository;
     private final FileMapper fileMapper;
 
     @Transactional(readOnly = true)
-    public List<FileResponse> execute(UUID institutionId, UserEntity currentUser) {
+    public List<FileResponse> execute(UUID boardPointId, UserEntity currentUser) {
         UUID prefectureId = currentUser.getPrefecture().getId();
-        findInstitutionByIdHelper.execute(institutionId, prefectureId);
+        findBoardPointByIdHelper.execute(boardPointId, prefectureId);
         return fileRepository.findAllByOwnerIdAndPrefectureIdAndFileCategoryOrderByCreatedAtDesc(
-                        institutionId, prefectureId, FileCategory.PHOTO
+                        boardPointId, prefectureId, FileCategory.PHOTO
                 ).stream()
-                .filter(file -> file.getOwnerType().name().equals("INSTITUTION"))
+                .filter(file -> file.getOwnerType() == OwnerType.BOARD_POINT)
                 .map(fileMapper::map)
                 .toList();
     }

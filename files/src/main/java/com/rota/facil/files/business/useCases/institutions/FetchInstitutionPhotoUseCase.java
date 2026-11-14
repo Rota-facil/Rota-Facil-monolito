@@ -1,4 +1,4 @@
-package com.rota.facil.files.business.institutions;
+package com.rota.facil.files.business.useCases.institutions;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.business.helpers.FindInstitutionPhotoByIdHelper;

@@ -1,4 +1,4 @@
-package com.rota.facil.files.business.routes;
+package com.rota.facil.files.business.useCases.routes;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.domain.FileCategory;

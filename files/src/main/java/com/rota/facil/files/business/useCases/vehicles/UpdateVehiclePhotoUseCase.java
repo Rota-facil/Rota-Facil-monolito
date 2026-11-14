@@ -1,8 +1,7 @@
-package com.rota.facil.files.business.vehicles;
+package com.rota.facil.files.business.useCases.vehicles;
 
+import com.rota.facil.files.business.helpers.FindVehiclePhotoByIdHelper;
 import com.rota.facil.files.business.helpers.ValidateImageHelper;
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
@@ -14,30 +13,34 @@ import lombok.RequiredArgsConstructor;
 import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor
-public class UploadVehiclePhotoUseCase {
+public class UpdateVehiclePhotoUseCase {
     private final FindVehicleByIdHelper findVehicleByIdHelper;
+    private final FindVehiclePhotoByIdHelper findVehiclePhotoByIdHelper;
     private final ValidateImageHelper validateImageHelper;
     private final FileRepository fileRepository;
     private final FileStorage fileStorage;
     private final FileMapper fileMapper;
 
     @Transactional
-    public FileResponse execute(UUID vehicleId, MultipartFile file, UserEntity currentUser) {
-        this.findVehicleByIdHelper.execute(vehicleId, currentUser.getPrefecture().getId());
-        this.validateImageHelper.execute(file);
+    public FileResponse execute(
+            UUID vehicleId,
+            UUID photoId,
+            MultipartFile newPhoto,
+            UserEntity currentUser
+    ) {
+        UUID prefectureId = currentUser.getPrefecture().getId();
+        findVehicleByIdHelper.execute(vehicleId, prefectureId);
+        validateImageHelper.execute(newPhoto);
+        FileEntity photo = findVehiclePhotoByIdHelper.execute(photoId, vehicleId, prefectureId);
 
-        FileEntity saved = this.fileRepository.save(FileEntity.newFile(
-                vehicleId, currentUser.getId(), currentUser.getPrefecture().getId(),
-                file.getOriginalFilename(), file.getContentType(), file.getSize(),
-                OwnerType.VEHICLE, FileCategory.PHOTO
-        ));
-
-        this.fileStorage.upload(file, saved.getObjectKey());
-
-        return this.fileMapper.map(saved);
+        fileStorage.upload(newPhoto, photo.getObjectKey());
+        photo.update(newPhoto.getOriginalFilename(), newPhoto.getContentType(), newPhoto.getSize());
+        FileEntity updated = fileRepository.save(photo);
+        return fileMapper.map(updated);
     }
 }
