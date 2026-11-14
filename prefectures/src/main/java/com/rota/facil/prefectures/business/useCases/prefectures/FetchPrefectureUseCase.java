@@ -1,4 +1,4 @@
-package com.rota.facil.prefectures.business.prefectures;
+package com.rota.facil.prefectures.business.useCases.prefectures;
 
 import com.rota.facil.prefectures.business.helpers.FetchPrefectureByIdHelper;
 import com.rota.facil.prefectures.http.dto.response.prefecture.PrefectureResponse;

@@ -1,4 +1,4 @@
-package com.rota.facil.prefectures.business.prefectures;
+package com.rota.facil.prefectures.business.useCases.prefectures;
 
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.prefectures.http.dto.request.prefecture.CreatePrefectureRequest;

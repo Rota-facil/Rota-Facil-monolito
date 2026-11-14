@@ -1,10 +1,10 @@
 package com.rota.facil.prefectures.http.controllers;
 
-import com.rota.facil.prefectures.business.prefectures.CreatePrefectureUseCase;
-import com.rota.facil.prefectures.business.prefectures.DeletePrefectureUseCase;
-import com.rota.facil.prefectures.business.prefectures.FetchPrefectureUseCase;
-import com.rota.facil.prefectures.business.prefectures.ListPrefecturesUseCase;
-import com.rota.facil.prefectures.business.prefectures.UpdatePrefectureUseCase;
+import com.rota.facil.prefectures.business.useCases.prefectures.CreatePrefectureUseCase;
+import com.rota.facil.prefectures.business.useCases.prefectures.DeletePrefectureUseCase;
+import com.rota.facil.prefectures.business.useCases.prefectures.FetchPrefectureUseCase;
+import com.rota.facil.prefectures.business.useCases.prefectures.ListPrefecturesUseCase;
+import com.rota.facil.prefectures.business.useCases.prefectures.UpdatePrefectureUseCase;
 import com.rota.facil.prefectures.http.dto.request.prefecture.CreatePrefectureRequest;
 import com.rota.facil.prefectures.http.dto.request.prefecture.UpdatePrefectureRequest;
 import com.rota.facil.prefectures.http.dto.response.prefecture.CreatePrefectureResponse;
