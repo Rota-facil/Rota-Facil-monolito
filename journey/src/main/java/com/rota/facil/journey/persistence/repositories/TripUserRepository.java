@@ -123,4 +123,11 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         INNER JOIN tu.boardPoint b
     """)
     List<PointRequest> findAllStudentsBoardPointsPointsSelectByRouteId(@Param(value = "routeId") UUID routeId);
+
+    @Query("""
+        SELECT DISTINCT tu FROM TripUserEntity tu
+        INNER JOIN tu.trip t
+        WHERE (t.actualStatus != com.rota.facil.journey.domain.Progress.CANCELLED AND t.actualStatus != com.rota.facil.journey.domain.Progress.NOT_STARTED)
+    """)
+    Optional<TripUserEntity> findStartedByUserId(@Param(value = "userId") UUID userId);
 }

@@ -28,6 +28,11 @@ public class GlobalExceptionHandler {
         return this.resolveExceptions(HttpStatus.NOT_FOUND, request, ex);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<Object> notAllowedToChangePrefectureException(HttpServletRequest request, NotAllowedToChangePrefectureException ex) {
+        return this.resolveExceptions(HttpStatus.BAD_REQUEST, request, ex);
+    }
+
     private ResponseEntity<Object> resolveExceptions(HttpStatus status, HttpServletRequest request, Exception ex) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
