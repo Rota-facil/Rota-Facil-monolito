@@ -1,4 +1,4 @@
-package com.rota.facil.interactions.business.feedbacks;
+package com.rota.facil.interactions.business.useCases.feedbacks;
 
 import com.rota.facil.interactions.http.dto.response.feedbacks.FeedBackResponse;
 import com.rota.facil.interactions.persistence.entities.FeedBackRepository;

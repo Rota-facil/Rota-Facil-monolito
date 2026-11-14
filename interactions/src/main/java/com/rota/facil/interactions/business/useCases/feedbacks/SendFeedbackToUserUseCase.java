@@ -1,4 +1,4 @@
-package com.rota.facil.interactions.business.feedbacks;
+package com.rota.facil.interactions.business.useCases.feedbacks;
 
 import com.rota.facil.interactions.http.exceptions.EvaluateYourSelfException;
 import com.rota.facil.interactions.http.exceptions.EvaluationSameRoleException;

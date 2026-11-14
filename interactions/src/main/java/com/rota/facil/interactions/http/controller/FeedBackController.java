@@ -1,7 +1,7 @@
 package com.rota.facil.interactions.http.controller;
 
-import com.rota.facil.interactions.business.feedbacks.ListFeedBacksByUserUseCase;
-import com.rota.facil.interactions.business.feedbacks.SendFeedbackToUserUseCase;
+import com.rota.facil.interactions.business.useCases.feedbacks.ListFeedBacksByUserUseCase;
+import com.rota.facil.interactions.business.useCases.feedbacks.SendFeedbackToUserUseCase;
 import com.rota.facil.interactions.http.dto.request.feedbacks.SendFeedBackRequest;
 import com.rota.facil.interactions.http.dto.response.feedbacks.FeedBackResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
