@@ -1,4 +1,4 @@
-package com.rota.facil.vehicles.business;
+package com.rota.facil.vehicles.business.useCases.vehicles;
 
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.http.dto.response.vehicles.ListVehicleResponse;

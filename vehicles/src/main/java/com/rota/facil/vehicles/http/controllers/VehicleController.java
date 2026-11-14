@@ -1,11 +1,11 @@
 package com.rota.facil.vehicles.http.controllers;
 
 import com.rota.facil.users.persistence.entities.UserEntity;
-import com.rota.facil.vehicles.business.CreateVehicleUseCase;
-import com.rota.facil.vehicles.business.DeleteVehicleUseCase;
-import com.rota.facil.vehicles.business.FetchVehicleUseCase;
-import com.rota.facil.vehicles.business.ListVehiclesUseCase;
-import com.rota.facil.vehicles.business.UpdateVehicleUseCase;
+import com.rota.facil.vehicles.business.useCases.vehicles.CreateVehicleUseCase;
+import com.rota.facil.vehicles.business.useCases.vehicles.DeleteVehicleUseCase;
+import com.rota.facil.vehicles.business.useCases.vehicles.FetchVehicleUseCase;
+import com.rota.facil.vehicles.business.useCases.vehicles.ListVehiclesUseCase;
+import com.rota.facil.vehicles.business.useCases.vehicles.UpdateVehicleUseCase;
 import com.rota.facil.vehicles.http.dto.request.vehicles.CreateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.request.vehicles.UpdateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.response.vehicles.CreateVehicleResponse;
