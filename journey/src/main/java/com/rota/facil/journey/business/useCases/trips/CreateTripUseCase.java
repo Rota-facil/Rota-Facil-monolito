@@ -1,4 +1,4 @@
-package com.rota.facil.journey.business.trips;
+package com.rota.facil.journey.business.useCases.trips;
 
 import com.rota.facil.journey.business.helpers.routes.FindRouteByIdHelper;
 import com.rota.facil.journey.http.exceptions.CreateTripException;

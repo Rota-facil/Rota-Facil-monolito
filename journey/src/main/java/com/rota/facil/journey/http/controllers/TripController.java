@@ -1,7 +1,7 @@
 package com.rota.facil.journey.http.controllers;
 
-import com.rota.facil.journey.business.routes.ValidateCheckinUseCase;
-import com.rota.facil.journey.business.trips.*;
+import com.rota.facil.journey.business.useCases.routes.ValidateCheckinUseCase;
+import com.rota.facil.journey.business.useCases.trips.*;
 import com.rota.facil.journey.http.dto.request.routes.UserLocationCheakinRequest;
 import com.rota.facil.journey.http.dto.request.trips.CreateTripRequest;
 import com.rota.facil.journey.http.dto.request.trips.CancelTripRequest;

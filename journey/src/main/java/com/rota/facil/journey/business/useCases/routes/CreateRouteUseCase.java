@@ -1,4 +1,4 @@
-package com.rota.facil.journey.business.routes;
+package com.rota.facil.journey.business.useCases.routes;
 
 import com.rota.facil.journey.business.helpers.routes.CreateRouteRecurringHelper;
 import com.rota.facil.journey.domain.DaysOfWeek;

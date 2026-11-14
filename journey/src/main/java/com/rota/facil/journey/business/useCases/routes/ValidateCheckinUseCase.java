@@ -1,4 +1,4 @@
-package com.rota.facil.journey.business.routes;
+package com.rota.facil.journey.business.useCases.routes;
 
 import com.rota.facil.journey.domain.Presence;
 import com.rota.facil.journey.http.dto.request.routes.UserLocationCheakinRequest;

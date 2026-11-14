@@ -1,6 +1,6 @@
 package com.rota.facil.journey.http.controllers;
 
-import com.rota.facil.journey.business.routes.*;
+import com.rota.facil.journey.business.useCases.routes.*;
 import com.rota.facil.journey.http.dto.request.routes.CreateRouteRequest;
 import com.rota.facil.journey.http.dto.request.routes.UpdateRouteRequest;
 import com.rota.facil.journey.http.dto.response.routes.RouteResponse;

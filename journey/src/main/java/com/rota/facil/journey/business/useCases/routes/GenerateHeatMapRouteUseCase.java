@@ -1,4 +1,4 @@
-package com.rota.facil.journey.business.routes;
+package com.rota.facil.journey.business.useCases.routes;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.client.http.controllers.IntelligenceHttpClient;
