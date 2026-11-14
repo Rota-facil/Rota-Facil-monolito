@@ -25,7 +25,7 @@ public class ChangePrefectureUseCase {
     public UserResponse execute(UUID prefectureId, UserEntity currentUser) {
         PrefectureEntity prefectureFound = this.fetchPrefectureByIdHelper.execute(prefectureId);
 
-        if (!this.verifyUserInSomeStartedTripPort.execute(currentUser.getId())) {
+        if (this.verifyUserInSomeStartedTripPort.execute(currentUser.getId())) {
             throw new NotAllowedToChangePrefectureException("Para trocar de prefeitura, é necessário não estar associado a nenhuma viagem em andamento");
         }
 
