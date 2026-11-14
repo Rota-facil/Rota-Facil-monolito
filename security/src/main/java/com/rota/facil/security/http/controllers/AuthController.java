@@ -1,10 +1,10 @@
 package com.rota.facil.security.http.controllers;
 
-import com.rota.facil.security.business.CompleteGoogleLoginUseCase;
-import com.rota.facil.security.business.auth.CreateAccountUseCase;
-import com.rota.facil.security.business.auth.DeactivateUserUseCase;
-import com.rota.facil.security.business.auth.LoginUseCase;
-import com.rota.facil.security.business.auth.LogoutUseCase;
+import com.rota.facil.security.business.useCases.auth.CompleteGoogleLoginUseCase;
+import com.rota.facil.security.business.useCases.auth.CreateAccountUseCase;
+import com.rota.facil.security.business.useCases.auth.DeactivateUserUseCase;
+import com.rota.facil.security.business.useCases.auth.LoginUseCase;
+import com.rota.facil.security.business.useCases.auth.LogoutUseCase;
 import com.rota.facil.security.http.dto.request.google.CompleteGoogleLoginRequest;
 import com.rota.facil.security.http.dto.request.user.AuthLoginRequest;
 import com.rota.facil.security.http.dto.request.user.CreateAccountRequest;

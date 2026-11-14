@@ -1,4 +1,4 @@
-package com.rota.facil.security.business.auth;
+package com.rota.facil.security.business.useCases.auth;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.security.persistence.repositories.UserTokenRepository;

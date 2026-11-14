@@ -1,6 +1,6 @@
 package com.rota.facil.security.configuration;
 
-import com.rota.facil.security.business.auth.LoginWithGoogleSuccessUseCase;
+import com.rota.facil.security.business.useCases.auth.LoginWithGoogleSuccessUseCase;
 import com.rota.facil.security.filters.RotaFacilAuthenticationFilter;
 import com.rota.facil.security.service.RotaFacilUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
-import java.util.UUID;
 
 @Configuration
 @RequiredArgsConstructor

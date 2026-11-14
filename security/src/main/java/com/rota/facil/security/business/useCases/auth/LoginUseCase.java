@@ -1,4 +1,4 @@
-package com.rota.facil.security.business.auth;
+package com.rota.facil.security.business.useCases.auth;
 
 import com.rota.facil.security.persistence.entities.UserTokenEntity;
 import com.rota.facil.security.http.dto.request.user.AuthLoginRequest;
