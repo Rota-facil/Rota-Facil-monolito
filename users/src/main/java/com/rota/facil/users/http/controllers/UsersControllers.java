@@ -1,11 +1,10 @@
 package com.rota.facil.users.http.controllers;
 
-import com.rota.facil.users.business.users.ChangePrefectureUseCase;
-import com.rota.facil.users.business.admin.CreateDriverUseCase;
-import com.rota.facil.users.business.users.FetchMeUseCase;
-import com.rota.facil.users.business.users.UpdateAccountUseCase;
+import com.rota.facil.users.business.useCases.users.ChangePrefectureUseCase;
+import com.rota.facil.users.business.useCases.admin.CreateDriverUseCase;
+import com.rota.facil.users.business.useCases.users.FetchMeUseCase;
+import com.rota.facil.users.business.useCases.users.UpdateAccountUseCase;
 import com.rota.facil.users.http.dto.request.users.CreateDriverRequest;
-import com.rota.facil.users.http.dto.request.users.UpdateAccountRequest;
 import com.rota.facil.users.http.dto.request.users.UpdateAccountRequest;
 import com.rota.facil.users.http.dto.response.users.UserResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;

@@ -1,4 +1,4 @@
-package com.rota.facil.users.business.admin;
+package com.rota.facil.users.business.useCases.admin;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.prefectures.business.helpers.FetchPrefectureByIdHelper;

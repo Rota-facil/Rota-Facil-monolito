@@ -1,4 +1,4 @@
-package com.rota.facil.users.business.users;
+package com.rota.facil.users.business.useCases.users;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.users.http.dto.response.users.UserResponse;
