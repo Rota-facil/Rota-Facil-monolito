@@ -1,12 +1,14 @@
-package com.rota.facil.places.business.boardpoints;
+package com.rota.facil.places.business.useCases.boardpoints;
 
 import com.rota.facil.places.business.helpers.boardpoints.FindBoardPointByIdHelper;
+import com.rota.facil.places.domain.UpdateBoardPointData;
+import com.rota.facil.places.http.dto.request.boardpoints.UpdateBoardPointRequest;
+import com.rota.facil.places.http.dto.response.boardpoints.BoardPointResponse;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
+import com.rota.facil.places.persistence.mappers.BoardPointMapper;
 import com.rota.facil.places.persistence.repositories.BoardPointRepository;
-import com.rota.facil.places.spring.events.dto.ValidateBoardPointDeactivationEvent;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,21 +16,21 @@ import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor
-public class DeleteBoardPointUseCase {
+public class UpdateBoardPointUseCase {
     private final FindBoardPointByIdHelper findBoardPointByIdHelper;
     private final BoardPointRepository boardPointRepository;
-    private final ApplicationEventPublisher eventPublisher;
+    private final BoardPointMapper boardPointMapper;
 
     @Transactional
-    public void execute(UUID boardPointId, UserEntity currentUser) {
+    public BoardPointResponse execute(UUID boardPointId, UpdateBoardPointRequest request, UserEntity currentUser) {
         BoardPointEntity boardPoint = findBoardPointByIdHelper.execute(
                 boardPointId,
                 currentUser.getPrefecture().getId()
         );
+        UpdateBoardPointData updateData = boardPointMapper.map(request);
 
-        eventPublisher.publishEvent(new ValidateBoardPointDeactivationEvent(boardPointId));
+        boardPoint.update(updateData);
 
-        boardPoint.deactivate();
-        boardPointRepository.save(boardPoint);
+        return boardPointMapper.mapToResponse(boardPointRepository.save(boardPoint));
     }
 }

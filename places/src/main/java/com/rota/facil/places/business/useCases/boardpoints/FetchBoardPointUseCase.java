@@ -1,4 +1,4 @@
-package com.rota.facil.places.business.boardpoints;
+package com.rota.facil.places.business.useCases.boardpoints;
 
 import com.rota.facil.places.business.helpers.boardpoints.FindBoardPointByIdHelper;
 import com.rota.facil.places.http.dto.response.boardpoints.BoardPointResponse;

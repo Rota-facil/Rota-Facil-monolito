@@ -1,4 +1,4 @@
-package com.rota.facil.places.business.institutions;
+package com.rota.facil.places.business.useCases.institutions;
 
 import com.rota.facil.places.business.helpers.institutions.FindInstitutionByIdHelper;
 import com.rota.facil.places.http.dto.response.institutions.InstitutionResponse;

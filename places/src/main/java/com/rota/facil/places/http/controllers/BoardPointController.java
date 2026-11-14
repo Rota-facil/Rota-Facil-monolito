@@ -1,10 +1,10 @@
 package com.rota.facil.places.http.controllers;
 
-import com.rota.facil.places.business.boardpoints.CreateBoardPointUseCase;
-import com.rota.facil.places.business.boardpoints.DeleteBoardPointUseCase;
-import com.rota.facil.places.business.boardpoints.FetchBoardPointUseCase;
-import com.rota.facil.places.business.boardpoints.ListBoardPointsUseCase;
-import com.rota.facil.places.business.boardpoints.UpdateBoardPointUseCase;
+import com.rota.facil.places.business.useCases.boardpoints.CreateBoardPointUseCase;
+import com.rota.facil.places.business.useCases.boardpoints.DeleteBoardPointUseCase;
+import com.rota.facil.places.business.useCases.boardpoints.FetchBoardPointUseCase;
+import com.rota.facil.places.business.useCases.boardpoints.ListBoardPointsUseCase;
+import com.rota.facil.places.business.useCases.boardpoints.UpdateBoardPointUseCase;
 import com.rota.facil.places.http.dto.request.boardpoints.CreateBoardPointRequest;
 import com.rota.facil.places.http.dto.request.boardpoints.UpdateBoardPointRequest;
 import com.rota.facil.places.http.dto.response.boardpoints.CreateBoardPointResponse;

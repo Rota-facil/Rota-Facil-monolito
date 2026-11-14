@@ -1,10 +1,10 @@
 package com.rota.facil.places.http.controllers;
 
-import com.rota.facil.places.business.institutions.CreateInstitutionUseCase;
-import com.rota.facil.places.business.institutions.DeleteInstitutionUseCase;
-import com.rota.facil.places.business.institutions.FetchInstitutionUseCase;
-import com.rota.facil.places.business.institutions.ListInstitutionsUseCase;
-import com.rota.facil.places.business.institutions.UpdateInstitutionUseCase;
+import com.rota.facil.places.business.useCases.institutions.CreateInstitutionUseCase;
+import com.rota.facil.places.business.useCases.institutions.DeleteInstitutionUseCase;
+import com.rota.facil.places.business.useCases.institutions.FetchInstitutionUseCase;
+import com.rota.facil.places.business.useCases.institutions.ListInstitutionsUseCase;
+import com.rota.facil.places.business.useCases.institutions.UpdateInstitutionUseCase;
 import com.rota.facil.places.http.dto.request.institutions.CreateInstitutionRequest;
 import com.rota.facil.places.http.dto.request.institutions.UpdateInstitutionRequest;
 import com.rota.facil.places.http.dto.response.institutions.CreateInstitutionResponse;

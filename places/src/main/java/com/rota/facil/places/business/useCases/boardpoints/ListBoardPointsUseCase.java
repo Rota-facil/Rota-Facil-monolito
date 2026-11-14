@@ -1,4 +1,4 @@
-package com.rota.facil.places.business.boardpoints;
+package com.rota.facil.places.business.useCases.boardpoints;
 
 import com.rota.facil.places.http.dto.response.boardpoints.BoardPointResponse;
 import com.rota.facil.places.persistence.mappers.BoardPointMapper;
