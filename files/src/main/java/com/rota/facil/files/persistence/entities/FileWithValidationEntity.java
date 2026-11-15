@@ -2,11 +2,10 @@ package com.rota.facil.files.persistence.entities;
 
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.domain.OwnerType;
+import com.rota.facil.files.domain.enums.FileValidationStatus;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.users.persistence.entities.UserEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -21,7 +20,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class FileWithValidationEntity extends FileEntity {
     @Builder.Default
-    private boolean isValid = false;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "validation_status")
+    private FileValidationStatus validationStatus = FileValidationStatus.ANALYSIS;
 
     public static FileWithValidationEntity newFile(
             UUID ownerId, UserEntity creator, PrefectureEntity prefecture,
@@ -36,7 +37,7 @@ public class FileWithValidationEntity extends FileEntity {
                 .fileCategory(fileCategory)
                 .mimeType(mimeType)
                 .fileSizeBytes(fileSizeBytes)
-                .isValid(false)
+                .validationStatus(FileValidationStatus.ANALYSIS)
                 .build();
     }
 }

@@ -29,7 +29,7 @@ public class FileMapper {
                 entity.getOriginalFilename(),
                 this.fileStorage.createTemporaryUrl(entity.getObjectKey()),
                 entity.getFileCategory(),
-                entity.isValid(),
+                entity.getValidationStatus(),
                 entity.getCreatedAt()
         );
     }
