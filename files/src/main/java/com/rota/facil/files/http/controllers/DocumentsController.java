@@ -45,7 +45,7 @@ public class DocumentsController {
     @PatchMapping("/evaluate/{documentId}")
     public ResponseEntity<FileWithValidationResponse> evaluateDocument(
             @PathVariable UUID documentId,
-            @RequestParam(name = "avalidation_status") FileValidationStatus fileValidationStatus,
+            @RequestParam(name = "evaluation_status") FileValidationStatus fileValidationStatus,
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(this.evaluateDocumentUseCase.execute(documentId, fileValidationStatus, currentUser));
