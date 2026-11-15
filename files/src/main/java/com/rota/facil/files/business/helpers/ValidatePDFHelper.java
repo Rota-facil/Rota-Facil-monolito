@@ -1,0 +1,15 @@
+package com.rota.facil.files.business.helpers;
+
+import com.rota.facil.files.http.exceptions.InvalidFileException;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+@Component
+public class ValidatePDFHelper {
+    public void execute(MultipartFile file) {
+        if (file == null || file.isEmpty()) throw new InvalidFileException("Envio de arquivo obrigatório");
+        if (file.getContentType() == null || !file.getContentType().startsWith("application/pdf")) {
+            throw new InvalidFileException("O arquivo deve estar em formato .pdf");
+        }
+    }
+}

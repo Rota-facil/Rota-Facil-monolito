@@ -1,6 +1,7 @@
 package com.rota.facil.files.business.useCases.users.students;
 
 import com.rota.facil.annotations.UseCase;
+import com.rota.facil.files.business.helpers.ValidatePDFHelper;
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.domain.OwnerType;
 import com.rota.facil.files.http.dto.response.FileWithValidationResponse;
@@ -15,10 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 @UseCase
 @RequiredArgsConstructor
 public class UploadEnrollmentCertificateUseCase {
+    private final ValidatePDFHelper validatePDFHelper;
     private final FileWithValidationRepository fileWithValidationRepository;
     private final FileMapper fileMapper;
 
     public FileWithValidationResponse execute(UserEntity currentUser, MultipartFile file) {
+        this.validatePDFHelper.execute(file);
+
         if (fileWithValidationRepository.findByCreatorIdAndPrefectureIdAndFileCategory(currentUser.getId(), currentUser.getPrefecture().getId(), FileCategory.ENROLLMENT_CERTIFICATE).isPresent()) {
             throw new AlreadyUploadedEnrollmentCertificateException();
         }
