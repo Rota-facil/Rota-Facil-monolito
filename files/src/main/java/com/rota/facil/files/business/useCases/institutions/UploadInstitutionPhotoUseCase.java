@@ -7,7 +7,9 @@ import com.rota.facil.files.domain.OwnerType;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
+import com.rota.facil.files.persistence.entities.InstitutionFilesEntity;
 import com.rota.facil.files.persistence.repositories.FileRepository;
+import com.rota.facil.files.persistence.repositories.InstitutionFilesRepository;
 import com.rota.facil.files.storage.FileStorage;
 import com.rota.facil.places.business.helpers.institutions.FindInstitutionByIdHelper;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
@@ -22,7 +24,7 @@ import java.util.UUID;
 public class UploadInstitutionPhotoUseCase {
     private final FindInstitutionByIdHelper findInstitutionByIdHelper;
     private final ValidateImageHelper validateImageHelper;
-    private final FileRepository fileRepository;
+    private final InstitutionFilesRepository institutionFilesRepository;
     private final FileStorage fileStorage;
     private final FileMapper fileMapper;
 
@@ -33,10 +35,10 @@ public class UploadInstitutionPhotoUseCase {
         this.validateImageHelper.execute(file);
 
 
-        FileEntity saved = this.fileRepository.save(FileEntity.newFile(
-                institutionFound.getId(), currentUser.getId(), currentUser.getPrefecture().getId(),
+        InstitutionFilesEntity saved = this.institutionFilesRepository.save(InstitutionFilesEntity.newFile(
+                institutionFound.getId(), currentUser, currentUser.getPrefecture(),
                 file.getOriginalFilename(), file.getContentType(), file.getSize(),
-                OwnerType.INSTITUTION, FileCategory.PHOTO
+                OwnerType.INSTITUTION, FileCategory.PHOTO, institutionFound
         ));
 
         this.fileStorage.upload(file, saved.getObjectKey());

@@ -19,7 +19,6 @@ import java.util.UUID;
 @UseCase
 @RequiredArgsConstructor
 public class UpdateBoardPointPhotoUseCase {
-    private final FindBoardPointByIdHelper findBoardPointByIdHelper;
     private final FindBoardPointPhotoByIdHelper findBoardPointPhotoByIdHelper;
     private final ValidateImageHelper validateImageHelper;
     private final FileRepository fileRepository;
@@ -29,11 +28,16 @@ public class UpdateBoardPointPhotoUseCase {
     @Transactional
     public FileResponse execute(UUID boardPointId, UUID photoId, MultipartFile newPhoto, UserEntity currentUser) {
         UUID prefectureId = currentUser.getPrefecture().getId();
-        findBoardPointByIdHelper.execute(boardPointId, prefectureId);
-        validateImageHelper.execute(newPhoto);
-        FileEntity photo = findBoardPointPhotoByIdHelper.execute(photoId, boardPointId, prefectureId);
-        fileStorage.upload(newPhoto, photo.getObjectKey());
+
+        this.validateImageHelper.execute(newPhoto);
+
+        FileEntity photo = this.findBoardPointPhotoByIdHelper.execute(photoId, boardPointId, prefectureId);
+
+        this.fileStorage.delete(photo.getObjectKey());
+
         photo.update(newPhoto.getOriginalFilename(), newPhoto.getContentType(), newPhoto.getSize());
-        return fileMapper.map(fileRepository.save(photo));
+        this.fileStorage.upload(newPhoto, photo.getObjectKey());
+
+        return this.fileMapper.map(this.fileRepository.save(photo));
     }
 }

@@ -3,7 +3,7 @@ package com.rota.facil.files.business.helpers;
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.http.exceptions.FileNotFoundException;
 import com.rota.facil.files.persistence.entities.FileEntity;
-import com.rota.facil.files.persistence.repositories.FileRepository;
+import com.rota.facil.files.persistence.repositories.VehicleFilesRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +12,10 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class FindVehiclePhotoByIdHelper {
-    private final FileRepository fileRepository;
+    private final VehicleFilesRepository vehicleFilesRepository;
 
     public FileEntity execute(UUID photoId, UUID vehicleId, UUID prefectureId) {
-        return fileRepository.findByIdAndOwnerIdAndPrefectureIdAndFileCategory(
+        return this.vehicleFilesRepository.findByIdAndVehicleIdAndPrefectureAndFileCategory(
                         photoId,
                         vehicleId,
                         prefectureId,

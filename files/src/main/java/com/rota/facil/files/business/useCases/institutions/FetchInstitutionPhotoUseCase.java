@@ -14,14 +14,13 @@ import java.util.UUID;
 @UseCase
 @RequiredArgsConstructor
 public class FetchInstitutionPhotoUseCase {
-    private final FindInstitutionByIdHelper findInstitutionByIdHelper;
     private final FindInstitutionPhotoByIdHelper findInstitutionPhotoByIdHelper;
     private final FileMapper fileMapper;
 
     @Transactional(readOnly = true)
     public FileResponse execute(UUID institutionId, UUID photoId, UserEntity currentUser) {
         UUID prefectureId = currentUser.getPrefecture().getId();
-        findInstitutionByIdHelper.execute(institutionId, prefectureId);
+
         return fileMapper.map(findInstitutionPhotoByIdHelper.execute(photoId, institutionId, prefectureId));
     }
 }

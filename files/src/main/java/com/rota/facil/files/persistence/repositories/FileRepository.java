@@ -9,29 +9,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 public interface FileRepository extends JpaRepository<FileEntity, UUID> {
-    List<FileEntity> findAllByOwnerIdAndPrefectureIdAndFileCategoryOrderByCreatedAtDesc(
-            UUID ownerId,
-            UUID prefectureId,
-            FileCategory fileCategory
-    );
-
-    Optional<FileEntity> findByIdAndOwnerIdAndPrefectureIdAndFileCategory(
-            UUID id,
-            UUID ownerId,
-            UUID prefectureId,
-            FileCategory fileCategory
-    );
-
     @Query("""
         SELECT f FROM FileEntity f
-        WHERE f.ownerId = :ownerId
-        AND f.prefectureId = :prefectureId
+        INNER JOIN f.prefecture p
+        INNER JOIN f.creator c
+        WHERE p.id = :prefectureId
         AND f.fileCategory = :fileCategory
-        AND f.creatorId = :creatorId
+        AND c.id = :creatorId
     """)
-    Optional<FileEntity> findByCreatorIdAndOwnerIdAndPrefectureIdAndFileCategory(
+    Optional<FileEntity> findByCreatorIdAndPrefectureIdAndFileCategory(
             @Param(value = "creatorId") UUID creatorId,
-            @Param(value = "ownerId") UUID ownerId,
             @Param(value = "prefectureId") UUID prefectureId,
             @Param(value = "fileCategory") FileCategory fileCategory
     );

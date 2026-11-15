@@ -17,7 +17,6 @@ public class FileMapper {
                 file.getOriginalFilename(),
                 fileStorage.createTemporaryUrl(file.getObjectKey()),
                 file.getFileCategory(),
-                file.getOwnerType(),
                 file.getCreatedAt()
         );
     }

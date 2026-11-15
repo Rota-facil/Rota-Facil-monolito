@@ -29,11 +29,15 @@ public class UpdateInstitutionPhotoUseCase {
     @Transactional
     public FileResponse execute(UUID institutionId, UUID photoId, MultipartFile newPhoto, UserEntity currentUser) {
         UUID prefectureId = currentUser.getPrefecture().getId();
-        findInstitutionByIdHelper.execute(institutionId, prefectureId);
-        validateImageHelper.execute(newPhoto);
-        FileEntity photo = findInstitutionPhotoByIdHelper.execute(photoId, institutionId, prefectureId);
-        fileStorage.upload(newPhoto, photo.getObjectKey());
+
+        this.validateImageHelper.execute(newPhoto);
+
+        FileEntity photo = this.findInstitutionPhotoByIdHelper.execute(photoId, institutionId, prefectureId);
+        this.fileStorage.delete(photo.getObjectKey());
+
         photo.update(newPhoto.getOriginalFilename(), newPhoto.getContentType(), newPhoto.getSize());
-        return fileMapper.map(fileRepository.save(photo));
+        this.fileStorage.upload(newPhoto, photo.getObjectKey());
+
+        return this.fileMapper.map(this.fileRepository.save(photo));
     }
 }

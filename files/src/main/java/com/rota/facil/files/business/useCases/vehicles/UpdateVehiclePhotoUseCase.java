@@ -9,6 +9,7 @@ import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.files.storage.FileStorage;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.helpers.FindVehicleByIdHelper;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import lombok.RequiredArgsConstructor;
 import com.rota.facil.annotations.UseCase;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,12 +35,15 @@ public class UpdateVehiclePhotoUseCase {
             UserEntity currentUser
     ) {
         UUID prefectureId = currentUser.getPrefecture().getId();
-        findVehicleByIdHelper.execute(vehicleId, prefectureId);
-        validateImageHelper.execute(newPhoto);
+        this.validateImageHelper.execute(newPhoto);
+
         FileEntity photo = findVehiclePhotoByIdHelper.execute(photoId, vehicleId, prefectureId);
 
-        fileStorage.upload(newPhoto, photo.getObjectKey());
+        fileStorage.delete(photo.getObjectKey());
+
         photo.update(newPhoto.getOriginalFilename(), newPhoto.getContentType(), newPhoto.getSize());
+        fileStorage.upload(newPhoto, photo.getObjectKey());
+
         FileEntity updated = fileRepository.save(photo);
         return fileMapper.map(updated);
     }

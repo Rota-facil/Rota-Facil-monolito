@@ -17,8 +17,7 @@ public class FetchProfilePicUseCase {
     private final FileMapper fileMapper;
 
     public FileResponse execute(UserEntity currentUser) {
-        FileEntity profilePicFound = this.fileRepository.findByCreatorIdAndOwnerIdAndPrefectureIdAndFileCategory(
-                currentUser.getId(),
+        FileEntity profilePicFound = this.fileRepository.findByCreatorIdAndPrefectureIdAndFileCategory(
                 currentUser.getId(),
                 currentUser.getPrefecture().getId(),
                 FileCategory.PROFILE_PIC

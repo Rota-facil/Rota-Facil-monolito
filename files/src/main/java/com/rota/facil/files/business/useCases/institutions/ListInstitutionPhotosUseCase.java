@@ -5,6 +5,7 @@ import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.repositories.FileRepository;
+import com.rota.facil.files.persistence.repositories.InstitutionFilesRepository;
 import com.rota.facil.places.business.helpers.institutions.FindInstitutionByIdHelper;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
@@ -16,19 +17,17 @@ import java.util.UUID;
 @UseCase
 @RequiredArgsConstructor
 public class ListInstitutionPhotosUseCase {
-    private final FindInstitutionByIdHelper findInstitutionByIdHelper;
-    private final FileRepository fileRepository;
+    private final InstitutionFilesRepository institutionFilesRepository;
     private final FileMapper fileMapper;
 
     @Transactional(readOnly = true)
     public List<FileResponse> execute(UUID institutionId, UserEntity currentUser) {
         UUID prefectureId = currentUser.getPrefecture().getId();
-        findInstitutionByIdHelper.execute(institutionId, prefectureId);
-        return fileRepository.findAllByOwnerIdAndPrefectureIdAndFileCategoryOrderByCreatedAtDesc(
+
+        return this.institutionFilesRepository.findAllByInstitutionIdAndPrefectureIdAndFileCategory(
                         institutionId, prefectureId, FileCategory.PHOTO
                 ).stream()
-                .filter(file -> file.getOwnerType().name().equals("INSTITUTION"))
-                .map(fileMapper::map)
+                .map(this.fileMapper::map)
                 .toList();
     }
 }

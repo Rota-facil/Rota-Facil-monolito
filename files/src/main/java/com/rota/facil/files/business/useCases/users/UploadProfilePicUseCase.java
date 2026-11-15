@@ -20,16 +20,15 @@ public class UploadProfilePicUseCase {
     private final FileMapper fileMapper;
 
     public FileResponse execute(UserEntity currentUser, MultipartFile file) {
-        FileEntity profilePicFound = this.fileRepository.findByIdAndOwnerIdAndPrefectureIdAndFileCategory(
-                currentUser.getId(),
+        FileEntity profilePicFound = this.fileRepository.findByCreatorIdAndPrefectureIdAndFileCategory(
                 currentUser.getId(),
                 currentUser.getPrefecture().getId(),
                 FileCategory.PROFILE_PIC
         ).orElseGet(
                 () -> FileEntity.newFile(
                         currentUser.getId(),
-                        currentUser.getId(),
-                        currentUser.getPrefecture().getId(),
+                        currentUser,
+                        currentUser.getPrefecture(),
                         file.getOriginalFilename(),
                         file.getContentType(),
                         file.getSize(),
@@ -47,8 +46,8 @@ public class UploadProfilePicUseCase {
 
             profilePicFound.setObjectKey(FileEntity.generateObjectKey(
                     profilePicFound.getOriginalFilename(),
-                    profilePicFound.getOwnerId(),
-                    profilePicFound.getOwnerType(),
+                    profilePicFound.getCreator().getId(),
+                    OwnerType.USER,
                     profilePicFound.getFileCategory()
             ));
         }
