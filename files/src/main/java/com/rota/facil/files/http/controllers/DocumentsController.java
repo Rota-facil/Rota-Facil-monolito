@@ -1,19 +1,19 @@
 package com.rota.facil.files.http.controllers;
 
+import com.rota.facil.files.business.useCases.users.admins.EvaluateDocumentUseCase;
 import com.rota.facil.files.business.useCases.users.drivers.UploadCnhUseCase;
 import com.rota.facil.files.business.useCases.users.students.UploadEnrollmentCertificateUseCase;
-import com.rota.facil.files.http.dto.response.FileResponse;
+import com.rota.facil.files.domain.enums.FileValidationStatus;
 import com.rota.facil.files.http.dto.response.FileWithValidationResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class DocumentsController {
     private final UploadEnrollmentCertificateUseCase uploadEnrollmentCertificateUseCase;
     private final UploadCnhUseCase uploadCnhUseCase;
+    private final EvaluateDocumentUseCase evaluateDocumentUseCase;
 
     @PostMapping("/enrollment-certificate")
     public ResponseEntity<FileWithValidationResponse> uploadEnrollmentCertificate(
@@ -39,5 +40,14 @@ public class DocumentsController {
             MultipartFile file
     ) {
         return ResponseEntity.ok(this.uploadCnhUseCase.execute(currentUser, file));
+    }
+
+    @PatchMapping("/evaluate/{documentId}")
+    public ResponseEntity<FileWithValidationResponse> evaluateDocument(
+            @PathVariable UUID documentId,
+            @RequestParam(name = "avalidation_status") FileValidationStatus fileValidationStatus,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(this.evaluateDocumentUseCase.execute(documentId, fileValidationStatus, currentUser));
     }
 }

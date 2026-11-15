@@ -23,4 +23,12 @@ public interface FileWithValidationRepository extends JpaRepository<FileWithVali
         AND fwv.validationStatus != com.rota.facil.files.domain.enums.FileValidationStatus.ANALYSIS
     """)
     List<FileWithValidationEntity> findNotAnalysisByCreatorIdAndPrefectureIdAndFileCategory(@Param(value = "creatorId")  UUID creatorId, @Param(value = "prefectureId") UUID prefectureId, @Param(value = "fileCategory") FileCategory fileCategory);
+
+    @Query("""
+        SELECT fwv FROM FileWithValidationEntity fwv
+        INNER JOIN fwv.prefecture p
+        WHERE fwv.id = :documentId
+        AND p.id = :prefectureId
+    """)
+    Optional<FileWithValidationEntity> findByIdAndPrefectureId(@Param(value = "documentId") UUID documentId, @Param(value = "prefectureId") UUID prefectureId);
 }
