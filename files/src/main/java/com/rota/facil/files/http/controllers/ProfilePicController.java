@@ -4,6 +4,7 @@ import com.rota.facil.files.business.useCases.users.FetchProfilePicUseCase;
 import com.rota.facil.files.business.useCases.users.UploadProfilePicUseCase;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,18 @@ public class ProfilePicController {
     private final FetchProfilePicUseCase fetchProfilePicUseCase;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<FileResponse> upload(@AuthenticationPrincipal UserEntity currentUser, @RequestParam("file") MultipartFile file) { return ResponseEntity.ok(uploadProfilePicUseCase.execute(currentUser, file)); }
+    public ResponseEntity<FileResponse> upload(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @Parameter(required = true, description = "profile pic image")
+            @RequestParam("file") MultipartFile file
+    ) {
+        return ResponseEntity.ok(uploadProfilePicUseCase.execute(currentUser, file));
+    }
 
     @GetMapping
-    public ResponseEntity<FileResponse> fetch(@AuthenticationPrincipal UserEntity currentUser) { return ResponseEntity.ok(fetchProfilePicUseCase.execute(currentUser)); }
+    public ResponseEntity<FileResponse> fetch(
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(fetchProfilePicUseCase.execute(currentUser));
+    }
 }
