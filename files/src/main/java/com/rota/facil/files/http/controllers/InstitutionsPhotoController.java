@@ -6,6 +6,7 @@ import com.rota.facil.files.business.useCases.institutions.UpdateInstitutionPhot
 import com.rota.facil.files.business.useCases.institutions.UploadInstitutionPhotoUseCase;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +28,12 @@ public class InstitutionsPhotoController {
     private final UpdateInstitutionPhotoUseCase updateInstitutionPhotoUseCase;
 
     @PostMapping(value = "/{institutionId}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<FileResponse> upload(@PathVariable UUID institutionId, @RequestPart("file") MultipartFile file, @AuthenticationPrincipal UserEntity currentUser) {
+    public ResponseEntity<FileResponse> upload(
+            @PathVariable UUID institutionId,
+            @Parameter(required = true, description = "institution photo")
+            @RequestPart("file") MultipartFile file,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
         return ResponseEntity.status(HttpStatus.CREATED).body(uploadInstitutionPhotoUseCase.execute(institutionId, file, currentUser));
     }
 
@@ -42,7 +48,12 @@ public class InstitutionsPhotoController {
     }
 
     @PutMapping(value = "/{institutionId}/photos/{photoId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<FileResponse> update(@PathVariable UUID institutionId, @PathVariable UUID photoId, @RequestPart("file") MultipartFile file, @AuthenticationPrincipal UserEntity currentUser) {
+    public ResponseEntity<FileResponse> update(
+            @PathVariable UUID institutionId, @PathVariable UUID photoId,
+            @Parameter(required = true, description = "institution photo")
+            @RequestPart("file") MultipartFile file,
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
         return ResponseEntity.ok(updateInstitutionPhotoUseCase.execute(institutionId, photoId, file, currentUser));
     }
 }
