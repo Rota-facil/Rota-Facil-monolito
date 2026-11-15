@@ -1,6 +1,8 @@
 package com.rota.facil.files.http.mappers;
 
+import com.rota.facil.files.http.dto.response.FileWithValidationResponse;
 import com.rota.facil.files.http.dto.response.FileResponse;
+import com.rota.facil.files.persistence.entities.FileWithValidationEntity;
 import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.storage.FileStorage;
 import lombok.RequiredArgsConstructor;
@@ -11,13 +13,24 @@ import org.springframework.stereotype.Component;
 public class FileMapper {
     private final FileStorage fileStorage;
 
-    public FileResponse map(FileEntity file) {
+    public FileResponse map(FileEntity entity) {
         return new FileResponse(
-                file.getId(),
-                file.getOriginalFilename(),
-                fileStorage.createTemporaryUrl(file.getObjectKey()),
-                file.getFileCategory(),
-                file.getCreatedAt()
+                entity.getId(),
+                entity.getOriginalFilename(),
+                this.fileStorage.createTemporaryUrl(entity.getObjectKey()),
+                entity.getFileCategory(),
+                entity.getCreatedAt()
+        );
+    }
+
+    public FileWithValidationResponse map(FileWithValidationEntity entity) {
+        return new FileWithValidationResponse(
+                entity.getId(),
+                entity.getOriginalFilename(),
+                this.fileStorage.createTemporaryUrl(entity.getObjectKey()),
+                entity.getFileCategory(),
+                entity.isValid(),
+                entity.getCreatedAt()
         );
     }
 }

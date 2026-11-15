@@ -2,6 +2,7 @@ package com.rota.facil.files.http.controllers;
 
 import com.rota.facil.files.business.useCases.users.students.UploadEnrollmentCertificateUseCase;
 import com.rota.facil.files.http.dto.response.FileResponse;
+import com.rota.facil.files.http.dto.response.FileWithValidationResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class DocumentsController {
     private final UploadEnrollmentCertificateUseCase uploadEnrollmentCertificateUseCase;
 
-//    @PostMapping("/enrollment-certificate")
-//    public ResponseEntity<FileResponse> uploadEnrollmentCertificate(
-//            @AuthenticationPrincipal UserEntity currentUser,
-//            @Parameter(required = true, description = "enrollment certificate")
-//            @RequestPart("file") MultipartFile file
-//    ) {
-//        this.uploadEnrollmentCertificateUseCase.execute(currentUser, file);
-//    }
+    @PostMapping("/enrollment-certificate")
+    public ResponseEntity<FileWithValidationResponse> uploadEnrollmentCertificate(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @Parameter(required = true, description = "enrollment certificate")
+            @RequestPart("file") MultipartFile file
+    ) {
+        return ResponseEntity.ok(this.uploadEnrollmentCertificateUseCase.execute(currentUser, file));
+    }
 }
