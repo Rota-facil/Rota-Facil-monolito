@@ -1,5 +1,6 @@
 package com.rota.facil.files.http.controllers;
 
+import com.rota.facil.files.business.useCases.users.drivers.UploadCnhUseCase;
 import com.rota.facil.files.business.useCases.users.students.UploadEnrollmentCertificateUseCase;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.dto.response.FileWithValidationResponse;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/documents")
 public class DocumentsController {
     private final UploadEnrollmentCertificateUseCase uploadEnrollmentCertificateUseCase;
+    private final UploadCnhUseCase uploadCnhUseCase;
 
     @PostMapping("/enrollment-certificate")
     public ResponseEntity<FileWithValidationResponse> uploadEnrollmentCertificate(
@@ -27,5 +29,15 @@ public class DocumentsController {
             @RequestPart("file") MultipartFile file
     ) {
         return ResponseEntity.ok(this.uploadEnrollmentCertificateUseCase.execute(currentUser, file));
+    }
+
+    @PostMapping("/cnh")
+    public ResponseEntity<FileWithValidationResponse> uploadCnh(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @Parameter(required = true, description = "driver cnh")
+            @RequestPart("file")
+            MultipartFile file
+    ) {
+        return ResponseEntity.ok(this.uploadCnhUseCase.execute(currentUser, file));
     }
 }

@@ -5,7 +5,6 @@ import com.rota.facil.files.business.helpers.ValidatePDFHelper;
 import com.rota.facil.files.domain.FileCategory;
 import com.rota.facil.files.domain.OwnerType;
 import com.rota.facil.files.http.dto.response.FileWithValidationResponse;
-import com.rota.facil.files.http.exceptions.AlreadyUploadedEnrollmentCertificateException;
 import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileWithValidationEntity;
 import com.rota.facil.files.persistence.repositories.FileWithValidationRepository;
@@ -22,10 +21,6 @@ public class UploadEnrollmentCertificateUseCase {
 
     public FileWithValidationResponse execute(UserEntity currentUser, MultipartFile file) {
         this.validatePDFHelper.execute(file);
-
-        if (fileWithValidationRepository.findByCreatorIdAndPrefectureIdAndFileCategory(currentUser.getId(), currentUser.getPrefecture().getId(), FileCategory.ENROLLMENT_CERTIFICATE).isPresent()) {
-            throw new AlreadyUploadedEnrollmentCertificateException();
-        }
 
         FileWithValidationEntity enrollmentCertificate = FileWithValidationEntity.newFile(
             currentUser.getId(),

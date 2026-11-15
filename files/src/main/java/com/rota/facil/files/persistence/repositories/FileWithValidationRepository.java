@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +20,7 @@ public interface FileWithValidationRepository extends JpaRepository<FileWithVali
         WHERE c.id = :creatorId
         AND p.id = :prefectureId
         AND fwv.fileCategory = :fileCategory
+        AND fwv.validationStatus != com.rota.facil.files.domain.enums.FileValidationStatus.ANALYSIS
     """)
-    Optional<FileWithValidationEntity> findByCreatorIdAndPrefectureIdAndFileCategory(@Param(value = "creatorId")  UUID creatorId, @Param(value = "prefectureId") UUID prefectureId, @Param(value = "fileCategory") FileCategory fileCategory);
+    List<FileWithValidationEntity> findNotAnalysisByCreatorIdAndPrefectureIdAndFileCategory(@Param(value = "creatorId")  UUID creatorId, @Param(value = "prefectureId") UUID prefectureId, @Param(value = "fileCategory") FileCategory fileCategory);
 }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.io.File;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<Object> alreadyUploadedEnrollmentCertificateException(HttpServletRequest request, AlreadyUploadedEnrollmentCertificateException ex) {
+    public ResponseEntity<Object> alreadyUploadedEnrollmentCertificateException(HttpServletRequest request, ReUploadFileWithValidationException ex) {
         return this.resolveExceptions(HttpStatus.BAD_REQUEST, request, ex);
     }
 
