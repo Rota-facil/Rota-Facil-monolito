@@ -2,6 +2,7 @@ package com.rota.facil.files.http.controllers;
 
 import com.rota.facil.files.business.useCases.users.admins.EvaluateDocumentUseCase;
 import com.rota.facil.files.business.useCases.users.drivers.UploadCnhUseCase;
+import com.rota.facil.files.business.useCases.users.students.FetchMyEnrollmentCertificateUseCase;
 import com.rota.facil.files.business.useCases.users.students.UploadEnrollmentCertificateUseCase;
 import com.rota.facil.files.domain.enums.FileValidationStatus;
 import com.rota.facil.files.http.dto.response.FileWithValidationResponse;
@@ -22,6 +23,7 @@ public class DocumentsController {
     private final UploadEnrollmentCertificateUseCase uploadEnrollmentCertificateUseCase;
     private final UploadCnhUseCase uploadCnhUseCase;
     private final EvaluateDocumentUseCase evaluateDocumentUseCase;
+    private final FetchMyEnrollmentCertificateUseCase fetchMyEnrollmentCertificateUseCase;
 
     @PostMapping("/enrollment-certificate")
     public ResponseEntity<FileWithValidationResponse> uploadEnrollmentCertificate(
@@ -30,6 +32,13 @@ public class DocumentsController {
             @RequestPart("file") MultipartFile file
     ) {
         return ResponseEntity.ok(this.uploadEnrollmentCertificateUseCase.execute(currentUser, file));
+    }
+
+    @GetMapping("/enrollment-certificate")
+    public ResponseEntity<FileWithValidationResponse> fetchMyEnrollmentCertificate(
+            @AuthenticationPrincipal UserEntity currentUser
+    ) {
+        return ResponseEntity.ok(this.fetchMyEnrollmentCertificateUseCase.execute(currentUser));
     }
 
     @PostMapping("/cnh")
