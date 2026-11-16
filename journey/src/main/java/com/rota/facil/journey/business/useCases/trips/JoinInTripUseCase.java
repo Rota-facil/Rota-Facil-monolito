@@ -1,10 +1,7 @@
 package com.rota.facil.journey.business.useCases.trips;
 
 import com.rota.facil.journey.domain.Progress;
-import com.rota.facil.journey.http.exceptions.MaxCapacityLimitedException;
-import com.rota.facil.journey.http.exceptions.InvalidTripGoingReturnException;
-import com.rota.facil.journey.http.exceptions.NotAllowedJoinTripException;
-import com.rota.facil.journey.http.exceptions.TripNotFoundException;
+import com.rota.facil.journey.http.exceptions.*;
 import com.rota.facil.journey.http.dto.request.trips.JoinInTripRequest;
 import com.rota.facil.journey.http.dto.response.trips.TripUserResponse;
 import com.rota.facil.journey.persistence.entities.TripEntity;
@@ -38,6 +35,8 @@ public class JoinInTripUseCase {
         if (!request.going() && !request.return_()) throw new InvalidTripGoingReturnException();
         TripEntity tripFound = this.tripRepository.findTripByIdAndPrefectureId(tripId, currentUser.getPrefecture().getId())
                 .orElseThrow(TripNotFoundException::new);
+
+        if (this.tripUserRepository.findByTripIdAndUserId(tripId, currentUser.getId()).isPresent()) throw new StudentAlreadyInTripException();
 
         VehicleEntity vehicle = tripFound.getVehicle();
 

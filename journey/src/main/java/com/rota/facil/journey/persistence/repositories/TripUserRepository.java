@@ -1,7 +1,6 @@
 package com.rota.facil.journey.persistence.repositories;
 
 import com.rota.facil.client.http.dto.request.heatMaps.PointRequest;
-import com.rota.facil.journey.http.dto.response.trips.TripStudentsResponse;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.entities.TripUserEntity;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
@@ -130,4 +129,13 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         WHERE (t.actualStatus != com.rota.facil.journey.domain.Progress.CANCELLED AND t.actualStatus != com.rota.facil.journey.domain.Progress.NOT_STARTED)
     """)
     Optional<TripUserEntity> findStartedByUserId(@Param(value = "userId") UUID userId);
+
+    @Query("""
+        SELECT tu FROM TripUserEntity tu
+        INNER JOIN tu.student s
+        INNER JOIN tu.trip t
+        WHERE s.id = :userId
+        AND t.id = :tripId
+    """)
+    Optional<TripUserEntity> findByTripIdAndUserId(@Param(value = "tripId") UUID tripId, @Param(value = "userId") UUID userId);
 }
