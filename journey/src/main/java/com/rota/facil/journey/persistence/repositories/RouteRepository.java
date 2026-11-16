@@ -36,6 +36,8 @@ public interface RouteRepository extends JpaRepository<RouteEntity, UUID> {
     """)
     List<RouteEntity> findAllByPrefectureIdAndActive(@Param("prefectureId") UUID prefectureId);
 
+    long countByPrefectureIdAndActiveTrue(UUID prefectureId);
+
     @Query("""
         SELECT r FROM RouteEntity r
         WHERE r.id = :routeId

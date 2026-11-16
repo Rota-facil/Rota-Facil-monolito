@@ -1,6 +1,7 @@
 package com.rota.facil.users.persistence.repositories;
 
 import com.rota.facil.users.persistence.entities.UserEntity;
+import com.rota.facil.users.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, UUID> {
+    long countByPrefectureIdAndRoleAndActiveTrue(UUID prefectureId, Role role);
     Optional<UserEntity> findByEmailAndActiveTrue(String email);
     Optional<UserEntity> findByIdAndPrefectureId(UUID id, UUID prefectureId);
 

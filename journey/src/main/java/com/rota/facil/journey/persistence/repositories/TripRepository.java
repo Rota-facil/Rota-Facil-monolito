@@ -1,6 +1,7 @@
 package com.rota.facil.journey.persistence.repositories;
 
 import com.rota.facil.journey.http.dto.response.trips.TripResponse;
+import com.rota.facil.journey.domain.Progress;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
@@ -17,6 +18,8 @@ import java.util.UUID;
 
 @Repository
 public interface TripRepository extends JpaRepository<TripEntity, UUID> {
+
+    long countByPrefectureIdAndActualStatus(UUID prefectureId, Progress actualStatus);
 
     @Query(value = """
         SELECT t.* FROM trips_tb t

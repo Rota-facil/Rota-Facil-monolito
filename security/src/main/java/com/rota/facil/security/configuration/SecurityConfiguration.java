@@ -54,6 +54,7 @@ public class SecurityConfiguration {
                             .requestMatchers(HttpMethod.OPTIONS).permitAll()
                             .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                             .requestMatchers("/auth/login", "/auth/register", "/auth/complete/google").permitAll()
+                            .requestMatchers(HttpMethod.GET, "/journey/metrics").hasRole("ADMIN")
 
                             .requestMatchers(HttpMethod.GET, "/prefectures/**").permitAll()
                             .requestMatchers("/prefectures/**").hasRole("SUPERUSER")

@@ -14,6 +14,7 @@ import java.util.UUID;
 
 @Repository
 public interface VehicleRepository extends JpaRepository<VehicleEntity, UUID> {
+    long countByPrefectureIdAndActiveTrue(UUID prefectureId);
     Optional<VehicleEntity> findByIdAndPrefectureId(UUID id, UUID prefectureId);
     Optional<VehicleEntity> findByIdAndPrefectureIdAndActiveTrue(UUID id, UUID prefectureId);
     Optional<VehicleEntity> findByDriverIdAndActiveTrue(UUID driverId);
