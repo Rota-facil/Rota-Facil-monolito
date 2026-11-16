@@ -24,7 +24,7 @@ public class UserEligibilityValidatorHelper {
     }
 
     private void validateStudent(UserEntity student) {
-        FileWithValidationEntity mostRecentEnrollmentCertificate = this.fileWithValidationRepository.findEnrollmentCertificateByUserIdAndFileCategory(student.getId())
+        FileWithValidationEntity mostRecentEnrollmentCertificate = this.fileWithValidationRepository.findEnrollmentCertificateByUserId(student.getId())
                 .orElseThrow(() -> new FileNotFoundException("Etapa de upload de comprovante de matrícula é necessária para liberar esse recurso"));
 
         if (mostRecentEnrollmentCertificate.isAnalysis()) throw new UserDocumentationAnalysisException("Não é possível realizar essa ação porque seu comprovante de matrícula inda está sob análise");
@@ -32,7 +32,7 @@ public class UserEligibilityValidatorHelper {
     }
 
     private void validateDriver(UserEntity driver) {
-        FileWithValidationEntity mostRecentEnrollmentCertificate = this.fileWithValidationRepository.findCNHByUserIdAndFileCategory(driver.getId())
+        FileWithValidationEntity mostRecentEnrollmentCertificate = this.fileWithValidationRepository.findCNHByUserId(driver.getId())
                 .orElseThrow(() -> new FileNotFoundException("Etapa de upload de CNH é necessária para liberar esse recurso"));
 
         if (mostRecentEnrollmentCertificate.isAnalysis()) throw new UserDocumentationAnalysisException("Não é possível realizar essa ação porque sua CNH inda está sob análise");

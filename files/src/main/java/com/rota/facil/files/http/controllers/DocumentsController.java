@@ -1,6 +1,7 @@
 package com.rota.facil.files.http.controllers;
 
 import com.rota.facil.files.business.useCases.users.admins.EvaluateDocumentUseCase;
+import com.rota.facil.files.business.useCases.users.drivers.FetchMyCNHUseCase;
 import com.rota.facil.files.business.useCases.users.drivers.UploadCnhUseCase;
 import com.rota.facil.files.business.useCases.users.students.FetchMyEnrollmentCertificateUseCase;
 import com.rota.facil.files.business.useCases.users.students.UploadEnrollmentCertificateUseCase;
@@ -24,6 +25,7 @@ public class DocumentsController {
     private final UploadCnhUseCase uploadCnhUseCase;
     private final EvaluateDocumentUseCase evaluateDocumentUseCase;
     private final FetchMyEnrollmentCertificateUseCase fetchMyEnrollmentCertificateUseCase;
+    private final FetchMyCNHUseCase fetchMyCNHUseCase;
 
     @PostMapping("/enrollment-certificate")
     public ResponseEntity<FileWithValidationResponse> uploadEnrollmentCertificate(
@@ -49,6 +51,11 @@ public class DocumentsController {
             MultipartFile file
     ) {
         return ResponseEntity.ok(this.uploadCnhUseCase.execute(currentUser, file));
+    }
+
+    @GetMapping("/cnh")
+    public ResponseEntity<FileWithValidationResponse> fetchMyCNH(@AuthenticationPrincipal UserEntity currentUser) {
+        return ResponseEntity.ok(this.fetchMyCNHUseCase.execute(currentUser));
     }
 
     @PatchMapping("/evaluate/{documentId}")

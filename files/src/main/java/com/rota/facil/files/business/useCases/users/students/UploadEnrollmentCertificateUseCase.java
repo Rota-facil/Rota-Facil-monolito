@@ -24,7 +24,7 @@ public class UploadEnrollmentCertificateUseCase {
         this.validatePDFHelper.execute(file);
 
 
-        FileWithValidationEntity enrollmentCertificate = this.fileWithValidationRepository.findEnrollmentCertificateByUserIdAndFileCategory(currentUser.getId())
+        FileWithValidationEntity enrollmentCertificate = this.fileWithValidationRepository.findEnrollmentCertificateByUserId(currentUser.getId())
                 .orElseGet(() ->
                         FileWithValidationEntity.newFile(
                                 currentUser,
