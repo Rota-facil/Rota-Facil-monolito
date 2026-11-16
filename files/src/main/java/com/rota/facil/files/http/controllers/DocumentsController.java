@@ -2,7 +2,8 @@ package com.rota.facil.files.http.controllers;
 
 import com.rota.facil.files.business.useCases.users.admins.EvaluateDocumentUseCase;
 import com.rota.facil.files.business.useCases.users.admins.FetchEnrollmentCertificateOfUserUseCase;
-import com.rota.facil.files.business.useCases.users.drivers.FetchCNHOfUserUseCase;
+import com.rota.facil.files.business.useCases.users.admins.FetchCNHOfUserUseCase;
+import com.rota.facil.files.business.useCases.users.admins.UploadCnhForDriverUseCase;
 import com.rota.facil.files.business.useCases.users.drivers.FetchMyCNHUseCase;
 import com.rota.facil.files.business.useCases.users.drivers.UploadCnhUseCase;
 import com.rota.facil.files.business.useCases.users.students.FetchMyEnrollmentCertificateUseCase;
@@ -30,6 +31,7 @@ public class DocumentsController {
     private final FetchMyCNHUseCase fetchMyCNHUseCase;
     private final FetchEnrollmentCertificateOfUserUseCase fetchEnrollmentCertificateOfUserUseCase;
     private final FetchCNHOfUserUseCase fetchCNHOfUserUseCase;
+    private final UploadCnhForDriverUseCase uploadCnhForDriverUseCase;
 
     @PostMapping("/enrollment-certificate")
     public ResponseEntity<FileWithValidationResponse> uploadEnrollmentCertificate(
@@ -63,6 +65,17 @@ public class DocumentsController {
             MultipartFile file
     ) {
         return ResponseEntity.ok(this.uploadCnhUseCase.execute(currentUser, file));
+    }
+
+    @PostMapping("/cnh/drivers/{driverId}")
+    public ResponseEntity<FileWithValidationResponse> uploadCnhForDriver(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @PathVariable UUID driverId,
+            @Parameter(required = true, description = "driver cnh")
+            @RequestPart("file")
+            MultipartFile file
+    ) {
+            return ResponseEntity.ok(this.uploadCnhForDriverUseCase.execute(currentUser, driverId, file));
     }
 
     @GetMapping("/cnh")

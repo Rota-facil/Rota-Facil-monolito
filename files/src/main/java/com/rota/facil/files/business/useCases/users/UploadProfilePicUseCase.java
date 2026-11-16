@@ -1,12 +1,9 @@
 package com.rota.facil.files.business.useCases.users;
 
 import com.rota.facil.annotations.UseCase;
-import com.rota.facil.files.domain.enums.FileCategory;
+import com.rota.facil.files.business.helpers.UploadProfilePicHelper;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.mappers.FileMapper;
-import com.rota.facil.files.persistence.entities.FileEntity;
-import com.rota.facil.files.persistence.repositories.FileRepository;
-import com.rota.facil.files.storage.FileStorage;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,37 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 @UseCase
 @RequiredArgsConstructor
 public class UploadProfilePicUseCase {
-    private final FileRepository fileRepository;
-    private final FileStorage fileStorage;
+    private final UploadProfilePicHelper uploadProfilePicHelper;
     private final FileMapper fileMapper;
 
     public FileResponse execute(UserEntity currentUser, MultipartFile file) {
-        FileEntity profilePicFound = this.fileRepository.findByCreatorIdAndPrefectureIdAndFileCategory(
-                currentUser.getId(),
-                currentUser.getPrefecture().getId(),
-                FileCategory.PROFILE_PIC
-        ).orElseGet(
-                () -> FileEntity.newFile(
-                        currentUser,
-                        currentUser.getPrefecture(),
-                        file.getOriginalFilename(),
-                        file.getContentType(),
-                        file.getSize(),
-                        FileCategory.PROFILE_PIC
-                )
-        );
-
-        if (profilePicFound.getId() != null) {
-            profilePicFound.update(file.getOriginalFilename(), file.getContentType(), file.getSize());
-            this.fileStorage.delete(profilePicFound.getObjectKey());
-
-            profilePicFound.generateObjectKey();
-        }
-
-        this.fileStorage.upload(file, profilePicFound.getObjectKey());
-
-        FileEntity saved = this.fileRepository.save(profilePicFound);
-
-        return this.fileMapper.map(saved);
+        return this.fileMapper.map(this.uploadProfilePicHelper.execute(currentUser, file));
     }
 }

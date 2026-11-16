@@ -1,4 +1,4 @@
-package com.rota.facil.files.business.useCases.users.drivers;
+package com.rota.facil.files.business.useCases.users.admins;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.http.dto.response.FileWithValidationResponse;

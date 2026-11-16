@@ -1,6 +1,7 @@
 package com.rota.facil.files.business.useCases.users.drivers;
 
 import com.rota.facil.annotations.UseCase;
+import com.rota.facil.files.business.helpers.UploadCnhHelper;
 import com.rota.facil.files.business.helpers.ValidatePDFHelper;
 import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.files.http.dto.response.FileWithValidationResponse;
@@ -15,36 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 @UseCase
 @RequiredArgsConstructor
 public class UploadCnhUseCase {
-    private final ValidatePDFHelper validatePDFHelper;
-    private final FileStorage fileStorage;
-    private final FileWithValidationRepository fileWithValidationRepository;
+    private final UploadCnhHelper uploadCnhHelper;
     private final FileMapper fileMapper;
 
     public FileWithValidationResponse execute(UserEntity currentUser, MultipartFile file) {
-        this.validatePDFHelper.execute(file);
-
-        FileWithValidationEntity cnh = this.fileWithValidationRepository.findCNHByUserIdAndPrefectureId(currentUser.getId(), currentUser.getPrefecture().getId())
-                .orElseGet(() ->
-                        FileWithValidationEntity.newFile(
-                                currentUser,
-                                currentUser.getPrefecture(),
-                                file.getOriginalFilename(),
-                                file.getContentType(),
-                                file.getSize(),
-                                FileCategory.CNH
-                        )
-                );
-
-        if (cnh.getId() != null) {
-            this.fileStorage.delete(cnh.getObjectKey());
-            cnh.update(file.getOriginalFilename(), file.getContentType(), file.getSize());
-            cnh.generateObjectKey();
-        }
-
-        this.fileStorage.upload(file, cnh.getObjectKey());
-
         return this.fileMapper.map(
-                this.fileWithValidationRepository.save(cnh)
+                this.uploadCnhHelper.execute(currentUser, file)
         );
     }
 }
