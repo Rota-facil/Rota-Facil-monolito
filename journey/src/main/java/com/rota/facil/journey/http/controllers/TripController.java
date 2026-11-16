@@ -1,5 +1,6 @@
 package com.rota.facil.journey.http.controllers;
 
+import com.rota.facil.journey.business.useCases.trips.ListTripsTodayUseCase;
 import com.rota.facil.journey.business.useCases.routes.ValidateCheckinUseCase;
 import com.rota.facil.journey.business.useCases.trips.*;
 import com.rota.facil.journey.http.dto.request.routes.UserLocationCheakinRequest;
@@ -33,6 +34,7 @@ public class TripController {
     private final ListMyTripsTodayUseCase listMyTripsTodayUseCase;
     private final ListStudentsOfTripUseCase listStudentsOfTripUseCase;
     private final DeactivateTripUseCase deactivateTripUseCase;
+    private final ListTripsTodayUseCase listTripsTodayUseCase;
 
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(
@@ -84,6 +86,11 @@ public class TripController {
             @Valid @RequestBody CancelTripRequest request
     ) {
         return ResponseEntity.ok(this.cancelTripUseCase.execute(currentUser, tripId, request));
+    }
+
+    @GetMapping("/today")
+    public ResponseEntity<List<TripResponse>> listToday(@AuthenticationPrincipal UserEntity currentUser) {
+        return ResponseEntity.ok(this.listTripsTodayUseCase.execute(currentUser));
     }
 
     @GetMapping("/my-today")

@@ -1,5 +1,6 @@
 package com.rota.facil.journey.persistence.repositories;
 
+import com.rota.facil.journey.http.dto.response.trips.TripResponse;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
@@ -165,4 +166,11 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         WHERE t.id = :tripId
     """)
     Optional<TripEntity> findByIdWithDetails(@Param(value = "tripId") UUID tripId);
+
+    @Query("""
+        SELECT t FROM TripEntity t
+        WHERE t.prefectureId = :prefectureId
+        AND t.createdAt = CURRENT_DATE()
+    """)
+    List<TripEntity> findAllTodayByPrefectureId(@Param(value = "prefectureId") UUID prefectureId);
 }
