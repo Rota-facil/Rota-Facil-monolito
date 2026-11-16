@@ -1,5 +1,6 @@
 package com.rota.facil.users.http.controllers;
 
+import com.rota.facil.users.business.useCases.admin.ListDriversUseCase;
 import com.rota.facil.users.business.useCases.users.ChangePrefectureUseCase;
 import com.rota.facil.users.business.useCases.admin.CreateDriverUseCase;
 import com.rota.facil.users.business.useCases.users.FetchMeUseCase;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,6 +25,7 @@ public class UsersControllers {
     private final ChangePrefectureUseCase changePrefectureUseCase;
     private final FetchMeUseCase fetchMeUseCase;
     private final UpdateAccountUseCase updateAccountUseCase;
+    private final ListDriversUseCase listDriversUseCase;
 
     @PostMapping("/drivers")
     public ResponseEntity<UserResponse> createDriver(
@@ -30,6 +33,11 @@ public class UsersControllers {
             @RequestBody CreateDriverRequest createDriver
     ) {
         return ResponseEntity.ok(this.createDriverUseCase.execute(currentUser, createDriver));
+    }
+
+    @GetMapping("/drivers")
+    ResponseEntity<List<UserResponse>> listDrivers(@AuthenticationPrincipal UserEntity currentUser) {
+        return ResponseEntity.ok(this.listDriversUseCase.execute(currentUser));
     }
 
     @GetMapping("/me")

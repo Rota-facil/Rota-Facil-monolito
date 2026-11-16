@@ -1,7 +1,7 @@
 package com.rota.facil.users.persistence.entities;
 
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
-import com.rota.facil.users.domain.DriverStatus;
+import com.rota.facil.users.domain.UserStatus;
 import com.rota.facil.users.domain.Role;
 import com.rota.facil.users.domain.UpdateUserData;
 import jakarta.persistence.*;
@@ -52,7 +52,7 @@ public class UserEntity {
     private Role role;
 
     @Enumerated(EnumType.STRING)
-    private DriverStatus status;
+    private UserStatus status = UserStatus.AVAILABLE;
 
     @Builder.Default
     @Column(name = "created_at")
@@ -93,11 +93,11 @@ public class UserEntity {
     }
 
     public void moveToAvailable() {
-        if (this.getRole().equals(Role.DRIVER)) this.setStatus(DriverStatus.AVAILABLE);
+        if (this.getRole().equals(Role.DRIVER)) this.setStatus(UserStatus.AVAILABLE);
     }
 
     public void moveToOnRoute() {
-        if (this.getRole().equals(Role.DRIVER)) this.setStatus(DriverStatus.ON_ROUTE);
+        if (this.getRole().equals(Role.DRIVER)) this.setStatus(UserStatus.ON_ROUTE);
     }
 
     public void increaseTrips() {

@@ -11,6 +11,7 @@ public record UserResponse(
         String name,
         String email,
         String cpf,
+        String status,
         boolean active,
         Long completedTrips,
         Double score,

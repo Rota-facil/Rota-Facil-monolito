@@ -1,5 +1,6 @@
 package com.rota.facil.users.persistence.repositories;
 
+import com.rota.facil.users.http.dto.response.users.UserResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,7 +53,7 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     @Modifying
     @Query("""
         UPDATE UserEntity u
-        SET u.status = com.rota.facil.users.domain.DriverStatus.AVAILABLE
+        SET u.status = com.rota.facil.users.domain.UserStatus.AVAILABLE
         WHERE u.prefecture.id = :prefectureId
         AND u.role = com.rota.facil.users.domain.Role.DRIVER
     """)
@@ -94,4 +96,13 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
         AND u.active IS TRUE
     """)
     Optional<UserEntity> findByEmail(@Param(value = "email") String email);
+
+    @Query("""
+        SELECT u FROM UserEntity u
+        INNER JOIN u.prefecture p
+        WHERE p.id = :prefectureId
+        AND u.role = com.rota.facil.users.domain.Role.DRIVER
+        AND u.active IS TRUE
+    """)
+    List<UserEntity> findAllActiveDriversByPrefectureId(@Param(value = "prefectureId") UUID prefectureId);
 }

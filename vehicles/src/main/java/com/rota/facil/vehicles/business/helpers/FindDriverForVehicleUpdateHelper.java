@@ -1,6 +1,6 @@
 package com.rota.facil.vehicles.business.helpers;
 
-import com.rota.facil.users.domain.DriverStatus;
+import com.rota.facil.users.domain.UserStatus;
 import com.rota.facil.users.http.exceptions.UserNotFoundExceptions;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
@@ -26,7 +26,7 @@ public class FindDriverForVehicleUpdateHelper {
                 .filter(UserEntity::isDriver)
                 .orElseThrow(UserNotFoundExceptions::new);
 
-        if (DriverStatus.ON_ROUTE.equals(driver.getStatus())) throw new DriverIsOnRouteException();
+        if (UserStatus.ON_ROUTE.equals(driver.getStatus())) throw new DriverIsOnRouteException();
 
         vehicleRepository.findByDriverIdAndActiveTrue(driverId)
                 .filter(currentVehicle -> !currentVehicle.getId().equals(vehicle.getId()))

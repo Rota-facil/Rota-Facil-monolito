@@ -1,6 +1,6 @@
 package com.rota.facil.users.domain;
 
-public enum DriverStatus {
+public enum UserStatus {
     ON_ROUTE,
     AVAILABLE
 }
