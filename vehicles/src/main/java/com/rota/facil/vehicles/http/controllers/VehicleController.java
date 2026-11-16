@@ -1,17 +1,10 @@
 package com.rota.facil.vehicles.http.controllers;
 
 import com.rota.facil.users.persistence.entities.UserEntity;
-import com.rota.facil.vehicles.business.useCases.vehicles.CreateVehicleUseCase;
-import com.rota.facil.vehicles.business.useCases.vehicles.DeleteVehicleUseCase;
-import com.rota.facil.vehicles.business.useCases.vehicles.FetchVehicleUseCase;
-import com.rota.facil.vehicles.business.useCases.vehicles.ListVehiclesUseCase;
-import com.rota.facil.vehicles.business.useCases.vehicles.UpdateVehicleUseCase;
+import com.rota.facil.vehicles.business.useCases.vehicles.*;
 import com.rota.facil.vehicles.http.dto.request.vehicles.CreateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.request.vehicles.UpdateVehicleRequest;
-import com.rota.facil.vehicles.http.dto.response.vehicles.CreateVehicleResponse;
-import com.rota.facil.vehicles.http.dto.response.vehicles.FetchVehicleResponse;
-import com.rota.facil.vehicles.http.dto.response.vehicles.ListVehicleResponse;
-import com.rota.facil.vehicles.http.dto.response.vehicles.UpdateVehicleResponse;
+import com.rota.facil.vehicles.http.dto.response.vehicles.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +24,7 @@ public class VehicleController {
     private final FetchVehicleUseCase fetchVehicleUseCase;
     private final ListVehiclesUseCase listVehiclesUseCase;
     private final UpdateVehicleUseCase updateVehicleUseCase;
+    private final FetchVehicleByDriverUseCase fetchVehicleByDriverUseCase;
 
     @PostMapping
     public ResponseEntity<CreateVehicleResponse> createVehicle(
@@ -46,6 +40,14 @@ public class VehicleController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(this.fetchVehicleUseCase.execute(vehicleId, currentUser));
+    }
+
+    @GetMapping("drivers/{driverId}")
+    public ResponseEntity<VehicleResponse> fetchVehicleByDriver(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @PathVariable UUID driverId
+    ) {
+        return ResponseEntity.ok(this.fetchVehicleByDriverUseCase.execute(currentUser, driverId));
     }
 
     @GetMapping

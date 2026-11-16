@@ -1,5 +1,6 @@
 package com.rota.facil.vehicles.persistence.repositories;
 
+import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -37,4 +38,14 @@ public interface VehicleRepository extends JpaRepository<VehicleEntity, UUID> {
         WHERE v.driver.id = :driverId
     """)
     void removeDriverFromVehicle(@Param("driverId") UUID driverId);
+
+    @Query("""
+        SELECT v FROM VehicleEntity v
+        INNER JOIN v.driver d
+        WHERE d.id = :driverId
+        AND v.prefectureId = :prefectureId
+        AND v.active IS TRUE
+        AND d.active IS TRUE
+    """)
+    Optional<VehicleEntity> findByDriverIdAndPrefectureId(@Param(value = "driverId") UUID driverId, @Param(value = "prefectureId") UUID prefectureId);
 }
