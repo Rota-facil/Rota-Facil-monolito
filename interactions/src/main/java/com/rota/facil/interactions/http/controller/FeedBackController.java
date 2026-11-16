@@ -29,7 +29,7 @@ public class FeedBackController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.sendFeedbackToUserUseCase.execute(currentUser, request));
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/users/{userId}")
     public ResponseEntity<List<FeedBackResponse>> listFeedBacks(
             @AuthenticationPrincipal UserEntity currentUser,
             @PathVariable UUID userId

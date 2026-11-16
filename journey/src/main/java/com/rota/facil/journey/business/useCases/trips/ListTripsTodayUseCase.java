@@ -6,6 +6,8 @@ import com.rota.facil.journey.persistence.mappers.TripMapper;
 import com.rota.facil.journey.persistence.repositories.TripRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -15,10 +17,8 @@ public class ListTripsTodayUseCase {
     private final TripRepository tripRepository;
     private final TripMapper tripMapper;
 
-    public List<TripResponse> execute(UserEntity currentUser) {
-        return this.tripRepository.findAllTodayByPrefectureId(currentUser.getPrefecture().getId())
-                .stream()
-                .map(this.tripMapper::map)
-                .toList();
+    public Page<TripResponse> execute(UserEntity currentUser, Pageable pageable) {
+        return this.tripRepository.findAllPageTodayByPrefectureId(currentUser.getPrefecture().getId(), pageable)
+                .map(this.tripMapper::map);
     }
 }

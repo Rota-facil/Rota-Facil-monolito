@@ -34,4 +34,15 @@ public interface InstitutionFilesRepository extends JpaRepository<InstitutionFil
         ORDER BY if.createdAt DESC
     """)
     List<InstitutionFilesEntity> findAllByInstitutionIdAndPrefectureIdAndFileCategory(@Param(value = "institutionId") UUID institutionId, @Param(value = "prefectureId") UUID prefectureId, @Param(value = "fileCategory") FileCategory fileCategory);
+
+    @Query("""
+        SELECT if FROM InstitutionFilesEntity if
+        INNER JOIN if.institution i
+        INNER JOIN if.prefecture p
+        WHERE i.id = :institutionId
+        AND p.id = :prefectureId
+        AND if.fileCategory = :fileCategory
+        ORDER BY if.createdAt DESC
+    """)
+    Optional<InstitutionFilesEntity> findByInstitutionIdAndPrefectureIdAndFileCategory(@Param(value = "institutionId") UUID institutionId, @Param(value = "prefectureId") UUID prefectureId, @Param(value = "fileCategory") FileCategory fileCategory);
 }

@@ -32,4 +32,14 @@ public interface BoardPointFilesRepository extends JpaRepository<BoardPointFiles
         AND bf.fileCategory = :fileCategory 
     """)
     List<BoardPointFilesEntity> findAllByBoardPointIdAndPrefectureIdAndFileCategory(@Param(value = "boardPointId") UUID boardPointId, @Param(value = "prefectureId") UUID prefectureId, @Param(value = "fileCategory") FileCategory fileCategory);
+
+    @Query("""
+        SELECT bf FROM BoardPointFilesEntity bf
+        INNER JOIN bf.boardPoint b
+        INNER JOIN bf.prefecture p
+        WHERE b.id = :boardPointId
+        AND p.id = :prefectureId
+        AND bf.fileCategory = :fileCategory
+    """)
+    Optional<BoardPointFilesEntity> findByBoardPointIdAndPrefectureIdAndFileCategory(@Param(value = "boardPointId") UUID boardPointId, @Param(value = "prefectureId") UUID prefectureId, @Param(value = "fileCategory") FileCategory fileCategory);
 }

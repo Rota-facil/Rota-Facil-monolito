@@ -5,6 +5,8 @@ import com.rota.facil.journey.domain.Progress;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -176,4 +178,11 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         AND t.createdAt = CURRENT_DATE()
     """)
     List<TripEntity> findAllTodayByPrefectureId(@Param(value = "prefectureId") UUID prefectureId);
+
+    @Query("""
+        SELECT t FROM TripEntity t
+        WHERE t.prefectureId = :prefectureId
+        AND t.createdAt = CURRENT_DATE()
+    """)
+    Page<TripEntity> findAllPageTodayByPrefectureId(@Param(value = "prefectureId") UUID prefectureId, Pageable pageable);
 }

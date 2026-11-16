@@ -33,12 +33,25 @@ public class UploadBoardPointPhotoUseCase {
 
         this.validateImageHelper.execute(file);
 
-        BoardPointFilesEntity saved = this.boardPointFilesRepository.save(BoardPointFilesEntity.newFile(
-                currentUser, currentUser.getPrefecture(),
-                file.getOriginalFilename(), file.getContentType(), file.getSize(),
-                FileCategory.BOARD_POINT_PHOTO, boardPointFound
+        BoardPointFilesEntity boardPointFileFound = this.boardPointFilesRepository.findByBoardPointIdAndPrefectureIdAndFileCategory(boardPointId, prefectureId, FileCategory.BOARD_POINT_PHOTO)
+                .orElseGet(() ->
+                        BoardPointFilesEntity.newFile(
+                                currentUser, currentUser.getPrefecture(),
+                                file.getOriginalFilename(), file.getContentType(), file.getSize(),
+                                FileCategory.BOARD_POINT_PHOTO, boardPointFound
 
-        ));
+                        )
+                );
+
+        if (boardPointFileFound.getId() != null) {
+            boardPointFileFound.update(file.getOriginalFilename(), file.getContentType(), file.getSize());
+            fileStorage.delete(boardPointFileFound.getObjectKey());
+
+            boardPointFileFound.generateObjectKey();
+        }
+
+        BoardPointFilesEntity saved = this.boardPointFilesRepository.save(boardPointFileFound);
+
         fileStorage.upload(file, saved.getObjectKey());
         
         return fileMapper.map(saved);
