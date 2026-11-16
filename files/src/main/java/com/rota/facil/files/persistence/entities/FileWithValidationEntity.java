@@ -24,6 +24,18 @@ public class FileWithValidationEntity extends FileEntity {
     @Column(name = "validation_status")
     private FileValidationStatus validationStatus = FileValidationStatus.ANALYSIS;
 
+    public boolean isApproved() {
+        return this.validationStatus.equals(FileValidationStatus.APPROVED);
+    }
+
+    public boolean isAnalysis() {
+        return this.validationStatus.equals(FileValidationStatus.ANALYSIS);
+    }
+
+    public boolean isReject() {
+        return this.validationStatus.equals(FileValidationStatus.REJECTED);
+    }
+
     public static FileWithValidationEntity newFile(
             UUID ownerId, UserEntity creator, PrefectureEntity prefecture,
             String originalFilename, String mimeType, long fileSizeBytes,

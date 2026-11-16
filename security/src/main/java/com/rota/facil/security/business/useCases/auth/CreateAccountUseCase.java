@@ -2,7 +2,7 @@ package com.rota.facil.security.business.useCases.auth;
 
 import com.rota.facil.prefectures.business.helpers.FetchPrefectureByIdHelper;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
-import com.rota.facil.security.business.useCases.auth.helpers.ValidationCreateAccountHelper;
+import com.rota.facil.security.business.helpers.ValidationCreateAccountHelper;
 import com.rota.facil.security.persistence.entities.UserTokenEntity;
 import com.rota.facil.security.http.dto.request.user.CreateAccountRequest;
 import com.rota.facil.security.http.dto.response.token.TokenResponse;

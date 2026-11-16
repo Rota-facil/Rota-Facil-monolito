@@ -2,6 +2,7 @@ package com.rota.facil.security.configuration;
 
 import com.rota.facil.security.business.useCases.auth.LoginWithGoogleSuccessUseCase;
 import com.rota.facil.security.filters.RotaFacilAuthenticationFilter;
+import com.rota.facil.security.filters.RotaFacilUserEligibilityFilter;
 import com.rota.facil.security.service.RotaFacilUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +37,7 @@ public class SecurityConfiguration {
 
     private final RotaFacilUserDetailsService rotaFacilUserDetailsService;
     private final RotaFacilAuthenticationFilter rotaFacilAuthenticationFilter;
+    private final RotaFacilUserEligibilityFilter rotaFacilUserEligibilityFilter;
     private final LoginWithGoogleSuccessUseCase loginWithGoogleSuccessUseCase;
 
     @Bean
@@ -43,7 +45,8 @@ public class SecurityConfiguration {
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(CsrfConfigurer::disable)
-                .addFilterBefore(rotaFacilAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(this.rotaFacilAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(this.rotaFacilUserEligibilityFilter, RotaFacilAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/webjars/**", "/*/v3/api-docs").permitAll()
                             .requestMatchers("/*/v3/api-docs/**", "/*/swagger-ui/**", "/*/swagger-ui.html", "/oauth2/**").permitAll()

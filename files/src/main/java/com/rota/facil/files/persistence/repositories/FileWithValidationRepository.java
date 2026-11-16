@@ -31,4 +31,16 @@ public interface FileWithValidationRepository extends JpaRepository<FileWithVali
         AND p.id = :prefectureId
     """)
     Optional<FileWithValidationEntity> findByIdAndPrefectureId(@Param(value = "documentId") UUID documentId, @Param(value = "prefectureId") UUID prefectureId);
+
+    @Query(value = """
+        SELECT f.*, fwv.validation_status FROM files_with_validation_tb fwv
+        INNER JOIN files_tb f USING(file_id)
+        INNER JOIN users_tb AS u ON f.creator_id = u.user_id
+        WHERE f.file_category = :fileCategory
+        AND u.user_id = :userId
+        ORDER BY f.created_at DESC
+        LIMIT 1
+    """, nativeQuery = true
+    )
+    Optional<FileWithValidationEntity> findMostRecentEnrollmentCertificateByUserIdAndFileCategory(@Param(value = "userId") UUID userId, @Param(value = "fileCategory") String fileCategory);
 }

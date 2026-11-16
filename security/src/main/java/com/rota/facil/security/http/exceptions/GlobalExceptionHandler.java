@@ -45,6 +45,16 @@ public class GlobalExceptionHandler {
         return this.resolveExceptions(HttpStatus.NOT_FOUND, request, ex);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<Object> userDocumentationRejectException(HttpServletRequest request, UserDocumentationRejectException ex) {
+        return this.resolveExceptions(HttpStatus.BAD_REQUEST, request, ex);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> userDocumentationAnalysisException(HttpServletRequest request, UserDocumentationAnalysisException ex) {
+        return this.resolveExceptions(HttpStatus.BAD_REQUEST, request, ex);
+    }
+
     private ResponseEntity<Object> resolveExceptions(HttpStatus status, HttpServletRequest request, Exception ex) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());

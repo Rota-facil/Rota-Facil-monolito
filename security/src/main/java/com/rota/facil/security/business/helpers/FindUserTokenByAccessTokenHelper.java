@@ -1,4 +1,4 @@
-package com.rota.facil.security.business.useCases.auth.helpers;
+package com.rota.facil.security.business.helpers;
 
 import com.rota.facil.security.http.exceptions.UserTokenNotFoundExceptions;
 import com.rota.facil.security.persistence.entities.UserTokenEntity;

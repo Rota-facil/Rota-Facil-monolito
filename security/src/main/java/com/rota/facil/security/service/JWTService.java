@@ -1,6 +1,6 @@
 package com.rota.facil.security.service;
 
-import com.rota.facil.security.business.useCases.auth.helpers.FindUserTokenByAccessTokenHelper;
+import com.rota.facil.security.business.helpers.FindUserTokenByAccessTokenHelper;
 import com.rota.facil.security.persistence.entities.UserTokenEntity;
 import com.rota.facil.security.persistence.repositories.UserTokenRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
