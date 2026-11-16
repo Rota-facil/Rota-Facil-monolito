@@ -18,7 +18,7 @@ public class FetchCNHOfUserUseCase {
     private final FileMapper fileMapper;
 
     public FileWithValidationResponse execute(UserEntity currentUser, UUID userId) {
-        FileWithValidationEntity cnhFound = this.fileWithValidationRepository.findCNHByUserIdAndPrefectureId(userId, currentUser.getPrefecture())
+        FileWithValidationEntity cnhFound = this.fileWithValidationRepository.findCNHByUserIdAndPrefectureId(userId, currentUser.getPrefecture().getId())
                 .orElseThrow(FileNotFoundException::new);
         return this.fileMapper.map(cnhFound);
     }
