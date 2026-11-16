@@ -23,9 +23,6 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class RotaFacilAuthenticationFilter extends OncePerRequestFilter {
-    @Value(value = "${x.api.key}")
-    private String API_KEY;
-
     private final JWTService jwtService;
     private final RotaFacilUserDetailsService rotaFacilUserDetailsService;
     private final ObjectMapper objectMapper;
@@ -35,22 +32,6 @@ public class RotaFacilAuthenticationFilter extends OncePerRequestFilter {
         String authorization = request.getHeader("Authorization");
         String token = null;
         String email = null;
-
-
-
-        if (request.getRequestURI().contains("/files/heat-map/") && request.getHeader("x-api-key").equals(API_KEY)) {
-            filterChain.doFilter(request, response);
-
-            UserEntity adminRetrieved = objectMapper.readValue(
-                    request.getInputStream(),
-                    UserEntity.class
-            );
-
-            AuthenticatedUser authenticatedAndValidAdmin = (AuthenticatedUser) this.rotaFacilUserDetailsService.loadUserByUsername(adminRetrieved.getEmail());
-            Authentication authentication = this.generateAuthentication(authenticatedAndValidAdmin);
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
 
         if (authorization != null && authorization.startsWith("Bearer")) {
             token = authorization.substring(7);
