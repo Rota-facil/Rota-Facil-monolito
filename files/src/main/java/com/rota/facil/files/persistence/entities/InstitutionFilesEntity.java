@@ -1,8 +1,6 @@
 package com.rota.facil.files.persistence.entities;
 
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
-import com.rota.facil.places.persistence.entitites.BoardPointEntity;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.users.persistence.entities.UserEntity;
@@ -25,13 +23,12 @@ public class InstitutionFilesEntity extends FileEntity{
     private InstitutionEntity institution;
 
     public static InstitutionFilesEntity newFile(
-            UUID ownerId, UserEntity creator, PrefectureEntity prefecture,
+            UserEntity creator, PrefectureEntity prefecture,
             String originalFilename, String mimeType, long fileSizeBytes,
-            OwnerType ownerType, FileCategory fileCategory, InstitutionEntity boardPoint
+            FileCategory fileCategory, InstitutionEntity boardPoint
     ) {
-        return InstitutionFilesEntity.builder()
+        InstitutionFilesEntity institutionFileCreated = InstitutionFilesEntity.builder()
                 .originalFilename(originalFilename)
-                .objectKey(generateObjectKey(originalFilename, ownerId, ownerType, fileCategory))
                 .creator(creator)
                 .institution(boardPoint)
                 .prefecture(prefecture)
@@ -39,5 +36,11 @@ public class InstitutionFilesEntity extends FileEntity{
                 .mimeType(mimeType)
                 .fileSizeBytes(fileSizeBytes)
                 .build();
+        institutionFileCreated.generateObjectKey();
+        return institutionFileCreated;
+    }
+
+    public void generateObjectKey() {
+        super.setObjectKey(super.getFileCategory().name().toLowerCase() + "/" + super.getPrefecture().getName() + "_" + super.getPrefecture().getId() + "/" + this.institution.getName() + "_" + this.institution.getId() + "/" + super.getOriginalFilename() + "_" + UUID.randomUUID());
     }
 }

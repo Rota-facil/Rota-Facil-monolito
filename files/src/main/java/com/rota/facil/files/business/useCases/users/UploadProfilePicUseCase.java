@@ -1,8 +1,7 @@
 package com.rota.facil.files.business.useCases.users;
 
 import com.rota.facil.annotations.UseCase;
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
@@ -26,30 +25,20 @@ public class UploadProfilePicUseCase {
                 FileCategory.PROFILE_PIC
         ).orElseGet(
                 () -> FileEntity.newFile(
-                        currentUser.getId(),
                         currentUser,
                         currentUser.getPrefecture(),
                         file.getOriginalFilename(),
                         file.getContentType(),
                         file.getSize(),
-                        OwnerType.USER,
                         FileCategory.PROFILE_PIC
                 )
         );
 
         if (profilePicFound.getId() != null) {
-            profilePicFound.setOriginalFilename(file.getOriginalFilename());
-            profilePicFound.setMimeType(file.getContentType());
-            profilePicFound.setFileSizeBytes(file.getSize());
-
+            profilePicFound.update(file.getOriginalFilename(), file.getContentType(), file.getSize());
             this.fileStorage.delete(profilePicFound.getObjectKey());
 
-            profilePicFound.setObjectKey(FileEntity.generateObjectKey(
-                    profilePicFound.getOriginalFilename(),
-                    profilePicFound.getCreator().getId(),
-                    OwnerType.USER,
-                    profilePicFound.getFileCategory()
-            ));
+            profilePicFound.generateObjectKey();
         }
 
         this.fileStorage.upload(file, profilePicFound.getObjectKey());

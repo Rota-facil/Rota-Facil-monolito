@@ -1,6 +1,6 @@
 package com.rota.facil.files.http.dto.response;
 
-import com.rota.facil.files.domain.FileCategory;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.files.domain.enums.FileValidationStatus;
 
 import java.time.LocalDateTime;

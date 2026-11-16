@@ -1,15 +1,12 @@
 package com.rota.facil.files.persistence.entities;
 
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.files.domain.enums.FileValidationStatus;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-
-import java.util.UUID;
 
 @Table(name = "files_with_validation_tb")
 @SuperBuilder
@@ -36,14 +33,21 @@ public class FileWithValidationEntity extends FileEntity {
         return this.validationStatus.equals(FileValidationStatus.REJECTED);
     }
 
+    public void update(String originalFilename, String mimeType, long fileSizeBytes) {
+        super.setOriginalFilename(originalFilename);
+        super.setMimeType(mimeType);
+        super.setFileSizeBytes(fileSizeBytes);
+        this.validationStatus = FileValidationStatus.ANALYSIS;
+
+    }
+
     public static FileWithValidationEntity newFile(
-            UUID ownerId, UserEntity creator, PrefectureEntity prefecture,
+            UserEntity creator, PrefectureEntity prefecture,
             String originalFilename, String mimeType, long fileSizeBytes,
-            OwnerType ownerType, FileCategory fileCategory
+            FileCategory fileCategory
     ) {
-        return FileWithValidationEntity.builder()
+        FileWithValidationEntity fileWithValidationCreated = FileWithValidationEntity.builder()
                 .originalFilename(originalFilename)
-                .objectKey(generateObjectKey(originalFilename, ownerId, ownerType, fileCategory))
                 .creator(creator)
                 .prefecture(prefecture)
                 .fileCategory(fileCategory)
@@ -51,5 +55,7 @@ public class FileWithValidationEntity extends FileEntity {
                 .fileSizeBytes(fileSizeBytes)
                 .validationStatus(FileValidationStatus.ANALYSIS)
                 .build();
+        fileWithValidationCreated.generateObjectKey();
+        return fileWithValidationCreated;
     }
 }

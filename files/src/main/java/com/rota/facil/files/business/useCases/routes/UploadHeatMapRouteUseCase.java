@@ -1,8 +1,7 @@
 package com.rota.facil.files.business.useCases.routes;
 
 import com.rota.facil.annotations.UseCase;
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.entities.RouteFilesEntity;
@@ -28,13 +27,11 @@ public class UploadHeatMapRouteUseCase {
         RouteEntity routeFound = this.findRouteByIdHelper.execute(routeId);
 
         RouteFilesEntity heatMapRoute = RouteFilesEntity.newFile(
-                routeId,
                 currentUser,
                 currentUser.getPrefecture(),
                 file.getOriginalFilename(),
                 file.getContentType(),
                 file.getSize(),
-                OwnerType.HEAT_MAP_ROUTE_BOARD_POINT,
                 FileCategory.HEAT_MAP,
                 routeFound
         );

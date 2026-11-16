@@ -1,8 +1,7 @@
 package com.rota.facil.files.business.useCases.vehicles;
 
 import com.rota.facil.files.business.helpers.ValidateImageHelper;
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.VehicleFilesEntity;
@@ -32,9 +31,9 @@ public class UploadVehiclePhotoUseCase {
         VehicleEntity vehicleFound = this.findVehicleByIdHelper.execute(vehicleId, currentUser.getPrefecture().getId());
 
         VehicleFilesEntity saved = this.fileRepository.save(VehicleFilesEntity.newFile(
-                vehicleId, currentUser, currentUser.getPrefecture(),
+                currentUser, currentUser.getPrefecture(),
                 file.getOriginalFilename(), file.getContentType(), file.getSize(),
-                OwnerType.VEHICLE, FileCategory.PHOTO, vehicleFound
+                FileCategory.VEHICLE_PHOTO, vehicleFound
         ));
 
         this.fileStorage.upload(file, saved.getObjectKey());

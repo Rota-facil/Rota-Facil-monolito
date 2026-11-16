@@ -1,7 +1,6 @@
 package com.rota.facil.files.persistence.entities;
 
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.journey.persistence.entities.RouteEntity;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.users.persistence.entities.UserEntity;
@@ -28,13 +27,12 @@ public class RouteFilesEntity extends FileEntity {
     private RouteEntity route;
 
     public static RouteFilesEntity newFile(
-            UUID ownerId, UserEntity creator, PrefectureEntity prefecture,
+            UserEntity creator, PrefectureEntity prefecture,
             String originalFilename, String mimeType, long fileSizeBytes,
-            OwnerType ownerType, FileCategory fileCategory, RouteEntity routeEntity
+            FileCategory fileCategory, RouteEntity routeEntity
     ) {
-        return RouteFilesEntity.builder()
+        RouteFilesEntity routeFileCreated = RouteFilesEntity.builder()
                 .originalFilename(originalFilename)
-                .objectKey(generateObjectKey(originalFilename, ownerId, ownerType, fileCategory))
                 .creator(creator)
                 .route(routeEntity)
                 .prefecture(prefecture)
@@ -42,5 +40,11 @@ public class RouteFilesEntity extends FileEntity {
                 .mimeType(mimeType)
                 .fileSizeBytes(fileSizeBytes)
                 .build();
+        routeFileCreated.generateObjectKey();
+        return routeFileCreated;
+    }
+
+    public void generateObjectKey() {
+        super.setObjectKey(super.getFileCategory().name().toLowerCase() + "/" + super.getPrefecture().getName() + "_" + super.getPrefecture().getId() + "/" + this.route.getName() + "_" + this.route.getId() + "/" + super.getOriginalFilename() + "_" + UUID.randomUUID());
     }
 }

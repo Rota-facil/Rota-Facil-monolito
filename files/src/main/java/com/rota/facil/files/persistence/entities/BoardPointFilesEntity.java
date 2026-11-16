@@ -1,7 +1,6 @@
 package com.rota.facil.files.persistence.entities;
 
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.users.persistence.entities.UserEntity;
@@ -24,13 +23,12 @@ public class BoardPointFilesEntity extends FileEntity {
     private BoardPointEntity boardPoint;
 
     public static BoardPointFilesEntity newFile(
-            UUID ownerId, UserEntity creator, PrefectureEntity prefecture,
+            UserEntity creator, PrefectureEntity prefecture,
             String originalFilename, String mimeType, long fileSizeBytes,
-            OwnerType ownerType, FileCategory fileCategory, BoardPointEntity boardPoint
+            FileCategory fileCategory, BoardPointEntity boardPoint
     ) {
-        return BoardPointFilesEntity.builder()
+        BoardPointFilesEntity boardPointFileCreated = BoardPointFilesEntity.builder()
                 .originalFilename(originalFilename)
-                .objectKey(generateObjectKey(originalFilename, ownerId, ownerType, fileCategory))
                 .creator(creator)
                 .boardPoint(boardPoint)
                 .prefecture(prefecture)
@@ -38,5 +36,12 @@ public class BoardPointFilesEntity extends FileEntity {
                 .mimeType(mimeType)
                 .fileSizeBytes(fileSizeBytes)
                 .build();
+
+        boardPointFileCreated.generateObjectKey();
+        return boardPointFileCreated;
+    }
+
+    public void generateObjectKey() {
+        super.setObjectKey(super.getFileCategory().name().toLowerCase() + "/" + super.getPrefecture().getName() + "_" + super.getPrefecture().getId() + "/" + this.boardPoint.getName() + "_" + this.boardPoint.getId() + "/" + super.getOriginalFilename() + "_" + UUID.randomUUID());
     }
 }

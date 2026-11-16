@@ -1,7 +1,6 @@
 package com.rota.facil.files.persistence.entities;
 
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.prefectures.persistence.entitites.PrefectureEntity;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import jakarta.persistence.*;
@@ -9,7 +8,6 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
-import java.util.Locale;
 import java.util.UUID;
 
 @SuperBuilder
@@ -53,23 +51,30 @@ public class FileEntity {
     private LocalDateTime createdAt;
 
     public static FileEntity newFile(
-            UUID ownerId, UserEntity creator, PrefectureEntity prefecture,
+            UserEntity creator, PrefectureEntity prefecture,
             String originalFilename, String mimeType, long fileSizeBytes,
-            OwnerType ownerType, FileCategory fileCategory
+            FileCategory fileCategory
     ) {
-        return FileEntity.builder()
+        FileEntity fileCreated = FileEntity.builder()
                 .originalFilename(originalFilename)
-                .objectKey(generateObjectKey(originalFilename, ownerId, ownerType, fileCategory))
                 .creator(creator)
                 .prefecture(prefecture)
                 .fileCategory(fileCategory)
                 .mimeType(mimeType)
                 .fileSizeBytes(fileSizeBytes)
                 .build();
+        fileCreated.generateObjectKey();
+        return fileCreated;
     }
 
-    public static String generateObjectKey(String originalFilename, UUID ownerId, OwnerType ownerType, FileCategory fileCategory) {
-        return ownerType.name().toLowerCase() + "/" + ownerId + "/" + fileCategory.name().toLowerCase() + "/" + originalFilename + "_" + UUID.randomUUID();
+    public void generateObjectKey() {
+        switch (fileCategory) {
+            case CNH, ENROLLMENT_CERTIFICATE, PROFILE_PIC:  this.objectKey = this.fileCategory.name().toLowerCase() + "/" + this.prefecture.getName() + "_" + this.prefecture.getId() + "/" + this.creator.getEmail() + "_" + this.creator.getId() + "/" + this.originalFilename + "_" + UUID.randomUUID();
+        }
+    }
+
+    public static String generateObjectKeyForProfilePic(String originalFilename, String prefecture, String userEmail, FileCategory fileCategory) {
+        return fileCategory.name().toLowerCase() + "/" + prefecture + "/" + userEmail + "/" + originalFilename + "_" + UUID.randomUUID();
     }
 
     public void update(String originalFilename, String mimeType, long fileSizeBytes) {

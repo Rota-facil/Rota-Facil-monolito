@@ -2,13 +2,10 @@ package com.rota.facil.files.business.useCases.institutions;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.business.helpers.ValidateImageHelper;
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.mappers.FileMapper;
-import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.entities.InstitutionFilesEntity;
-import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.files.persistence.repositories.InstitutionFilesRepository;
 import com.rota.facil.files.storage.FileStorage;
 import com.rota.facil.places.business.helpers.institutions.FindInstitutionByIdHelper;
@@ -36,9 +33,9 @@ public class UploadInstitutionPhotoUseCase {
 
 
         InstitutionFilesEntity saved = this.institutionFilesRepository.save(InstitutionFilesEntity.newFile(
-                institutionFound.getId(), currentUser, currentUser.getPrefecture(),
+                currentUser, currentUser.getPrefecture(),
                 file.getOriginalFilename(), file.getContentType(), file.getSize(),
-                OwnerType.INSTITUTION, FileCategory.PHOTO, institutionFound
+                FileCategory.INSTITUTION_PHOTO, institutionFound
         ));
 
         this.fileStorage.upload(file, saved.getObjectKey());

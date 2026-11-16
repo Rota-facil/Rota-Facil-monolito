@@ -2,14 +2,11 @@ package com.rota.facil.files.business.useCases.boardPoints;
 
 import com.rota.facil.annotations.UseCase;
 import com.rota.facil.files.business.helpers.ValidateImageHelper;
-import com.rota.facil.files.domain.FileCategory;
-import com.rota.facil.files.domain.OwnerType;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.files.http.dto.response.FileResponse;
 import com.rota.facil.files.http.mappers.FileMapper;
 import com.rota.facil.files.persistence.entities.BoardPointFilesEntity;
-import com.rota.facil.files.persistence.entities.FileEntity;
 import com.rota.facil.files.persistence.repositories.BoardPointFilesRepository;
-import com.rota.facil.files.persistence.repositories.FileRepository;
 import com.rota.facil.files.storage.FileStorage;
 import com.rota.facil.places.business.helpers.boardpoints.FindBoardPointByIdHelper;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
@@ -37,9 +34,9 @@ public class UploadBoardPointPhotoUseCase {
         this.validateImageHelper.execute(file);
 
         BoardPointFilesEntity saved = this.boardPointFilesRepository.save(BoardPointFilesEntity.newFile(
-                boardPointId, currentUser, currentUser.getPrefecture(),
+                currentUser, currentUser.getPrefecture(),
                 file.getOriginalFilename(), file.getContentType(), file.getSize(),
-                OwnerType.BOARD_POINT, FileCategory.PHOTO, boardPointFound
+                FileCategory.BOARD_POINT_PHOTO, boardPointFound
 
         ));
         fileStorage.upload(file, saved.getObjectKey());

@@ -1,6 +1,6 @@
 package com.rota.facil.files.persistence.repositories;
 
-import com.rota.facil.files.domain.FileCategory;
+import com.rota.facil.files.domain.enums.FileCategory;
 import com.rota.facil.files.persistence.entities.FileWithValidationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -32,15 +32,20 @@ public interface FileWithValidationRepository extends JpaRepository<FileWithVali
     """)
     Optional<FileWithValidationEntity> findByIdAndPrefectureId(@Param(value = "documentId") UUID documentId, @Param(value = "prefectureId") UUID prefectureId);
 
-    @Query(value = """
-        SELECT f.*, fwv.validation_status FROM files_with_validation_tb fwv
-        INNER JOIN files_tb f USING(file_id)
-        INNER JOIN users_tb AS u ON f.creator_id = u.user_id
-        WHERE f.file_category = :fileCategory
-        AND u.user_id = :userId
-        ORDER BY f.created_at DESC
-        LIMIT 1
-    """, nativeQuery = true
-    )
-    Optional<FileWithValidationEntity> findMostRecentEnrollmentCertificateByUserIdAndFileCategory(@Param(value = "userId") UUID userId, @Param(value = "fileCategory") String fileCategory);
+    @Query("""
+        SELECT fwv FROM FileWithValidationEntity fwv
+        INNER JOIN fwv.creator c
+        WHERE c.id = :userId
+        AND  fwv.fileCategory = com.rota.facil.files.domain.FileCategory.ENROLLMENT_CERTIFICATE
+    """)
+    Optional<FileWithValidationEntity> findEnrollmentCertificateByUserIdAndFileCategory(@Param(value = "userId") UUID userId);
+
+    @Query("""
+        SELECT fwv FROM FileWithValidationEntity fwv
+        INNER JOIN fwv.creator c
+        WHERE c.id = :userId
+        AND  fwv.fileCategory = com.rota.facil.files.domain.FileCategory.CNH
+    """)
+    Optional<FileWithValidationEntity> findCNHByUserIdAndFileCategory(@Param(value = "userId") UUID userId);
+
 }
