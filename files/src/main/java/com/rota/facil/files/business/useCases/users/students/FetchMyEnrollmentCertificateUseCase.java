@@ -16,7 +16,7 @@ public class FetchMyEnrollmentCertificateUseCase {
     private final FileMapper fileMapper;
 
     public FileWithValidationResponse execute(UserEntity currentUser) {
-        FileWithValidationEntity enrollmentCertificateFound = this.fileWithValidationRepository.findEnrollmentCertificateByUserId(currentUser.getId())
+        FileWithValidationEntity enrollmentCertificateFound = this.fileWithValidationRepository.findEnrollmentCertificateByUserIdAndPrefectureId(currentUser.getId(), currentUser.getPrefecture().getId())
                 .orElseThrow(() -> new FileNotFoundException("Você ainda não cadastrou nenhum comprovante de matrícula"));
         return this.fileMapper.map(enrollmentCertificateFound);
     }

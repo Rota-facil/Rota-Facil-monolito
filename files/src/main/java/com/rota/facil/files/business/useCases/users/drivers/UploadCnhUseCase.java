@@ -23,7 +23,7 @@ public class UploadCnhUseCase {
     public FileWithValidationResponse execute(UserEntity currentUser, MultipartFile file) {
         this.validatePDFHelper.execute(file);
 
-        FileWithValidationEntity cnh = this.fileWithValidationRepository.findCNHByUserId(currentUser.getId())
+        FileWithValidationEntity cnh = this.fileWithValidationRepository.findCNHByUserIdAndPrefectureId(currentUser.getId(), currentUser.getPrefecture().getId())
                 .orElseGet(() ->
                         FileWithValidationEntity.newFile(
                                 currentUser,

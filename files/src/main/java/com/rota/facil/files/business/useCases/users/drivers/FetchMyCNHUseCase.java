@@ -16,7 +16,7 @@ public class FetchMyCNHUseCase {
     private final FileMapper fileMapper;
 
     public FileWithValidationResponse execute(UserEntity currentUser) {
-        FileWithValidationEntity cnhFound = this.fileWithValidationRepository.findCNHByUserId(currentUser.getId())
+        FileWithValidationEntity cnhFound = this.fileWithValidationRepository.findCNHByUserIdAndPrefectureId(currentUser.getId(), currentUser.getPrefecture().getId())
                 .orElseThrow(() -> new FileNotFoundException("Você ainda não cadastrou sua CNH"));
         return this.fileMapper.map(cnhFound);
     }

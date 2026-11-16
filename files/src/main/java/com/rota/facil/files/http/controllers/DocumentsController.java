@@ -1,6 +1,8 @@
 package com.rota.facil.files.http.controllers;
 
 import com.rota.facil.files.business.useCases.users.admins.EvaluateDocumentUseCase;
+import com.rota.facil.files.business.useCases.users.admins.FetchEnrollmentCertificateOfUserUseCase;
+import com.rota.facil.files.business.useCases.users.drivers.FetchCNHOfUserUseCase;
 import com.rota.facil.files.business.useCases.users.drivers.FetchMyCNHUseCase;
 import com.rota.facil.files.business.useCases.users.drivers.UploadCnhUseCase;
 import com.rota.facil.files.business.useCases.users.students.FetchMyEnrollmentCertificateUseCase;
@@ -26,6 +28,8 @@ public class DocumentsController {
     private final EvaluateDocumentUseCase evaluateDocumentUseCase;
     private final FetchMyEnrollmentCertificateUseCase fetchMyEnrollmentCertificateUseCase;
     private final FetchMyCNHUseCase fetchMyCNHUseCase;
+    private final FetchEnrollmentCertificateOfUserUseCase fetchEnrollmentCertificateOfUserUseCase;
+    private final FetchCNHOfUserUseCase fetchCNHOfUserUseCase;
 
     @PostMapping("/enrollment-certificate")
     public ResponseEntity<FileWithValidationResponse> uploadEnrollmentCertificate(
@@ -43,6 +47,14 @@ public class DocumentsController {
         return ResponseEntity.ok(this.fetchMyEnrollmentCertificateUseCase.execute(currentUser));
     }
 
+    @GetMapping("/enrollment-certificate/{userId}")
+    public ResponseEntity<FileWithValidationResponse> fetchEnrollmentCertificateOfUser(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @PathVariable UUID userId
+    ) {
+        return ResponseEntity.ok(this.fetchEnrollmentCertificateOfUserUseCase.execute(currentUser, userId));
+    }
+
     @PostMapping("/cnh")
     public ResponseEntity<FileWithValidationResponse> uploadCnh(
             @AuthenticationPrincipal UserEntity currentUser,
@@ -56,6 +68,14 @@ public class DocumentsController {
     @GetMapping("/cnh")
     public ResponseEntity<FileWithValidationResponse> fetchMyCNH(@AuthenticationPrincipal UserEntity currentUser) {
         return ResponseEntity.ok(this.fetchMyCNHUseCase.execute(currentUser));
+    }
+
+    @GetMapping("/cnh/{userId}")
+    public ResponseEntity<FileWithValidationResponse> fetchCNHOfUser(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @PathVariable UUID userId
+    ) {
+        return ResponseEntity.ok(this.fetchCNHOfUserUseCase.execute(currentUser, userId));
     }
 
     @PatchMapping("/evaluate/{documentId}")

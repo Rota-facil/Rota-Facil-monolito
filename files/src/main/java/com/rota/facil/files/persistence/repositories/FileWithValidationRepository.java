@@ -35,17 +35,21 @@ public interface FileWithValidationRepository extends JpaRepository<FileWithVali
     @Query("""
         SELECT fwv FROM FileWithValidationEntity fwv
         INNER JOIN fwv.creator c
+        INNER JOIN fwv.prefecture p
         WHERE c.id = :userId
+        AND p.id = :prefectureId
         AND  fwv.fileCategory = com.rota.facil.files.domain.enums.FileCategory.ENROLLMENT_CERTIFICATE
     """)
-    Optional<FileWithValidationEntity> findEnrollmentCertificateByUserId(@Param(value = "userId") UUID userId);
+    Optional<FileWithValidationEntity> findEnrollmentCertificateByUserIdAndPrefectureId(@Param(value = "userId") UUID userId, @Param(value = "prefectureId") UUID prefectureId);
 
     @Query("""
         SELECT fwv FROM FileWithValidationEntity fwv
         INNER JOIN fwv.creator c
+        INNER JOIN fwv.prefecture p
         WHERE c.id = :userId
+        AND p.id = :prefectureId
         AND  fwv.fileCategory = com.rota.facil.files.domain.enums.FileCategory.CNH
     """)
-    Optional<FileWithValidationEntity> findCNHByUserId(@Param(value = "userId") UUID userId);
+    Optional<FileWithValidationEntity> findCNHByUserIdAndPrefectureId(@Param(value = "userId") UUID userId, @Param(value = "prefectureId") UUID prefectureId);
 
 }
