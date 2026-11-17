@@ -77,5 +77,9 @@ public class VehicleEntity {
     public void moveToOutOperation() {
         this.status = VehicleStatus.OUT_OF_OPERATION;
     }
+
+    public boolean inOperation() {
+        return this.status.equals(VehicleStatus.OPERATION);
+    }
 }
 

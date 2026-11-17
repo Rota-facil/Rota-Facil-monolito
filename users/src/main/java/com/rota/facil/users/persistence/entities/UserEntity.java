@@ -6,6 +6,7 @@ import com.rota.facil.users.domain.Role;
 import com.rota.facil.users.domain.UpdateUserData;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(name = "users_tb")
+//@Inheritance(strategy = InheritanceType.JOINED)
 @Getter
 @Setter
 @AllArgsConstructor

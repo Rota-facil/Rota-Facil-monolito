@@ -22,6 +22,16 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     @Query("""
         SELECT u FROM UserEntity u
         INNER JOIN u.prefecture p
+        WHERE u.id = :driverId
+        AND p.id = :prefectureId
+        AND u.active IS TRUE
+        AND u.role = com.rota.facil.users.domain.Role.DRIVER
+    """)
+    Optional<UserEntity> findDriverByIdAndPrefectureId(@Param(value = "driverId") UUID driverId, @Param(value = "prefectureId") UUID prefectureId);
+
+    @Query("""
+        SELECT u FROM UserEntity u
+        INNER JOIN u.prefecture p
         WHERE u.id = :userId
         AND p.id = :prefectureId
         AND u.active IS TRUE

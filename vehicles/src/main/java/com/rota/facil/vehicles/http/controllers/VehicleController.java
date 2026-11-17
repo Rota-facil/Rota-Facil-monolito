@@ -2,6 +2,7 @@ package com.rota.facil.vehicles.http.controllers;
 
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.vehicles.business.useCases.vehicles.*;
+import com.rota.facil.vehicles.http.dto.request.vehicles.ChangeDriverOfVehicleRequest;
 import com.rota.facil.vehicles.http.dto.request.vehicles.CreateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.request.vehicles.UpdateVehicleRequest;
 import com.rota.facil.vehicles.http.dto.response.vehicles.*;
@@ -25,6 +26,7 @@ public class VehicleController {
     private final ListVehiclesUseCase listVehiclesUseCase;
     private final UpdateVehicleUseCase updateVehicleUseCase;
     private final FetchVehicleByDriverUseCase fetchVehicleByDriverUseCase;
+    private final ChangeDriverOfVehicleUseCase changeDriverOfVehicleUseCase;
 
     @PostMapping
     public ResponseEntity<CreateVehicleResponse> createVehicle(
@@ -55,6 +57,15 @@ public class VehicleController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(this.listVehiclesUseCase.execute(currentUser));
+    }
+
+    @PatchMapping("/{vehicleId}")
+    public ResponseEntity<VehicleResponse> ChangeDriver(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @PathVariable UUID vehicleId,
+            @RequestBody ChangeDriverOfVehicleRequest request
+    ) {
+        return ResponseEntity.ok(this.changeDriverOfVehicleUseCase.execute(currentUser, vehicleId, request));
     }
 
     @DeleteMapping("/{vehicleId}")
