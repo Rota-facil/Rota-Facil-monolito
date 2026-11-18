@@ -25,7 +25,7 @@ public interface InstitutionRepository extends JpaRepository<InstitutionEntity, 
 
     @Query("""
         SELECT i FROM InstitutionEntity i
-        WHERE i.id = :institutionId
+        WHERE i.id IN :institutionsId
         AND i.prefectureId = :prefectureId
         AND i.active IS TRUE
     """)

@@ -1,6 +1,7 @@
 package com.rota.facil.journey.business.useCases.routes;
 
 import com.rota.facil.annotations.UseCase;
+import com.rota.facil.journey.business.helpers.routes.CreateRouteRecurringHelper;
 import com.rota.facil.journey.business.helpers.routes.FindRouteByIdAndPrefectureIdHelper;
 import com.rota.facil.journey.business.helpers.routes.ValidateUpdateRouteHelper;
 import com.rota.facil.journey.domain.DaysOfWeek;
@@ -20,12 +21,14 @@ import com.rota.facil.places.persistence.repositories.InstitutionRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @UseCase
 @RequiredArgsConstructor
 public class UpdateRouteUseCase {
+    private final CreateRouteRecurringHelper createRouteRecurringHelper;
     private final ValidateUpdateRouteHelper validateUpdateRouteHelper;
     private final FindRouteByIdAndPrefectureIdHelper findRouteByIdAndPrefectureIdHelper;
     private final BoardPointRepository boardPointRepository;
@@ -40,12 +43,20 @@ public class UpdateRouteUseCase {
         RouteEntity routeFound = this.findRouteByIdAndPrefectureIdHelper.execute(routeId, currentUser.getPrefecture().getId());
         this.validateUpdateRouteHelper.execute(routeId);
 
-        List<UUID> boardPointsId = request.boardPoints()
+        List<UpdateRouteBoardPointRequest> boardPointsRequest = request.boardPoints() != null
+        ? request.boardPoints()
+        : List.of();
+
+        List<UpdateRouteInstitutionRequest> institutionsRequest = request.institutions() != null
+        ? request.institutions()
+        : List.of();
+
+        List<UUID> boardPointsId = boardPointsRequest
                 .stream()
                 .map(UpdateRouteBoardPointRequest::boardPointId)
                 .toList();
 
-        List<UUID> institutionsId = request.institutions()
+        List<UUID> institutionsId = institutionsRequest
                 .stream()
                 .map(UpdateRouteInstitutionRequest::institutionId)
                 .toList();
@@ -54,14 +65,14 @@ public class UpdateRouteUseCase {
 
         this.removeOldInstitutions(routeFound, institutionsId);
 
-        List<BoardPointRouteEntity> boardPointsToAdd = this.constructNewBoardPointsToAddRoute(routeFound, request.boardPoints(), currentUser.getPrefecture().getId());
+        List<BoardPointRouteEntity> boardPointsToAdd = this.constructNewBoardPointsToAddRoute(routeFound, boardPointsRequest, currentUser.getPrefecture().getId());
         routeFound.getBoardPoints().addAll(boardPointsToAdd);
-        this.updateExistingBoardPoints(routeFound, request.boardPoints());
+        this.updateExistingBoardPoints(routeFound, boardPointsRequest);
 
 
-        List<InstitutionRouteEntity> institutionsToAdd = this.constructNewInstitutionsToAddRoute(routeFound, request.institutions(), currentUser.getPrefecture().getId());
+        List<InstitutionRouteEntity> institutionsToAdd = this.constructNewInstitutionsToAddRoute(routeFound, institutionsRequest, currentUser.getPrefecture().getId());
         routeFound.getInstitutions().addAll(institutionsToAdd);
-        this.updateExistingInstitutions(routeFound, request.institutions());
+        this.updateExistingInstitutions(routeFound, institutionsRequest);
 
 
         routeFound.setName(request.name());
@@ -74,6 +85,10 @@ public class UpdateRouteUseCase {
 
         RouteEntity routeSaved = this.routeRepository.save(routeFound);
 
+
+//        if (routeFound.getDaysOfWeek().contains(DaysOfWeek.getFromValueDay(LocalDate.now().getDayOfMonth()))) {
+//            this.createRouteRecurringHelper.execute(routeSaved);
+//        }
 
         return this.routeMapper.map(routeSaved);
     }
