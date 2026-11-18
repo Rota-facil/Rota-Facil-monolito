@@ -9,6 +9,8 @@ import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.repositories.*;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
+import com.rota.facil.users.persistence.entities.UserEntity;
+import com.rota.facil.users.persistence.repositories.UserRepository;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -25,6 +27,7 @@ public class ProcessBoardPointArrivalHelper {
     private final InstitutionVisitedRepository institutionVisitedRepository;
     private final TripStatusRepository tripStatusRepository;
     private final TripRepository tripRepository;
+    private final UserRepository userRepository;
     private final IsTimeInIntervalHelper isTimeInIntervalHelper;
     private final CalculateDelayHelper calculateDelayHelper;
     private final TripUserRepository tripUserRepository;
@@ -79,8 +82,14 @@ public class ProcessBoardPointArrivalHelper {
             trip.setActualStatus(Progress.RETURN_FINISHED);
             this.tripUserRepository.setAbsentsGoingStudentsByTripId(trip.getId());
 
+
+            UserEntity driver = trip.getVehicle().getDriver();
+            driver.increaseCompletedTrips();
+            this.tripUserRepository.increaseCompletedTripsForStudentsByTripId(trip.getId());
+            this.userRepository.save(driver);
+
+
             trip.getVehicle().moveToOutOperation();
-            this.
             this.vehicleRepository.save(trip.getVehicle());
         }
 

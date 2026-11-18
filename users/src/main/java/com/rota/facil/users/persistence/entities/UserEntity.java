@@ -106,6 +106,10 @@ public class UserEntity {
         this.trips++;
     }
 
+    public void increaseCompletedTrips() {
+        this.completedTrips++;
+    }
+
     public void deactivate() {
         this.active = false;
     }

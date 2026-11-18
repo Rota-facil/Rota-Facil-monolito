@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -146,4 +145,12 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
             tu.student.trips = tu.student.trips + 1
     """)
     void increateTripsAndMoveToOnRouteStudentsByTripId(@Param(value = "tripId") UUID tripId);
+
+    @Modifying
+    @Query("""
+        UPDATE TripUserEntity tu
+        SET tu.student.completedTrips = tu.student.completedTrips + 1
+        WHERE tu.trip.id = :tripId
+    """)
+    void increaseCompletedTripsForStudentsByTripId(@Param(value = "tripId") UUID tripId);
 }
