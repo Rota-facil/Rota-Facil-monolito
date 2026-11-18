@@ -12,6 +12,7 @@ import com.rota.facil.journey.http.dto.response.trips.TripResponse;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.journey.persistence.mappers.TripMapper;
 import com.rota.facil.journey.persistence.repositories.TripRepository;
+import com.rota.facil.journey.persistence.repositories.TripUserRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.persistence.repositories.UserRepository;
 import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
@@ -30,6 +31,7 @@ public class InitTripUseCase {
     private final RegisterIgnoredBoardPointsHelper registerIgnoredBoardPointsHelper;
     private final RegisterIgnoredInstitutionsHelper registerIgnoredInstitutionsHelper;
     private final UserRepository userRepository;
+    private final TripUserRepository tripUserRepository;
     private final TripRepository tripRepository;
     private final VehicleRepository vehicleRepository;
     private final TripMapper tripMapper;
@@ -46,6 +48,8 @@ public class InitTripUseCase {
         trip.getVehicle().setStatus(com.rota.facil.vehicles.domain.VehicleStatus.OPERATION);
         currentUser.moveToOnRoute();
         currentUser.increaseTrips();
+
+        this.tripUserRepository.increateTripsAndMoveToOnRouteStudentsByTripId(trip.getId());
 
         this.registerIgnoredBoardPointsHelper.execute(trip, TripOrientation.GOING);
         this.registerIgnoredInstitutionsHelper.execute(trip, TripOrientation.GOING);

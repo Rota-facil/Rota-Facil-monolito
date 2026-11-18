@@ -25,7 +25,6 @@ import java.util.UUID;
 @UseCase
 @RequiredArgsConstructor
 public class JoinInTripUseCase {
-    private final UserRepository userRepository;
     private final TripRepository tripRepository;
     private final TripUserRepository tripUserRepository;
     private final TripUserMapper tripUserMapper;
@@ -68,9 +67,6 @@ public class JoinInTripUseCase {
 
 
         tripFound.increaseStudents();
-        currentUser.increaseTrips();
-
-        this.userRepository.save(currentUser);
         this.tripRepository.save(tripFound);
 
         return this.tripUserMapper.map(this.tripUserRepository.save(userJoinInTrip));

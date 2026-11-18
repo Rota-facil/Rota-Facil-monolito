@@ -138,4 +138,12 @@ public interface TripUserRepository extends JpaRepository<TripUserEntity, UUID> 
         AND t.id = :tripId
     """)
     Optional<TripUserEntity> findByTripIdAndUserId(@Param(value = "tripId") UUID tripId, @Param(value = "userId") UUID userId);
+
+    @Modifying
+    @Query("""
+        UPDATE TripUserEntity tu
+        SET tu.student.status = com.rota.facil.users.domain.UserStatus.ON_ROUTE,
+            tu.student.trips = tu.student.trips + 1
+    """)
+    void increateTripsAndMoveToOnRouteStudentsByTripId(@Param(value = "tripId") UUID tripId);
 }

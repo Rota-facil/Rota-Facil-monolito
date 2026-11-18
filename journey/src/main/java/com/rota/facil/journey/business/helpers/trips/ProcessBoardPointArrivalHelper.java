@@ -80,6 +80,7 @@ public class ProcessBoardPointArrivalHelper {
             this.tripUserRepository.setAbsentsGoingStudentsByTripId(trip.getId());
 
             trip.getVehicle().moveToOutOperation();
+            this.
             this.vehicleRepository.save(trip.getVehicle());
         }
 
