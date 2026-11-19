@@ -6,6 +6,7 @@ import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -40,6 +41,9 @@ public interface RouteRepository extends JpaRepository<RouteEntity, UUID> {
 
     long countByPrefectureIdAndActiveTrue(UUID prefectureId);
 
+    @EntityGraph(value = """
+        recurring
+    """)
     @Query("""
         SELECT r FROM RouteEntity r
         WHERE r.id = :routeId

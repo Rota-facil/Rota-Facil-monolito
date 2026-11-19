@@ -20,6 +20,7 @@ public record RouteResponse(
         UUID prefectureId,
         Set<DaysOfWeek> daysOfWeek,
         LocalDateTime createdAt,
+        List<RouteVehiclesResponse> vehicles,
         List<RouteInstitutionResponse> institutions,
         List<RouteBoardPointResponse> boardPoints
 ) {

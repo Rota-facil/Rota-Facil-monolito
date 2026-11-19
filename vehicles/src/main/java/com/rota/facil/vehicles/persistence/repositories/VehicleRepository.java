@@ -54,4 +54,12 @@ public interface VehicleRepository extends JpaRepository<VehicleEntity, UUID> {
         
     """)
     Optional<VehicleEntity> findVehicleInOutOfOperationByDriverId(@Param(value = "driverId") UUID driverId);
+
+    @Query("""
+        SELECT v FROM VehicleEntity v
+        WHERE v.id IN :vehiclesId
+        AND v.active IS TRUE
+        AND v.prefectureId = :prefectureId
+    """)
+    List<VehicleEntity> findAllVehiclesByVehiclesIdAndPrefectureId(@Param(value = "vehiclesId") List<UUID> vehiclesId, @Param(value = "prefectureId") UUID prefectureId);
 }

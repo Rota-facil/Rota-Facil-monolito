@@ -6,6 +6,7 @@ import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -58,6 +59,9 @@ public class RouteEntity {
 
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
     private List<BoardPointRouteEntity> boardPoints;
+
+    @OneToMany(mappedBy = "route")
+    private List<RouteRecurringEntity> recurring;
 
     @Builder.Default
     private Boolean active = true;

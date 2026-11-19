@@ -4,40 +4,42 @@ import com.rota.facil.annotations.UseCase;
 import com.rota.facil.journey.business.helpers.routes.CreateRouteRecurringHelper;
 import com.rota.facil.journey.business.helpers.routes.FindRouteByIdAndPrefectureIdHelper;
 import com.rota.facil.journey.business.helpers.routes.ValidateUpdateRouteHelper;
-import com.rota.facil.journey.domain.DaysOfWeek;
 import com.rota.facil.journey.http.exceptions.UpdateRouteException;
 import com.rota.facil.journey.http.dto.request.routes.*;
 import com.rota.facil.journey.http.dto.response.routes.RouteResponse;
 import com.rota.facil.journey.persistence.entities.BoardPointRouteEntity;
 import com.rota.facil.journey.persistence.entities.InstitutionRouteEntity;
 import com.rota.facil.journey.persistence.entities.RouteEntity;
+import com.rota.facil.journey.persistence.entities.RouteRecurringEntity;
 import com.rota.facil.journey.persistence.mappers.RouteMapper;
+import com.rota.facil.journey.persistence.repositories.RouteRecurringRepository;
 import com.rota.facil.journey.persistence.repositories.RouteRepository;
-import com.rota.facil.journey.persistence.repositories.TripRepository;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
 import com.rota.facil.places.persistence.repositories.BoardPointRepository;
 import com.rota.facil.places.persistence.repositories.InstitutionRepository;
 import com.rota.facil.users.persistence.entities.UserEntity;
+import com.rota.facil.vehicles.persistence.entities.VehicleEntity;
+import com.rota.facil.vehicles.persistence.repositories.VehicleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @UseCase
 @RequiredArgsConstructor
 public class UpdateRouteUseCase {
-    private final CreateRouteRecurringHelper createRouteRecurringHelper;
     private final ValidateUpdateRouteHelper validateUpdateRouteHelper;
     private final FindRouteByIdAndPrefectureIdHelper findRouteByIdAndPrefectureIdHelper;
     private final BoardPointRepository boardPointRepository;
+    private final RouteRecurringRepository routeRecurringRepository;
     private final InstitutionRepository institutionRepository;
-    private final TripRepository tripRepository;
+    private final VehicleRepository vehicleRepository;
     private final RouteRepository routeRepository;
     private final RouteMapper routeMapper;
 
-
+    @Transactional
     public RouteResponse execute(UserEntity currentUser, UpdateRouteRequest request, UUID routeId) {
 
         RouteEntity routeFound = this.findRouteByIdAndPrefectureIdHelper.execute(routeId, currentUser.getPrefecture().getId());
@@ -51,19 +53,8 @@ public class UpdateRouteUseCase {
         ? request.institutions()
         : List.of();
 
-        List<UUID> boardPointsId = boardPointsRequest
-                .stream()
-                .map(UpdateRouteBoardPointRequest::boardPointId)
-                .toList();
-
-        List<UUID> institutionsId = institutionsRequest
-                .stream()
-                .map(UpdateRouteInstitutionRequest::institutionId)
-                .toList();
-
-        this.removeOldBoardPoints(routeFound, boardPointsId);
-
-        this.removeOldInstitutions(routeFound, institutionsId);
+        this.removeNotSelectedBoardPoints(routeFound, boardPointsRequest);
+        this.removeNotSelectInstitutions(routeFound, institutionsRequest);
 
         List<BoardPointRouteEntity> boardPointsToAdd = this.constructNewBoardPointsToAddRoute(routeFound, boardPointsRequest, currentUser.getPrefecture().getId());
         routeFound.getBoardPoints().addAll(boardPointsToAdd);
@@ -75,6 +66,20 @@ public class UpdateRouteUseCase {
         this.updateExistingInstitutions(routeFound, institutionsRequest);
 
 
+        List<VehicleEntity> allVehiclesOfRoute = this.routeRecurringRepository.findAllVehiclesByRouteId(routeId);
+
+        List<UUID> allIdVehiclesOfRoute = allVehiclesOfRoute
+                .stream()
+                .map(VehicleEntity::getId)
+                .toList();
+
+        List<UUID> selectedVehicles = request.vehicles() != null
+                ? request.vehicles()
+                : List.of();
+
+        this.removeNotSelectVehicles(allVehiclesOfRoute, selectedVehicles, routeId);
+        this.addNewVehiclesForRoute(allIdVehiclesOfRoute, selectedVehicles, routeFound, currentUser.getPrefecture().getId());
+
         routeFound.setName(request.name());
         routeFound.setShift(request.shift());
         routeFound.setGoing(request.going());
@@ -84,17 +89,68 @@ public class UpdateRouteUseCase {
         routeFound.setDaysOfWeek(new HashSet<>(request.daysOfWeek()));
 
         RouteEntity routeSaved = this.routeRepository.save(routeFound);
-
-
-//        if (routeFound.getDaysOfWeek().contains(DaysOfWeek.getFromValueDay(LocalDate.now().getDayOfMonth()))) {
-//            this.createRouteRecurringHelper.execute(routeSaved);
-//        }
-
         return this.routeMapper.map(routeSaved);
     }
 
+    private void addNewVehiclesForRoute(List<UUID> allVehiclesOfRoute, List<UUID> selectedVehicles, RouteEntity route, UUID prefectureId) {
+        List<UUID> vehiclesToAdd = selectedVehicles
+                .stream()
+                .filter(vehicleId -> !allVehiclesOfRoute.contains(vehicleId))
+                .toList();
 
-    public void removeOldBoardPoints(RouteEntity route, List<UUID> boardPointsId) {
+        if (!vehiclesToAdd.isEmpty()) {
+            List<VehicleEntity> vehiclesToAddFound = this.vehicleRepository.findAllVehiclesByVehiclesIdAndPrefectureId(vehiclesToAdd, prefectureId);
+
+            vehiclesToAddFound
+                    .stream()
+                    .filter(VehicleEntity::inOperation)
+                    .findAny()
+                    .ifPresent(
+                            vehicle -> {
+                                throw new UpdateRouteException("Não é possível adicionar todos os veículos selecionados a rota pois um dos veículos selecionados (" + vehicle.getPlate() + ") está em operação");
+                            }
+                    );
+
+            List<RouteRecurringEntity> newRouteRecurring = vehiclesToAddFound
+                    .stream()
+                    .map(
+                            vehicle -> RouteRecurringEntity
+                                    .builder()
+                                    .route(route)
+                                    .vehicle(vehicle)
+                                    .build()
+                    )
+                    .toList();
+
+            this.routeRecurringRepository.saveAll(newRouteRecurring);
+        }
+    }
+
+    private void removeNotSelectVehicles(List<VehicleEntity> allVehiclesOfRoute, List<UUID> selectedVehicles, UUID routeId) {
+        List<VehicleEntity> vehiclesToRemove = allVehiclesOfRoute
+                .stream()
+                .filter(vehicle -> !selectedVehicles.contains(vehicle.getId()))
+                .toList();
+
+        vehiclesToRemove
+                .stream()
+                .filter(VehicleEntity::inOperation)
+                .findAny()
+                .ifPresent(
+                        vehicle -> {
+                            throw new UpdateRouteException("Não é possível desasociar veículo (" + vehicle.getPlate() + ") pois ele está em operação nesse momento");
+                        }
+                );
+
+        if (!vehiclesToRemove.isEmpty()) this.routeRecurringRepository.deleteAllByRouteIdAndVehicles(routeId, vehiclesToRemove);
+    }
+
+
+    public void removeNotSelectedBoardPoints(RouteEntity route, List<UpdateRouteBoardPointRequest> boardPointsRequest) {
+        List<UUID> boardPointsId = boardPointsRequest
+                .stream()
+                .map(UpdateRouteBoardPointRequest::boardPointId)
+                .toList();
 
         List<BoardPointRouteEntity> boardPointsToRemove = route.getBoardPoints()
                         .stream()
@@ -112,7 +168,12 @@ public class UpdateRouteUseCase {
     }
 
 
-    public void removeOldInstitutions(RouteEntity route, List<UUID> institutionsId) {
+    public void removeNotSelectInstitutions(RouteEntity route, List<UpdateRouteInstitutionRequest> institutionsRequest) {
+        List<UUID> institutionsId = institutionsRequest
+                .stream()
+                .map(UpdateRouteInstitutionRequest::institutionId)
+                .toList();
+
 
         List<InstitutionRouteEntity> institutionsToRemove = route.getInstitutions()
                         .stream()
