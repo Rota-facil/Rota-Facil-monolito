@@ -28,9 +28,12 @@ public class CreateTripUseCase {
 
         RouteEntity routeFound = this.findRouteByIdHelper.execute(request.routeId());
 
+        if (tripRepository.findActiveTodayByRouteIdAndPrefectureId(request.routeId(), currentUser.getPrefecture().getId()).isPresent())
+            throw new CreateTripException("Já existe uma viagem cadastrada que possui esse veículo e rota associados");
+
         TripEntity newTripAdded = this.tripRepository.save(
                 TripEntity.builder()
-                        .name(request.name())
+                        .name((request.name() != null) ? request.name() : routeFound.getName())
                         .vehicle(validVehicleForTripFound)
                         .route(routeFound)
                         .prefectureId(currentUser.getPrefecture().getId())

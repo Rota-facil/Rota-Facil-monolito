@@ -5,6 +5,7 @@ import com.rota.facil.journey.domain.Progress;
 import com.rota.facil.journey.persistence.entities.TripEntity;
 import com.rota.facil.places.persistence.entitites.BoardPointEntity;
 import com.rota.facil.places.persistence.entitites.InstitutionEntity;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -112,14 +114,6 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
     """)
     Optional<InstitutionEntity> findInstitutionByIdAndInstitutionId(@Param("tripId") UUID tripId, @Param("institutionId") UUID institutionId);
 
-    @Query("""
-        SELECT b FROM TripEntity t
-        INNER JOIN t.route r
-        INNER JOIN r.boardPoints b
-        WHERE t.id = :tripId
-    """)
-    List<BoardPointEntity> findAllBoardPointByTripId(@Param("tripId") UUID tripId);
-
     @Query(value = """
         SELECT i.* FROM trips_tb t
         INNER JOIN routes_tb r USING(route_id)
@@ -147,6 +141,7 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         WHERE d.id = :driverId
         AND t.prefectureId = :prefectureId
         AND t.createdAt = CURRENT DATE
+        AND t.active IS TRUE
     """)
     List<TripEntity> findALLByDriverIdAndPrefectureId(@Param("driverId") UUID driverId, UUID prefectureId);
 
@@ -156,6 +151,7 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         INNER JOIN t.tripStatus ts
         WHERE r.id = :routeId
         AND ts.progress IN (com.rota.facil.journey.domain.Progress.STARTED)
+        AND t.active IS TRUE
     """)
     int countTripsStartedByRouteId(@Param("routeId") UUID routeId);
 
@@ -169,6 +165,7 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
     @Query("""  
         SELECT t FROM TripEntity t
         WHERE t.id = :tripId
+        AND t.active IS TRUE
     """)
     Optional<TripEntity> findByIdWithDetails(@Param(value = "tripId") UUID tripId);
 
@@ -176,6 +173,7 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         SELECT t FROM TripEntity t
         WHERE t.prefectureId = :prefectureId
         AND t.createdAt = CURRENT_DATE()
+        AND t.active IS TRUE
     """)
     List<TripEntity> findAllTodayByPrefectureId(@Param(value = "prefectureId") UUID prefectureId);
 
@@ -183,6 +181,17 @@ public interface TripRepository extends JpaRepository<TripEntity, UUID> {
         SELECT t FROM TripEntity t
         WHERE t.prefectureId = :prefectureId
         AND t.createdAt = CURRENT_DATE()
+        AND t.active IS TRUE
     """)
     Page<TripEntity> findAllPageTodayByPrefectureId(@Param(value = "prefectureId") UUID prefectureId, Pageable pageable);
+
+    @Query("""
+        SELECT t FROM TripEntity t
+        INNER JOIN t.route r
+        WHERE r.id = :routeId
+        AND t.prefectureId = :prefectureId
+        AND t.createdAt = CURRENT_DATE
+        AND t.active IS TRUE
+    """)
+    Optional<TripEntity> findActiveTodayByRouteIdAndPrefectureId(@Param(value = "routeId") UUID routeId, @Param(value = "prefectureId") UUID prefectureId);
 }

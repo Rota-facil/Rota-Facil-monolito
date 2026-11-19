@@ -52,7 +52,9 @@ public interface TripMapper {
     }
 
     private List<TripRouteBoardPointResponse> mapBoardPoints(List<BoardPointRouteEntity> routeBoardPoints, TripEntity trip) {
-        List<BoardPointEntity> ignoredBoardPoints = trip.getIgnoredBoardPoints();
+        List<BoardPointEntity> ignoredBoardPoints = trip.getIgnoredBoardPoints() != null
+        ? trip.getIgnoredBoardPoints()
+        : List.of();
 
         return routeBoardPoints.stream()
                 .filter(routeBoardPoint -> !ignoredBoardPoints.contains(routeBoardPoint.getBoardPoint()))
@@ -73,7 +75,9 @@ public interface TripMapper {
     }
 
     private List<TripRouteInstitutionResponse> mapInstitutions(List<InstitutionRouteEntity> routeInstitutions, TripEntity trip) {
-        List<InstitutionEntity> ignoredInstitutions = trip.getIgnoredInstitutions();
+        List<InstitutionEntity> ignoredInstitutions = trip.getIgnoredInstitutions() != null
+        ? trip.getIgnoredInstitutions()
+        : List.of();
 
         return routeInstitutions.stream()
                 .filter(routeInstitution -> !ignoredInstitutions.contains(routeInstitution.getInstitution()))
