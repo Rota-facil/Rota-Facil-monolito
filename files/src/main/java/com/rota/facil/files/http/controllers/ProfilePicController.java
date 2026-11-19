@@ -2,9 +2,12 @@ package com.rota.facil.files.http.controllers;
 
 import com.rota.facil.files.business.useCases.users.FetchProfilePicUseCase;
 import com.rota.facil.files.business.useCases.users.UploadProfilePicUseCase;
+import com.rota.facil.files.business.useCases.users.admins.ListProfilePIcUsersUseCase;
 import com.rota.facil.files.business.useCases.users.admins.UploadProfilePicForDriverUseCase;
 import com.rota.facil.files.business.useCases.users.admins.FetchProfilePicOfDriverUseCase;
+import com.rota.facil.files.http.dto.request.users.ListProfilePicUsersRequest;
 import com.rota.facil.files.http.dto.response.FileResponse;
+import com.rota.facil.files.http.dto.response.users.FileUsersResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/files/users/profile-pic")
 @RequiredArgsConstructor
@@ -22,6 +27,7 @@ public class ProfilePicController {
     private final FetchProfilePicUseCase fetchProfilePicUseCase;
     private final UploadProfilePicForDriverUseCase uploadProfilePicForDriverUseCase;
     private final FetchProfilePicOfDriverUseCase fetchProfilePicOfDriverUseCase;
+    private final ListProfilePIcUsersUseCase listProfilePIcUsersUseCase;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileResponse> upload(
@@ -37,6 +43,14 @@ public class ProfilePicController {
             @AuthenticationPrincipal UserEntity currentUser
     ) {
         return ResponseEntity.ok(fetchProfilePicUseCase.execute(currentUser));
+    }
+
+    @PostMapping("/users")
+    public ResponseEntity<List<FileUsersResponse>> listProfilePicUsers(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @RequestBody ListProfilePicUsersRequest request
+    ) {
+        return ResponseEntity.ok(this.listProfilePIcUsersUseCase.execute(currentUser, request));
     }
 
     @PostMapping(value = "/drivers/{driverId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
