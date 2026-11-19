@@ -13,6 +13,7 @@ public record UserResponse(
         String cpf,
         String status,
         boolean active,
+        Long trips,
         Long completedTrips,
         Double score,
         Role role,

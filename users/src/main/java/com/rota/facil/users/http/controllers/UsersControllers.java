@@ -1,6 +1,7 @@
 package com.rota.facil.users.http.controllers;
 
 import com.rota.facil.users.business.useCases.admin.ListDriversUseCase;
+import com.rota.facil.users.business.useCases.admin.ListStudentsUseCase;
 import com.rota.facil.users.business.useCases.users.ChangePrefectureUseCase;
 import com.rota.facil.users.business.useCases.admin.CreateDriverUseCase;
 import com.rota.facil.users.business.useCases.users.FetchMeUseCase;
@@ -10,6 +11,10 @@ import com.rota.facil.users.http.dto.request.users.UpdateAccountRequest;
 import com.rota.facil.users.http.dto.response.users.UserResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +31,7 @@ public class UsersControllers {
     private final FetchMeUseCase fetchMeUseCase;
     private final UpdateAccountUseCase updateAccountUseCase;
     private final ListDriversUseCase listDriversUseCase;
+    private final ListStudentsUseCase listStudentsUseCase;
 
     @PostMapping("/drivers")
     public ResponseEntity<UserResponse> createDriver(
@@ -43,6 +49,14 @@ public class UsersControllers {
     @GetMapping("/me")
     public ResponseEntity<UserResponse> fetchMe(@AuthenticationPrincipal UserEntity currentUser) {
         return ResponseEntity.ok(this.fetchMeUseCase.execute(currentUser));
+    }
+
+    @GetMapping("/students")
+    public ResponseEntity<Page<UserResponse>> listStudents(
+            @AuthenticationPrincipal UserEntity currentUser,
+            @ParameterObject @PageableDefault Pageable pageable
+    ) {
+        return ResponseEntity.ok(this.listStudentsUseCase.execute(currentUser, pageable));
     }
 
     @PutMapping("/update")

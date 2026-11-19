@@ -3,6 +3,8 @@ package com.rota.facil.users.persistence.repositories;
 import com.rota.facil.users.http.dto.response.users.UserResponse;
 import com.rota.facil.users.persistence.entities.UserEntity;
 import com.rota.facil.users.domain.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Modifying;
@@ -115,4 +117,13 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
         AND u.active IS TRUE
     """)
     List<UserEntity> findAllActiveDriversByPrefectureId(@Param(value = "prefectureId") UUID prefectureId);
+
+    @Query("""
+        SELECT u FROM UserEntity u
+        INNER JOIN  u.prefecture p
+        WHERE p.id = :prefectureId
+        AND u.active IS TRUE
+        AND u.role = com.rota.facil.users.domain.Role.STUDENT
+    """)
+    Page<UserEntity> findAllActiveStudentsByPrefectureId(@Param(value = "prefectureId") UUID prefectureId, @Param(value = "pageable") Pageable pageable);
 }
