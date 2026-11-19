@@ -29,7 +29,7 @@ public class ChangeDriverOfVehicleUseCase {
 
         if (vehicleFound.inOperation()) throw new ChangeDriverOfVehicleException("O veículo selecionado precisa estar fora de operação para trocar o motorista");
 
-        if (request.driverId() == null || request.driverId().equals(vehicleFound.getDriver().getId())) {
+        if (request.driverId() == null || (vehicleFound.getDriver() != null && request.driverId().equals(vehicleFound.getDriver().getId()))) {
 
             vehicleFound.setDriver(null);
             return this.vehicleMapper.mapResponse(
